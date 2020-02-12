@@ -2,9 +2,6 @@ import React,{ useState } from 'react'
 import MapGL, {Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-const TOKEN="pk.eyJ1IjoibWlpa2tha3IiLCJhIjoiY2s2ZjJ6bGw4MGpzazNkcXB5ZXZ3aWc5ZiJ9.yXrQeEmRmdZdskrElLI8Qg"
-
-
 
 const Map = () => {
 
