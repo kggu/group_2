@@ -2,6 +2,7 @@
 
 import React from "react";
 import NavBar from "./components/NavBar";
+import map from "./components/MapBox"
 
 // New - import the React Router components, and the Profile page component
 import { Router, Route, Switch } from "react-router-dom";
@@ -21,6 +22,7 @@ function App() {
         </header>
         <Switch>
           <Route path="/" exact />
+          <Route path="/map" component={map} />
           <PrivateRoute path="/profile" component={Profile} />
         </Switch>
       </Router>
