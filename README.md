@@ -3,6 +3,7 @@
 ### Usage
 
 Replace domain and clientID in .env.example with Auth0 configuration details.
+Replace token in .env.example with mapbox token.
 
 Rename .env.example to .env
 
