@@ -17,9 +17,7 @@ function App() {
     <div className="App">
       {/* Don't forget to include the history module */}
       <Router history={history}>
-        <header>
-          <NavBar />
-        </header>
+        <NavBar />
         <Switch>
           <Route path="/" exact />
           <Route path="/map" component={map} />
