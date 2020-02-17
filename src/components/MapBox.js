@@ -26,7 +26,7 @@ const Map = () => {
         <MapGL
           {...viewport}
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
+          mapStyle="mapbox://styles/t8hosa01/ck6q8al1o1ty61io620yyt0o1"
           onViewportChange={_onViewportChange}
         >
           <Marker longitude={25.473} latitude={65.013}>
