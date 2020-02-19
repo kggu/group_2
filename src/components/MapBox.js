@@ -19,10 +19,10 @@ const Map = () => {
     setViewPort({ ...viewport, transitionDuration: 500 });
 
   const [render, setRender] = useState(false);
-
-   const _onClickMarker = (render) => {
-     setRender(render);
-   };
+   
+  const _onClickMarker = () => {
+    setRender(true);
+  };
 
 
   return (

@@ -5,7 +5,7 @@ import HotspotPopup from "./HotspotPopup";
 
 
 
-const HotspotMarker = (handler) => {
+const HotspotMarker = (props) => {
   const size = 30;
 
   return (
@@ -19,7 +19,7 @@ const HotspotMarker = (handler) => {
           stroke: "none",
           transform: `translate(${-size / 2}px,${-size}px)`
           }}
-          onClick={() => handler(true)}
+          onClick={() => props.handler()}
 
           ></img>
     </div>
