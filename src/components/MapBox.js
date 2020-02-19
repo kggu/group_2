@@ -16,7 +16,7 @@ const Map = () => {
   });
 
   const _onViewportChange = viewport =>
-    setViewPort({ ...viewport, transitionDuration: 500 });
+    setViewPort({ ...viewport});
 
   const [render, setRender] = useState(false);
    
