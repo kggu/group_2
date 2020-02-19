@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../logo.png";
+import HotspotPopup from "./HotspotPopup";
 
-const HotspotMarker = () => {
+
+
+
+const HotspotMarker = (handler) => {
   const size = 30;
+
   return (
     <div>
       <img src = {Logo}
@@ -13,9 +18,16 @@ const HotspotMarker = () => {
           fill: "#d00",
           stroke: "none",
           transform: `translate(${-size / 2}px,${-size}px)`
-          }}></img>
+          }}
+          onClick={() => handler(true)}
+
+          ></img>
     </div>
   );
 };
+
+
+
+
 
 export default HotspotMarker;
