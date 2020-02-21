@@ -2,11 +2,10 @@
 
 ### Usage
 
-Replace domain and clientID in .env.example with Auth0 configuration details.
+Duplicate .env.example and rename the copy to .env (no extra file type).
+Replace domain, clientID and audience in .env with Auth0 configuration details.
 Replace token in .env.example with mapbox token.
 Replace root in .env-example with API domain root.
-
-Rename .env.example to .env
 
 Run in command prompt:
 
