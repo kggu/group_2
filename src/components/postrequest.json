@@ -1,0 +1,108 @@
+{
+  "name": "Subway Linnanmaa",
+  "description": "Subway Oulun Yliopiston tiloissa",
+  "address": {
+    "address": "Biologintie",
+    "postalCode": "90570",
+    "city": "Oulu",
+    "country": "Finland",
+    "planet": "Earth"
+  },
+  "category": "Food",
+  "location": {
+    "longitude": 25.466304,
+    "latitude": 65.061097
+  },
+  "openingHours": [
+    {
+      "weekDay": "Monday",
+      "openingTime": {
+        "hour": 8,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "closingTime": {
+        "hour": 20,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    {
+      "weekDay": "Tuesday",
+      "openingTime": {
+        "hour": 8,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "closingTime": {
+        "hour": 20,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    {
+      "weekDay": "Wednesday",
+      "openingTime": {
+        "hour": 8,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "closingTime": {
+        "hour": 20,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    {
+      "weekDay": "Thursday",
+      "openingTime": {
+        "hour": 8,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "closingTime": {
+        "hour": 20,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    {
+      "weekDay": "Friday",
+      "openingTime": {
+        "hour": 8,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "closingTime": {
+        "hour": 20,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      }
+    },
+    {
+      "weekDay": "Saturday",
+      "openingTime": {
+        "hour": 10,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      },
+      "closingTime": {
+        "hour": 16,
+        "minute": 0,
+        "second": 0,
+        "nano": 0
+      }
+    }
+  ]
+}
