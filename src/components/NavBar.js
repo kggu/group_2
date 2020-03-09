@@ -23,14 +23,17 @@ const NavBar = () => {
     
     const address = process.env.REACT_APP_API_ROOT + "/hotspot"
 
+    
+
     let axiosConfig = {
       headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
       }
     };
-    const response = await axios.post(address, request, axiosConfig)
-    console.log(token)
+
+    console.log(axiosConfig)
+    const response = await axios.post(address, request, axiosConfig);
   };
 
 
