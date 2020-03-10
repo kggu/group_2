@@ -36,6 +36,7 @@ const Map = () => {
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
           mapStyle="mapbox://styles/t8hosa01/ck6q8al1o1ty61io620yyt0o1"
           onViewportChange={_onViewportChange}
+          onClick={() => setRender(false)}
         >
           {render &&(<HotspotPopup  ></HotspotPopup>)}
           <Marker longitude={25.473} latitude={65.013}>
