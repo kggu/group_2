@@ -4,6 +4,7 @@ import React from "react";
 import NavBar from "./components/NavBar";
 import map from "./components/MapBox";
 import Frontpage from "./components/Frontpage";
+import OverviewPage from "./components/OverviewPage"
 
 // New - import the React Router components, and the Profile page component
 import { Router, Route, Switch } from "react-router-dom";
@@ -22,6 +23,7 @@ function App() {
         <Switch>
           <Route path="/" exact component = {Frontpage}/>
           <Route path="/map" component={map} />
+          <Route exact path="/hotspot/:slug" component={OverviewPage} />
           <PrivateRoute path="/profile" component={Profile} />
         </Switch>
       </Router>
