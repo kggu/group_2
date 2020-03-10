@@ -5,6 +5,9 @@ import { useAuth0 } from "../react-auth0-spa";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 import axios from "axios";
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import { geocodeByPlaceId } from 'react-google-places-autocomplete';
+import 'react-google-places-autocomplete/dist/assets/index.css';
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -16,15 +19,27 @@ const NavBar = () => {
     console.log(response.data)
   };
 
+  const findLongLat = async (place_id) => {
+    geocodeByPlaceId(place_id)
+    .then(results => console.log(results))
+    .catch(error => console.error(error));
+  };
+
+
 
   return (
-    <nav className="m-0 p-0 navbar navbar-dark fixed-top custombg-dark flex-md-nowrap p-0 shadow">
+    <nav className="m-0 p-0 navbar navbar-dark fixed-top custombg-dark flex-md-nowrap shadow">
       <Link to="/">
         <button className="btn custombtn navitem custombg-orange text-light">Home</button>
       </Link>
       <div className="customseparator"></div>
 
-      <input className="form-control custominput" type="text" placeholder="Search" aria-label="Search" ></input>
+      <div className="m-0 p-0">
+        <GooglePlacesAutocomplete 
+        onSelect={({ place_id }) => (
+          findLongLat(place_id)
+        )}/>
+      </div>
       
       <Link to="/map">
         <button className="btn custombtn navitem custombg-orange text-light" >Map</button>
