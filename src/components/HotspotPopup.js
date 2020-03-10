@@ -2,7 +2,8 @@ import { Popup } from "react-map-gl";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "./popup.css";
+import Card from "react-bootstrap/Card";
+import { Button } from "react-bootstrap";
 
 const HotspotPopup = props => {
   return (
@@ -14,19 +15,26 @@ const HotspotPopup = props => {
       closeButton={false}
       offsetTop={-25}
     >
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">Place name</h5>
-          <p className="card-text text-style-light">
-            Place description
-          </p>
-          <Link to="">
-            <button className="btn custombtn custombg-orange text-light">
-              Overview
-            </button>
+      <Card style={{ width: "18rem" }}>
+        <Card.Body>
+          <Card.Title>Subway Linnanmaa</Card.Title>
+          <Card.Text>Subway Oulun Yliopiston tiloissa</Card.Text>
+
+          <>
+            <style type="text/css">
+              {`
+              .btn-orange {
+              background-color: #e8630a;
+              color: white;
+              }
+            `}
+            </style>
+          </>
+          <Link to="/hotspot">
+          <Button variant="orange">Overview</Button>
           </Link>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     </Popup>
   );
 };
