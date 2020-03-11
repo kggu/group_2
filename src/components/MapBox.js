@@ -19,9 +19,17 @@ const Map = () => {
     setViewPort({ ...viewport});
 
   const [render, setRender] = useState(false);
+
+  const [placementMarker, setPlacementMarker] = React.useState([]);
    
   const _onClickMarker = () => {
     setRender(true);
+  };
+
+  const onClickMap = (e) => {
+    const [longitude, latitude] = e.lngLat
+    console.log(longitude, latitude);
+	  setPlacementMarker(placementMarker => [...placementMarker, { longitude, latitude }]);
   };
 
 
@@ -37,7 +45,15 @@ const Map = () => {
           mapStyle="mapbox://styles/t8hosa01/ck6q8al1o1ty61io620yyt0o1"
           onViewportChange={_onViewportChange}
           onClick={() => setRender(false)}
+          onClick = {onClickMap}
         >
+
+        {placementMarker.map((m, i) => (
+		      <Marker {...m} key={i}>
+			      <HotspotMarker handler={_onClickMarker}></HotspotMarker>
+		      </Marker>
+        ))}
+
           {render &&(<HotspotPopup  ></HotspotPopup>)}
           <Marker longitude={25.473} latitude={65.013}>
             
