@@ -8,6 +8,12 @@ import axios from "axios";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { geocodeByPlaceId } from 'react-google-places-autocomplete';
 import 'react-google-places-autocomplete/dist/assets/index.css';
+import {Navbar} from 'react-bootstrap'
+import {Nav} from 'react-bootstrap'
+import {Form} from 'react-bootstrap'
+import {FormControl} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
+
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -21,13 +27,13 @@ const NavBar = () => {
 
   const findLongLat = async (place_id) => {
     geocodeByPlaceId(place_id)
-    .then(results => console.log(results))
+    .then(results =>  {
+
+      console.log(results)
+    })
     .catch(error => console.error(error));
   };
-
-
-
-  return (
+  {/*}
     <nav className="m-0 p-0 navbar navbar-dark fixed-top custombg-dark flex-md-nowrap shadow">
       <Link to="/">
         <button className="btn custombtn navitem custombg-orange text-light">Home</button>
@@ -54,6 +60,38 @@ const NavBar = () => {
       </span>
 
     </nav>
+    */}
+
+
+  return (
+    
+
+    <Navbar fill variant="customdark" expand="lg">
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+      <Button variant="customorange" className="mr-sm-2" href="/">Home</Button>
+      
+    </Nav>
+
+    <GooglePlacesAutocomplete 
+        onSelect={({ place_id }) => (
+          findLongLat(place_id)
+        )}/>
+    
+    {!isAuthenticated && (
+        <Button size="md" variant="customorange" onClick={() => loginWithRedirect({})}>Log in</Button>
+    )}
+    {isAuthenticated &&  (
+        <Button width="100px" variant="customorange" onClick={() => logout()}>Log out</Button>
+    )}
+    {/*<Form inline>
+      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+      <Button variant="outline-success">Search</Button>
+    </Form>*/}
+    
+  </Navbar.Collapse>
+  </Navbar>
   );
 };
 
