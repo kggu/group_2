@@ -11,7 +11,6 @@ import 'react-google-places-autocomplete/dist/assets/index.css';
 import {Navbar} from 'react-bootstrap'
 import {Nav} from 'react-bootstrap'
 import {Form} from 'react-bootstrap'
-import {FormControl} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 
 
@@ -64,8 +63,6 @@ const NavBar = () => {
 
 
   return (
-    
-
     <Navbar fill variant="customdark" expand="lg">
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
@@ -73,12 +70,10 @@ const NavBar = () => {
       <Button variant="customorange" className="mr-sm-2" href="/">Home</Button>
       
     </Nav>
-
     <GooglePlacesAutocomplete 
         onSelect={({ place_id }) => (
           findLongLat(place_id)
         )}/>
-    
     {!isAuthenticated && (
         <Button size="md" variant="customorange" onClick={() => loginWithRedirect({})}>Log in</Button>
     )}
