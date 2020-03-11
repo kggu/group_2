@@ -10,11 +10,19 @@
     background-color: #9cd3d3;
 }
 
-.custombg-orange {
+.btn-customorange {
     background-color: #e8630a;
+    color: #ffffff;
+    transition:0.3s;
+    width: 100px;
 }
 
-.custombg-dark {
+.btn-customorange:hover {
+    color: #ffffff;
+    background-color:#ac4907;
+}
+
+.navbar-customdark {
     background-color: #2b4353;
 }
 
