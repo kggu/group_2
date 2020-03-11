@@ -19,7 +19,7 @@ const HotspotMarker = (props) => {
           stroke: "none",
           transform: `translate(${-size / 2}px,${-size}px)`
           }}
-          onClick={() => props.handler()}
+          onClick={() => props.handler(props.slug)}
 
           ></img>
     </div>
