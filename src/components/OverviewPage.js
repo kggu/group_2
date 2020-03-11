@@ -43,7 +43,7 @@ const OverviewPage = props => {
       <div className="container-fluid">
         <div className="jumbotron jumbotronLuokka text-secondary">
           <h1>{data.data.name}</h1>
-          <p>{data.data.description}</p>
+          <p>{data.data.description} <br/> {data.data.location.longitude} {data.data.location.latitude} <br/> {data.data.slug} </p>
         </div>
       </div>
     );
