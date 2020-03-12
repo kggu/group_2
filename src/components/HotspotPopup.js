@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import { Button } from "react-bootstrap";
+import "./HotspotPopup.css";
 
-const HotspotPopup = (props) => {
+const HotspotPopup = props => {
   return (
     <Popup
       tipSize={5}
@@ -19,17 +20,6 @@ const HotspotPopup = (props) => {
         <Card.Body>
           <Card.Title>{props.name}</Card.Title>
           <Card.Text>{props.description}</Card.Text>
-
-          <>
-            <style type="text/css">
-              {`
-              .btn-orange {
-              background-color: #e8630a;
-              color: white;
-              }
-            `}
-            </style>
-          </>
           <Link to={"/hotspot/" + props.slug}>
             <Button variant="orange">Overview</Button>
           </Link>
