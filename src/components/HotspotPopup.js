@@ -4,34 +4,25 @@ import { Link } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import { Button } from "react-bootstrap";
+import "./HotspotPopup.css";
 
 const HotspotPopup = props => {
   return (
     <Popup
       tipSize={5}
       anchor="bottom"
-      longitude={25.473}
-      latitude={65.013}
       closeButton={false}
-      offsetTop={-25}
+      longitude={props.longitude}
+      latitude={props.latitude}
+      offsetTop={-500}
+      offsetLeft={-500}
     >
-      <Card style={{ width: "18rem" }}>
+      <Card style={{ width: "15rem" }}>
         <Card.Body>
-          <Card.Title>Subway Linnanmaa</Card.Title>
-          <Card.Text>Subway Oulun Yliopiston tiloissa</Card.Text>
-
-          <>
-            <style type="text/css">
-              {`
-              .btn-orange {
-              background-color: #e8630a;
-              color: white;
-              }
-            `}
-            </style>
-          </>
-          <Link to="/hotspot">
-          <Button variant="orange">Overview</Button>
+          <Card.Title>{props.name}</Card.Title>
+          <Card.Text>{props.description}</Card.Text>
+          <Link to={"/hotspot/" + props.slug}>
+            <Button variant="orange">Overview</Button>
           </Link>
         </Card.Body>
       </Card>
