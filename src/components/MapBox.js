@@ -1,4 +1,4 @@
-import React, { Redirect, useState, useEffect} from "react";
+import React, { useState, useEffect} from "react";
 import MapGL, { Marker,Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -63,7 +63,6 @@ const Map = props => {
       </div>
       </div>
   );
-  }
 };
 
 export default Map;
