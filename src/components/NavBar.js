@@ -11,6 +11,7 @@ import 'react-google-places-autocomplete/dist/assets/index.css';
 import {Navbar} from 'react-bootstrap'
 import {Nav} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
+import history from "../utils/history";
 
 
 const NavBar = () => {
@@ -26,8 +27,10 @@ const NavBar = () => {
   const findLongLat = async (place_id) => {
     geocodeByPlaceId(place_id)
     .then(results =>  {
-
-      console.log(results)
+      const lat = results[0].geometry.location.lat();
+      const lng = results[0].geometry.location.lng();
+      const addr = "/map/" + lat + "/" + lng;
+      history.push(addr)
     })
     .catch(error => console.error(error));
   };

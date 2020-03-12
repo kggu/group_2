@@ -18,7 +18,7 @@ const Map = props => {
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
-  }, []);
+  }, [props.match.params.lat, props.match.params.lng]);
 
   const updateViewportFromCoordinates = (lat, lng) => {
     lat = parseFloat(lat);
