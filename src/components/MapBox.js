@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import MapGL, { Marker, Popup } from "react-map-gl";
+import MapGL, { Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import HotspotMarker from "./HotspotMarker";
@@ -24,15 +24,14 @@ const Map = () => {
   const [selectedMarker, setSelectedMarker] = useState();
 
   const _onClickMarker = clickedMarker => {
-
     if (clickedMarker === selectedMarker) {
-      setSelectedMarker('');
+      //if user clicks same marker again
+      setSelectedMarker("");
       setRender(false);
       return;
     }
 
     setSelectedMarker(clickedMarker);
-    console.log("Current marker: " + clickedMarker);
 
     if (!render) {
       setRender(true);
@@ -93,7 +92,7 @@ const Map = () => {
     if (data) {
       loadMarkers();
     }
-  }, [selectedMarker, render , data]);
+  }, [selectedMarker, render, data]);
 
   return (
     <div className="container-fluid testclass">
