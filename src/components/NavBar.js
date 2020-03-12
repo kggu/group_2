@@ -32,19 +32,18 @@ const NavBar = () => {
     .catch(error => console.error(error));
   };
 
-
   return (
     <Navbar fill variant="customdark" expand="lg">
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
       <Button variant="customorange" className="mr-sm-2" href="/">Home</Button>
-      
     </Nav>
     <GooglePlacesAutocomplete 
-        onSelect={({ place_id }) => (
-          findLongLat(place_id)
-        )}/>
+      onSelect={({ place_id }) => (
+        findLongLat(place_id)
+      )}
+    />
     {!isAuthenticated && (
         <Button variant="customorange" onClick={() => loginWithRedirect({})}>Log in</Button>
     )}
