@@ -11,12 +11,13 @@ const HotspotPopup = props => {
     <Popup
       tipSize={5}
       anchor="bottom"
+      closeButton={false}
       longitude={props.longitude}
       latitude={props.latitude}
-      closeButton={false}
-      offsetTop={-25}
+      offsetTop={-500}
+      offsetLeft={-500}
     >
-      <Card style={{ width: "18rem" }}>
+      <Card style={{ width: "15rem" }}>
         <Card.Body>
           <Card.Title>{props.name}</Card.Title>
           <Card.Text>{props.description}</Card.Text>
