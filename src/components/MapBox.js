@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Redirect, useState, useEffect} from "react";
 import MapGL, { Marker,Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -6,7 +6,7 @@ import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
 import SideBar from "./SideBar";
 
-const Map = () => {
+const Map = props => {
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 700,
@@ -14,6 +14,20 @@ const Map = () => {
     longitude: 25.47,
     zoom: 16
   });
+
+  useEffect(() => {
+    updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
+  }, []);
+
+  const updateViewportFromCoordinates = (lat, lng) => {
+    lat = parseFloat(lat);
+    lng = parseFloat(lng);
+    if (!(isNaN(lat) || isNaN(lng))) {
+      if (lat < 90 && lat > -90) {
+        setViewPort({...viewport, latitude: lat, longitude: lng})
+      }
+    }
+  };
 
   const _onViewportChange = viewport =>
     setViewPort({ ...viewport});
@@ -23,8 +37,7 @@ const Map = () => {
   const _onClickMarker = () => {
     setRender(true);
   };
-
-
+  
   return (
     <div className="container-fluid testclass">
       <div className="col-md-2 d-none d-md-block bg-light sidebar-4">
@@ -50,6 +63,7 @@ const Map = () => {
       </div>
       </div>
   );
+  }
 };
 
 export default Map;
