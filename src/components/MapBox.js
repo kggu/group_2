@@ -7,7 +7,7 @@ import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from "./HotspotPopup";
 import SideBar from "./SideBar";
 
-const Map = () => {
+const Map = props => {
   const [viewport, setViewPort] = useState({
     width: "100%",
     height: 700,
@@ -16,7 +16,22 @@ const Map = () => {
     zoom: 16
   });
 
-  const _onViewportChange = viewport => setViewPort({ ...viewport });
+  useEffect(() => {
+    updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
+  }, []);
+
+  const updateViewportFromCoordinates = (lat, lng) => {
+    lat = parseFloat(lat);
+    lng = parseFloat(lng);
+    if (!(isNaN(lat) || isNaN(lng))) {
+      if (lat < 90 && lat > -90) {
+        setViewPort({...viewport, latitude: lat, longitude: lng})
+      }
+    }
+  };
+
+  const _onViewportChange = viewport =>
+    setViewPort({ ...viewport});
 
   const [render, setRender] = useState(false);
   const [data, setData] = useState();
