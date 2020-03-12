@@ -70,13 +70,6 @@ const Map = props => {
   const loadMarkers = () => {
     setMarkers(
       data.map(spot => {
-        console.log(
-          spot.slug +
-            " | " +
-            spot.location.latitude +
-            " " +
-            spot.location.longitude
-        );
         return (
           <Marker
             key={spot.slug}
