@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import MapGL, { Marker,Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { Link } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import { Button } from "react-bootstrap";
 
 import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
+import NewHotspotPopup from './NewHotspotPopup';
 import SideBar from "./SideBar";
 
 const Map = () => {
@@ -20,7 +24,7 @@ const Map = () => {
 
   const [render, setRender] = useState(false);
 
-  const [placementMarker, setPlacementMarker] = React.useState([]);
+  const [clickLocation, setClickLocation] = React.useState([]);
    
   const _onClickMarker = () => {
     setRender(true);
@@ -29,7 +33,7 @@ const Map = () => {
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat
     console.log(longitude, latitude);
-	  setPlacementMarker(placementMarker => [...placementMarker, { longitude, latitude }]);
+    setClickLocation(clickLocation => [...clickLocation, { longitude, latitude }]);
   };
 
 
@@ -44,17 +48,23 @@ const Map = () => {
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
           mapStyle="mapbox://styles/t8hosa01/ck6q8al1o1ty61io620yyt0o1"
           onViewportChange={_onViewportChange}
-          onClick={() => setRender(false)}
+          //onClick={() => setRender(false)}
           onClick = {onClickMap}
         >
+        
+        {clickLocation.map((m, i) => (
+            <NewHotspotPopup {...m} key={i}>
 
-        {placementMarker.map((m, i) => (
+            </NewHotspotPopup>
+        ))}
+        
+        {clickLocation.map((m, i) => (
 		      <Marker {...m} key={i}>
-			      <HotspotMarker handler={_onClickMarker}></HotspotMarker>
+			      <HotspotMarker></HotspotMarker>
 		      </Marker>
         ))}
 
-          {render &&(<HotspotPopup  ></HotspotPopup>)}
+          {render &&(<NewHotspotPopup  ></NewHotspotPopup>)}
           <Marker longitude={25.473} latitude={65.013}>
             
             <HotspotMarker handler={_onClickMarker}>
