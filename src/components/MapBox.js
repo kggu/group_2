@@ -15,8 +15,6 @@ const Map = props => {
     zoom: 16
   });
 
-  const [urlError, setUrlError] = useState(false);
-
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
   }, []);
@@ -24,8 +22,6 @@ const Map = props => {
   const updateViewportFromCoordinates = (lat, lng) => {
     lat = parseFloat(lat);
     lng = parseFloat(lng);
-    console.log(lat);
-    console.log(lng);
     if (!(isNaN(lat) || isNaN(lng))) {
       if (lat < 90 && lat > -90) {
         setViewPort({...viewport, latitude: lat, longitude: lng})
@@ -42,10 +38,7 @@ const Map = props => {
     setRender(true);
   };
   
-  if (urlError) {
-    return null
-  } else {
-    return (
+  return (
     <div className="container-fluid testclass">
       <div className="col-md-2 d-none d-md-block bg-light sidebar-4">
       <SideBar />
