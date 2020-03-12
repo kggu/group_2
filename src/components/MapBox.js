@@ -57,11 +57,11 @@ const Map = props => {
     const address =
       process.env.REACT_APP_API_ROOT +
       "/hotspot/search?longitude=" +
-      0 +
+      props.match.params.lng +
       "&latitude=" +
-      0 +
+      props.match.params.lat +
       "&range=" +
-      500000000;
+      5000;
     const response = await axios.get(address);
     console.log(response.data);
     setData(response.data);
