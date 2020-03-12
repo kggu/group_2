@@ -23,12 +23,21 @@ const Map = () => {
   const [markers, setMarkers] = useState();
   const [selectedMarker, setSelectedMarker] = useState();
 
-  const _onClickMarker = (clickedMarker) => {
-    setSelectedMarker(clickedMarker)
-    setRender(true);
+  const _onClickMarker = clickedMarker => {
+
+    if (clickedMarker === selectedMarker) {
+      setSelectedMarker('');
+      setRender(false);
+      return;
+    }
+
+    setSelectedMarker(clickedMarker);
+    console.log("Current marker: " + clickedMarker);
+
+    if (!render) {
+      setRender(true);
+    }
   };
-
-
 
   const GetHotspots = async () => {
     const address =
@@ -60,20 +69,22 @@ const Map = () => {
             latitude={parseFloat(spot.location.latitude)}
             longitude={parseFloat(spot.location.longitude)}
           >
-            {render && spot.slug === selectedMarker && <HotspotPopup
-              longitude={parseFloat(spot.location.longitude)}
-              latitude={parseFloat(spot.location.latitude)}
-              name={spot.name}
-              description={spot.description}
-              slug={spot.slug}
-            /> }
-            <HotspotMarker handler={_onClickMarker} slug={spot.slug}></HotspotMarker>
+            {render && spot.slug == selectedMarker && (
+              <HotspotPopup
+                longitude={parseFloat(spot.location.longitude)}
+                latitude={parseFloat(spot.location.latitude)}
+                name={spot.name}
+                description={spot.description}
+                slug={spot.slug}
+              />
+            )}
+            <HotspotMarker handler={_onClickMarker} slug={spot.slug} />
           </Marker>
         );
       })
     );
   };
-  
+
   useEffect(() => {
     GetHotspots();
   }, []);
@@ -82,7 +93,7 @@ const Map = () => {
     if (data) {
       loadMarkers();
     }
-  }, [render || data]);
+  }, [selectedMarker, render , data]);
 
   return (
     <div className="container-fluid testclass">
