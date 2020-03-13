@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./frontpage.css";
 import axios from "axios";
-import { Button } from "react-bootstrap";
+import { Container, Jumbotron, Button } from "react-bootstrap";
 
 const OverviewPage = props => {
   const [data, setData] = useState();
@@ -23,14 +23,14 @@ const OverviewPage = props => {
     }
   };
 
-  // temporary solution. clean this up later.
+  // temporary solution for request errors.. clean this up later.
   if (error) {
     return (
-      <div className="container-fluid">
-        <div className="jumbotron jumbotronLuokka text-secondary">
+      <Container fluid={true}>
+        <Jumbotron className="jumbotronLuokka text-secondary">
           <h1>{error}</h1>
-        </div>
-      </div>
+        </Jumbotron>
+      </Container>
     );
   }
 
@@ -40,12 +40,16 @@ const OverviewPage = props => {
 
   if (data)
     return (
-      <div className="container-fluid">
-        <div className="jumbotron jumbotronLuokka text-secondary">
+      <Container fluid={true}>
+        <Jumbotron className="jumbotronLuokka text-secondary">
           <h1>{data.data.name}</h1>
-          <p>{data.data.description} <br/> {data.data.location.longitude} {data.data.location.latitude} <br/> {data.data.slug} </p>
-        </div>
-      </div>
+          <p>
+            {data.data.description} <br /> {data.data.location.longitude}{" "}
+            {data.data.location.latitude} <br /> {data.data.slug}{" "}
+          </p>
+          <Button variant="secondary"> show on map</Button>
+        </Jumbotron>
+      </Container>
     );
 };
 export default OverviewPage;
