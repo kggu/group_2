@@ -7,8 +7,11 @@ export const useBackendAPI = () => useContext(BackendAPIContext);
 
 export const BackendAPIProvider = ({children}) => {
 
-    const getHotSpots = async (viewport) => {
+    const [hotSpots, setHotSpots] = useState()
+
+    const updateHotSpots = async (viewport) => {
         //TODO fix range
+        console.log(viewport)
         const address =
           process.env.REACT_APP_API_ROOT +
           "/hotspot/search?longitude=" +
@@ -18,17 +21,15 @@ export const BackendAPIProvider = ({children}) => {
           "&range=" +
           500000000;
         const response = await axios.get(address).then( response => {
-            console.log(response.data)
-            return response.data
+            setHotSpots(response.data)
         });
-
-        return null;
     }
     
     return (
         <BackendAPIContext.Provider
           value={{
-              getHotSpots
+              updateHotSpots,
+              hotSpots
           }}
         >
         {children}
