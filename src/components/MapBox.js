@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useBackendAPI } from "../utils/backendAPI";
 import MapGL, { Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -15,6 +15,10 @@ const Map = props => {
     longitude: 25.466305,
     zoom: 16
   });
+  
+  const { updateHotSpots, hotSpots } = useBackendAPI();
+
+  //createNewHotspot(request);
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
@@ -54,21 +58,8 @@ const Map = props => {
     }
   };
 
-  const GetHotspots = async () => {
-    const address =
-      process.env.REACT_APP_API_ROOT +
-      "/hotspot/search?longitude=" +
-      props.match.params.lng +
-      "&latitude=" +
-      props.match.params.lat +
-      "&range=" +
-      5000;
-    const response = await axios.get(address);
-    console.log(response.data);
-    setData(response.data);
-  };
-
   const loadMarkers = () => {
+    console.log(data)
     setMarkers(
       data.map(spot => {
         return (
@@ -94,8 +85,12 @@ const Map = props => {
   };
 
   useEffect(() => {
-    GetHotspots();
+    updateHotSpots(viewport)
   }, []);
+
+  useEffect(() => {
+    setData(hotSpots)
+  }, [hotSpots]);
 
   useEffect(() => {
     if (data) {
