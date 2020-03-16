@@ -44,16 +44,15 @@ const Map = props => {
   const [markers, setMarkers] = useState();
   const [clickLocation, setClickLocation] = React.useState([]);
   const [selectedMarker, setSelectedMarker] = useState();
-  const [modalShow, setModalShow] = React.useState(false);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat
     console.log(longitude, latitude);
     setClickLocation(clickLocation => [...clickLocation, { longitude, latitude }]);
-  };
-
-  const onClickCreate = () => {
-    setModalShow(true);
   };
    
   const _onClickMarker = clickedMarker => {
@@ -126,10 +125,10 @@ const Map = props => {
           onClick = {onClickMap}
         >
 
-          <HotspotCreation show={modalShow}></HotspotCreation>
+          <HotspotCreation show={show} onHide={handleClose}></HotspotCreation>
 
           {clickLocation.map((m, i) => (
-              <NewHotspotPopup {...m} key={i} handler={onClickCreate}>
+              <NewHotspotPopup {...m} key={i} handler={handleShow}>
               </NewHotspotPopup>
           ))}
           
