@@ -9,7 +9,7 @@ import SideBar from "./SideBar";
 const Map = () => {
   const [viewport, setViewPort] = useState({
     width: "100%",
-    height: 700,
+    height: window.innerHeight,
     latitude: 65.013,
     longitude: 25.47,
     zoom: 16
@@ -26,11 +26,11 @@ const Map = () => {
 
 
   return (
-    <div className="container-fluid testclass">
+    <div className="container-fluid px-0">
       <div className="col-md-2 d-none d-md-block bg-light sidebar-4">
       <SideBar />
       </div>
-      <div className="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div className="col-md-9 ml-sm-auto col-lg-10 px-0">
         <MapGL
           {...viewport}
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
