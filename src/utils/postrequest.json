@@ -1,0 +1,16 @@
+{
+  "name": "Subway Linnanmaa",
+  "description": "Subway Oulun Yliopiston tiloissa",
+  "address": {
+    "address": "Biologintie",
+    "postalCode": "90570",
+    "city": "Oulu",
+    "country": "Finland",
+    "planet": "EARTH"
+  },
+  "category": "FOOD",
+  "location": {
+    "longitude": 25.466304,
+    "latitude": 65.061097
+  }
+}
