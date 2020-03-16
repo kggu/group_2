@@ -3,9 +3,9 @@ import "../frontpage.css";
 import axios from "axios";
 import { Container, Jumbotron, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import './OverviewPage.css'
+import "./OverviewPage.css";
 import OpeningHoursTable from "./OpeningHoursTable";
-import HotspotInfo from "./HotspotInfo"
+import HotspotInfo from "./HotspotInfo";
 
 const OverviewPage = props => {
   const [hotspotData, setHotspotData] = useState();
@@ -42,27 +42,35 @@ const OverviewPage = props => {
     return <div> loading...</div>;
   }
 
+  // TODO: split into smaller components
   if (hotspotData)
     return (
       <Container>
-
-        <Jumbotron  className="text-center custombg-primary">
+        <Jumbotron className="text-center custombg-primary">
           <h1>{hotspotData.name}</h1>
           <p>{hotspotData.description}</p>
         </Jumbotron>
         <Row>
           <Col>
-
-        <Jumbotron className="custombg-primary">
-        <HotspotInfo hotspotInfo={hotspotData}/>
-          <Link to={"/map/" + hotspotData.location.latitude + "/" + hotspotData.location.longitude}>
-            <Button variant="customorange"> View on map </Button>
-          </Link>
-        </Jumbotron>
-        </Col>
-        <Col>
-        <OpeningHoursTable openingHours={hotspotData.openingHours}/>
-        </Col>
+            <Jumbotron className="custombg-primary">
+              <HotspotInfo hotspotInfo={hotspotData} />
+              <div className="text-center" style={{ margin: "0 auto", marginTop: '1rem' }}>
+                <Link
+                  to={
+                    "/map/" +
+                    hotspotData.location.latitude +
+                    "/" +
+                    hotspotData.location.longitude
+                  }
+                >
+                  <Button variant="customorange">View on map </Button>
+                </Link>
+              </div>
+            </Jumbotron>
+          </Col>
+          <Col md="auto">
+            <OpeningHoursTable openingHours={hotspotData.openingHours} />
+          </Col>
         </Row>
       </Container>
     );
