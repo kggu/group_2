@@ -10,7 +10,6 @@ import SideBar from "./SideBar";
 const Map = props => {
   const [viewport, setViewPort] = useState({
     width: "100%",
-
     height: window.innerHeight,
     latitude: 65.013,
     longitude: 25.47,
@@ -19,7 +18,7 @@ const Map = props => {
   
   const { updateHotSpots, hotSpots } = useBackendAPI();
 
-  //createNewHotspot(request);
+  createNewHotSpot(request);
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);

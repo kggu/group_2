@@ -1,6 +1,6 @@
 // src/components/NavBar.js
 
-import React from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../react-auth0-spa";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
@@ -14,13 +14,13 @@ import {Button} from 'react-bootstrap'
 import history from "../utils/history";
 
 
+
 const NavBar = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, logout} = useAuth0();
 
   const sendGetRequest = async (longitude, latitude, range) => {
     const address = process.env.REACT_APP_API_ROOT + "/hotspot/search?longitude=" + longitude + "&latitude=" + latitude + "&range=" + range
-    const response =
-      await axios.get(address)
+    const response = await axios.get(address)
     console.log(response.data)
   };
 
@@ -39,9 +39,7 @@ const NavBar = () => {
     <Navbar fill variant="customdark" expand="lg">
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
-    <Nav className="mr-auto">
-      <Button variant="customorange" className="mr-sm-2" href="/">Home</Button>
-    </Nav>
+    <Button variant="customorange" className="mr-sm-2" href="/">Home</Button>
     <GooglePlacesAutocomplete 
       onSelect={({ place_id }) => (
         findLongLat(place_id)
@@ -53,7 +51,6 @@ const NavBar = () => {
     {isAuthenticated &&  (
         <Button variant="customorange" onClick={() => logout()}>Log out</Button>
     )}
-    
   </Navbar.Collapse>
   </Navbar>
   );
