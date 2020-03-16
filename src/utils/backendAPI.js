@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useAuth0 } from "../react-auth0-spa";
-import postrequest from "./postrequest.json";
+
 
 export const BackendAPIContext = React.createContext();
 
@@ -11,8 +11,6 @@ export const BackendAPIProvider = ({children}) => {
   const { getTokenSilently } = useAuth0();
   
   const [hotSpots, setHotSpots] = useState();
-
-  const [request, changeRequest] = useState(postrequest);
 
   const updateHotSpots = async (viewport) => {
     //TODO fix range
@@ -42,6 +40,8 @@ export const BackendAPIProvider = ({children}) => {
       }
     }
     const response = await axios.post(address, request, axiosConfig);
+    console.log("Post request");
+    console.log(response);
   };
 
   /*const sendPostRequest = async (request) => {

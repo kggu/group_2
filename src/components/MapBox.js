@@ -7,19 +7,22 @@ import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from "./HotspotPopup";
 import SideBar from "./SideBar";
 
+import postrequest from "./postrequest.json";
+
 const Map = props => {
   const [viewport, setViewPort] = useState({
     width: "100%",
-
     height: window.innerHeight,
     latitude: 65.013,
     longitude: 25.47,
     zoom: 16
   });
   
-  const { updateHotSpots, hotSpots } = useBackendAPI();
+  const { updateHotSpots, hotSpots, createNewHotSpot } = useBackendAPI();
 
-  //createNewHotspot(request);
+  const [request, changeRequest] = useState(postrequest);
+
+  //createNewHotSpot(request);
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
