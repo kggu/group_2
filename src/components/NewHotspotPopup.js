@@ -28,13 +28,9 @@ const HotspotPopup = props => {
             </style>
           </>
           <Link to="/hotspotcreation">
-<<<<<<< HEAD
             <Button variant="orange">
               Create Hotspot
             </Button>
-=======
-          <Button variant="orange">Create Hotspot</Button>
->>>>>>> parent of fccfcdc... Hotspot creation stuff
           </Link>
         </Card.Body>
       </Card>
