@@ -28,7 +28,7 @@ const HotspotPopup = (props) => {
             </style>
           </>
           <Link to="/hotspotcreation">
-            <Button variant="orange" onClick={props.openHotspotCreation()}>
+            <Button variant="orange">
               Create Hotspot
             </Button>
           </Link>

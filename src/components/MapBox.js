@@ -9,7 +9,7 @@ import { Button } from "react-bootstrap";
 import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
 import SideBar from "./SideBar";
-import HotspotCreation from './HotspotCreation';
+import NewHotspotPopup from "./NewHotspotPopup";
 
 const Map = props => {
   const [viewport, setViewPort] = useState({
@@ -132,9 +132,8 @@ const Map = props => {
           onClick = {onClickMap}
         >
           
-          {render &&(<HotspotCreation></HotspotCreation>)}
           {clickLocation.map((m, i) => (
-              <NewHotspotPopup {...m} key={i} handler={}>
+              <NewHotspotPopup {...m} key={i}>
               </NewHotspotPopup>
           ))}
           
