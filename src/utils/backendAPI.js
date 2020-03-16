@@ -39,24 +39,11 @@ export const BackendAPIProvider = ({children}) => {
         'Authorization': 'Bearer ' + token
       }
     }
+
     const response = await axios.post(address, request, axiosConfig);
     console.log("Post request");
     console.log(response);
   };
-
-  /*const sendPostRequest = async (request) => {
-    const token = await getTokenSilently();
-    
-    const address = process.env.REACT_APP_API_ROOT + "/hotspot"
-  
-    let axiosConfig = {
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-      }
-    };
-    const response = await axios.post(address, request, axiosConfig);
-  };*/
     
   return (
     <BackendAPIContext.Provider
