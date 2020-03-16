@@ -4,7 +4,7 @@ import "./footer.css";
 
 const Frontpage = () => {
     return (
-        <div className="container-fluid">
+        <div className="container-fluid px-0">
             <div className="jumbotron jumbotronLuokka text-secondary">
                 <h1>
                     HotSpotted
