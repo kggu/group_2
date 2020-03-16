@@ -9,6 +9,7 @@ import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
 import NewHotspotPopup from './NewHotspotPopup';
 import SideBar from "./SideBar";
+import HotspotCreation from './HotspotCreation';
 
 const Map = () => {
   const [viewport, setViewPort] = useState({
@@ -25,8 +26,14 @@ const Map = () => {
   const [render, setRender] = useState(false);
 
   const [clickLocation, setClickLocation] = React.useState([]);
+
+  const [modalShow, setModalShow] = React.useState(false);
    
   const _onClickMarker = () => {
+    setRender(true);
+  };
+
+  const _onClickCreate = () => {
     setRender(true);
   };
 
@@ -51,18 +58,18 @@ const Map = () => {
           //onClick={() => setRender(false)}
           onClick = {onClickMap}
         >
-        
-        {clickLocation.map((m, i) => (
-            <NewHotspotPopup {...m} key={i}>
-
-            </NewHotspotPopup>
-        ))}
-        
-        {clickLocation.map((m, i) => (
-		      <Marker {...m} key={i}>
-			      <HotspotMarker></HotspotMarker>
-		      </Marker>
-        ))}
+          
+          {render &&(<HotspotCreation></HotspotCreation>)}
+          {clickLocation.map((m, i) => (
+              <NewHotspotPopup {...m} key={i} handler={}>
+              </NewHotspotPopup>
+          ))}
+          
+          {clickLocation.map((m, i) => (
+            <Marker {...m} key={i}>
+              <HotspotMarker></HotspotMarker>
+            </Marker>
+          ))}
 
           {render &&(<NewHotspotPopup  ></NewHotspotPopup>)}
           <Marker longitude={25.473} latitude={65.013}>
