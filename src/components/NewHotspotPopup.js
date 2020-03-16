@@ -27,11 +27,9 @@ const HotspotPopup = props => {
             `}
             </style>
           </>
-          <Link to="/hotspotcreation">
-            <Button variant="orange">
+            <Button variant="orange" onClick = {props.handler()}>
               Create Hotspot
             </Button>
-          </Link>
         </Card.Body>
       </Card>
     </Popup>

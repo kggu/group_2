@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal"
 
-const HotspotCreationModal = props => {
+const HotspotCreation = props => {
     return(
         <Modal
         {...props}
@@ -29,3 +29,5 @@ const HotspotCreationModal = props => {
         </Modal>
     );
 }
+
+export default HotspotCreation;
