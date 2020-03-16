@@ -16,7 +16,9 @@ const Map = props => {
     zoom: 16
   });
   
-  const { updateHotSpots, hotSpots, createNewHotSpot } = useBackendAPI();
+  const { updateHotSpots, hotSpots } = useBackendAPI();
+
+  createNewHotSpot(request);
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
