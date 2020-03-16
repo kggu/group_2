@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import { Button } from "react-bootstrap";
 
-const HotspotPopup = (props) => {
+const HotspotPopup = props => {
   return (
     <Popup
       tipSize={5}
@@ -28,9 +28,13 @@ const HotspotPopup = (props) => {
             </style>
           </>
           <Link to="/hotspotcreation">
+<<<<<<< HEAD
             <Button variant="orange">
               Create Hotspot
             </Button>
+=======
+          <Button variant="orange">Create Hotspot</Button>
+>>>>>>> parent of fccfcdc... Hotspot creation stuff
           </Link>
         </Card.Body>
       </Card>

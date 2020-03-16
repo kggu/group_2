@@ -25,14 +25,8 @@ const Map = () => {
   const [render, setRender] = useState(false);
 
   const [clickLocation, setClickLocation] = React.useState([]);
-
-  const [modalShow, setModalShow] = React.useState(false);
    
   const _onClickMarker = () => {
-    setRender(true);
-  };
-
-  const _onClickCreate = () => {
     setRender(true);
   };
 
@@ -57,6 +51,7 @@ const Map = () => {
           //onClick={() => setRender(false)}
           onClick = {onClickMap}
         >
+<<<<<<< HEAD
           
           {clickLocation.map((m, i) => (
               <NewHotspotPopup {...m} key={i}>
@@ -68,6 +63,20 @@ const Map = () => {
               <HotspotMarker></HotspotMarker>
             </Marker>
           ))}
+=======
+        
+        {clickLocation.map((m, i) => (
+            <NewHotspotPopup {...m} key={i}>
+
+            </NewHotspotPopup>
+        ))}
+        
+        {clickLocation.map((m, i) => (
+		      <Marker {...m} key={i}>
+			      <HotspotMarker></HotspotMarker>
+		      </Marker>
+        ))}
+>>>>>>> parent of fccfcdc... Hotspot creation stuff
 
           {render &&(<NewHotspotPopup  ></NewHotspotPopup>)}
           <Marker longitude={25.473} latitude={65.013}>
