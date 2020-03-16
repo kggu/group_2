@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./OverviewPage.css";
 import OpeningHoursTable from "./OpeningHoursTable";
 import HotspotInfo from "./HotspotInfo";
+import NearbyHotspots from './NearbyHotspots'
 
 const OverviewPage = props => {
   const [hotspotData, setHotspotData] = useState();
@@ -47,7 +48,7 @@ const OverviewPage = props => {
     return (
       <Container>
         <Jumbotron className="text-center custombg-primary">
-          <h1>{hotspotData.name}</h1>
+          <h1>{hotspotData.name}</h1> 
           <p>{hotspotData.description}</p>
         </Jumbotron>
         <Row>
@@ -63,14 +64,21 @@ const OverviewPage = props => {
                     hotspotData.location.longitude
                   }
                 >
-                  <Button variant="customorange">View on map </Button>
+                  <Button variant="customorange">View</Button>
                 </Link>
               </div>
             </Jumbotron>
           </Col>
-          <Col md="auto">
+          <Col md={{ span: 3}}>
             <OpeningHoursTable openingHours={hotspotData.openingHours} />
           </Col>
+        </Row>
+        <Row>
+        <Col>
+        </Col>
+        <Col md={{ span: 3}}>
+        <NearbyHotspots/>
+        </Col>
         </Row>
       </Container>
     );
