@@ -30,7 +30,6 @@ const Map = props => {
     if (!(isNaN(lat) || isNaN(lng))) {
       if (lat < 90 && lat > -90) {
         setViewPort({...viewport, latitude: lat, longitude: lng})
-        GetHotspots();
       }
     }
   };
