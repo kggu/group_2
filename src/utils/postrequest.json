@@ -1,16 +1,16 @@
 {
-  "name": "Subway Linnanmaa",
-  "description": "Subway Oulun Yliopiston tiloissa",
+  "name": "Toripolliisi",
+  "description": "Vanha tuttu ravintola keskellä Oulua",
   "address": {
-    "address": "Biologintie",
-    "postalCode": "90570",
+    "address": "Rantakatu 6",
+    "postalCode": "90100",
     "city": "Oulu",
     "country": "Finland",
     "planet": "EARTH"
   },
   "category": "FOOD",
   "location": {
-    "longitude": 25.466304,
-    "latitude": 65.061097
+    "longitude": 25.46542,
+    "latitude": 65.01321
   }
 }
