@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import "./OverviewPage.css";
 import OpeningHoursTable from "./OpeningHoursTable";
 import HotspotInfo from "./HotspotInfo";
-import NearbyHotspots from './NearbyHotspots'
+import NearbyHotspots from "./NearbyHotspots";
 
 const OverviewPage = props => {
   const [hotspotData, setHotspotData] = useState();
@@ -48,37 +48,37 @@ const OverviewPage = props => {
     return (
       <Container>
         <Jumbotron className="text-center custombg-primary">
-          <h1>{hotspotData.name}</h1> 
+          <h1>{hotspotData.name}</h1>
           <p>{hotspotData.description}</p>
         </Jumbotron>
         <Row>
-          <Col>
-            <Jumbotron className="custombg-primary">
-              <HotspotInfo hotspotInfo={hotspotData} />
-              <div className="text-center" style={{ margin: "0 auto", marginTop: '1rem' }}>
-                <Link
-                  to={
-                    "/map/" +
-                    hotspotData.location.latitude +
-                    "/" +
-                    hotspotData.location.longitude
-                  }
-                >
-                  <Button variant="customorange">View</Button>
-                </Link>
-              </div>
-            </Jumbotron>
+          <Col className="custombg-primary infoContainer rounded" md={{ span: 8 }}>
+            <HotspotInfo hotspotInfo={hotspotData} />
+            <div
+              className="text-center"
+              style={{ margin: "0 auto", marginTop: "1rem" }}
+            >
+              <Link
+                to={
+                  "/map/" +
+                  hotspotData.location.latitude +
+                  "/" +
+                  hotspotData.location.longitude
+                }
+              >
+                <Button variant="customorange">View</Button>
+              </Link>
+            </div>
           </Col>
-          <Col md={{ span: 3}}>
+
+          <Col className="containerClass rounded" md={{ span: 3, offset: 1 }}>
             <OpeningHoursTable openingHours={hotspotData.openingHours} />
           </Col>
         </Row>
         <Row>
-        <Col>
-        </Col>
-        <Col md={{ span: 3}}>
-        <NearbyHotspots/>
-        </Col>
+          <Col className="nearbyContainer" md={{ span: 3, offset: 9 }}>
+            <NearbyHotspots />
+          </Col>
         </Row>
       </Container>
     );
