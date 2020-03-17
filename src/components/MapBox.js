@@ -6,6 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from "./HotspotPopup";
 import SideBar from "./SideBar";
+import history from "../utils/history";
 
 const Map = props => {
   const [viewport, setViewPort] = useState({
@@ -17,8 +18,6 @@ const Map = props => {
   });
   
   const { updateHotSpots, hotSpots } = useBackendAPI();
-
-  createNewHotSpot(request);
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
@@ -34,8 +33,12 @@ const Map = props => {
     }
   };
 
-  const _onViewportChange = viewport =>
-    setViewPort({ ...viewport});
+  const _onViewportChange = viewport => {
+    const addr = "/map/" + viewport.latitude + "/" + viewport.longitude;
+    history.push(addr)
+    console.log("address redirected")
+  }
+    //setViewPort({ ...viewport});
 
   const [render, setRender] = useState(false);
   const [data, setData] = useState();

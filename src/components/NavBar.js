@@ -2,14 +2,11 @@
 
 import React, { useState } from "react";
 import { useAuth0 } from "../react-auth0-spa";
-import { Link } from "react-router-dom";
 import "./NavBar.css";
-import axios from "axios";
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { geocodeByPlaceId } from 'react-google-places-autocomplete';
 import 'react-google-places-autocomplete/dist/assets/index.css';
 import {Navbar} from 'react-bootstrap'
-import {Nav} from 'react-bootstrap'
 import {Button} from 'react-bootstrap'
 import history from "../utils/history";
 
@@ -17,12 +14,6 @@ import history from "../utils/history";
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout} = useAuth0();
-
-  const sendGetRequest = async (longitude, latitude, range) => {
-    const address = process.env.REACT_APP_API_ROOT + "/hotspot/search?longitude=" + longitude + "&latitude=" + latitude + "&range=" + range
-    const response = await axios.get(address)
-    console.log(response.data)
-  };
 
   const findLongLat = async (place_id) => {
     geocodeByPlaceId(place_id)
@@ -36,7 +27,7 @@ const NavBar = () => {
   };
 
   return (
-    <Navbar fill variant="customdark" expand="lg">
+    <Navbar fill variant="customdark" fixed="top" expand="lg">
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
     <Button variant="customorange" className="mr-sm-2" href="/">Home</Button>
