@@ -16,8 +16,18 @@ const Map = props => {
     longitude: 25.47,
     zoom: 16
   });
+
+  const [ viewportUpdateStatus, setViewportUpdateStatus ] = useState(false);
   
   const { updateHotSpots, hotSpots } = useBackendAPI();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setViewportUpdateStatus(true)
+      console.log("updated")
+    }, 1000);
+    return () => clearInterval(interval);
+  });
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
@@ -34,9 +44,12 @@ const Map = props => {
   };
 
   const _onViewportChange = viewport => {
-    const addr = "/map/" + viewport.latitude + "/" + viewport.longitude;
-    history.push(addr)
-    console.log("address redirected")
+    if (viewportUpdateStatus) {
+      const addr = "/map/" + viewport.latitude + "/" + viewport.longitude;
+      history.push(addr)
+      setViewportUpdateStatus(false)
+    }
+    setViewPort(viewport)
   }
     //setViewPort({ ...viewport});
 
