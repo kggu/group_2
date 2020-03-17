@@ -20,7 +20,7 @@ const Map = props => {
 
   const { updateHotSpots, hotSpots } = useBackendAPI();
 
-  createNewHotSpot(request);
+  //createNewHotSpot(request);
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
@@ -42,7 +42,7 @@ const Map = props => {
   const [render, setRender] = useState(false);
   const [data, setData] = useState();
   const [markers, setMarkers] = useState();
-  const [clickLocation, setClickLocation] = React.useState([]);
+  const [clickLocation, setClickLocation] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState();
   const [show, setShow] = useState(false);
 
@@ -51,13 +51,13 @@ const Map = props => {
   
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat
-    console.log(clickLocation.length);
     if(clickLocation.length > 0) {
       setClickLocation([]);
     } 
     else{
       setClickLocation(clickLocation => [...clickLocation, { longitude, latitude }]);
     }
+    console.log(clickLocation)
   };
    
   const _onClickMarker = clickedMarker => {
@@ -130,7 +130,7 @@ const Map = props => {
           onClick = {onClickMap}
         >
 
-          <HotspotCreation show={show} onHide={handleClose}></HotspotCreation>
+          <HotspotCreation show={show} onHide={handleClose} lngLat={clickLocation}></HotspotCreation>
 
           {clickLocation.map((m, i) => (
               <NewHotspotPopup {...m} key={i} openModal={handleShow}></NewHotspotPopup>

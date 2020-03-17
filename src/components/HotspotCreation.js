@@ -1,10 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal"
 import Form from "react-bootstrap/Form"
 import Col from "react-bootstrap/Col"
 
 const HotspotCreation = props => {
+
+    const handleSubmit = (e) => {
+        const [longitude, latitude] = props.lngLat
+        e.preventDefault();
+        const NewHotspot = {
+            name: e.target.formGridName.value,
+            description: e.target.fromDescription,
+            address: {
+                address: e.target.formGridAddress,
+                postalcode: e.target.formGridZip,
+                city: e.target.formGridCity,
+                country: e.target.formGridCountry
+            },
+            category: e.target.formCategory.value,
+            location: {
+                longitude: longitude.longitude,
+                latitude: longitude.latitude
+            },
+            openingHours: {
+                weekday: e.target.formSelectDay,
+                openingTime: e.target.formOpeningTime,
+                closingTime: e.target.formClosingTime
+            }
+        } 
+    }
+
     return(
         <Modal
         {...props}
@@ -19,14 +45,14 @@ const HotspotCreation = props => {
             </Modal.Header>
             <Modal.Body>
                 <p>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Row>
-                        <Form.Group as={Col} controlId="formGridEmail">
+                        <Form.Group as={Col} controlId="formGridName">
                         <Form.Label>Name</Form.Label>
                         <Form.Control type="name" placeholder="Enter name" />
                         </Form.Group>
 
-                        <Form.Group controlId="formSelectCategory">
+                        <Form.Group controlId="formCategory">
                             <Form.Label>Category</Form.Label>
                             <Form.Control as="select">
                                 <option>Food</option>
@@ -38,7 +64,7 @@ const HotspotCreation = props => {
                         </Form.Group>
                     </Form.Row>
                     
-                    <Form.Group controlId="formTextArea">
+                    <Form.Group controlId="formDescription">
                         <Form.Label>Description</Form.Label>
                         <Form.Control as="textarea" rows="3" />
                     </Form.Group>
@@ -62,12 +88,12 @@ const HotspotCreation = props => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formOpeningHours">
+                        <Form.Group as={Col} controlId="formOpeningTime">
                             <Form.Label>Opening Hours</Form.Label>
                             <Form.Control placeholder="XX:XX" />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formClosingHours">
+                        <Form.Group as={Col} controlId="formClosingTime">
                             <Form.Label>Closing Hours</Form.Label>
                             <Form.Control placeholder="XX:XX" />
                         </Form.Group>
