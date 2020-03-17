@@ -7,6 +7,7 @@ import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
 import NewHotspotPopup from './NewHotspotPopup';
 import SideBar from "./SideBar";
+import history from "../utils/history";
 import HotspotCreation from "./HotspotCreation"
 
 const Map = props => {
@@ -17,25 +18,36 @@ const Map = props => {
     longitude: 25.47,
     zoom: 16
   });
-
-  const { updateHotSpots, hotSpots } = useBackendAPI();
+  
+  const [ initState, setInitState ] = useState(true)
+  
+  const { updateHotSpots, hotSpots, hotSpotUpdateStatus, setHotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
 
   useEffect(() => {
-    updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
-  }, [props.match.params.lat, props.match.params.lng]);
+    updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng, props.match.params.zoom);
+    console.log("testi")
+  }, [props.match.params.lat, props.match.params.lng, props.match.params.zoom]);
 
-  const updateViewportFromCoordinates = (lat, lng) => {
+  const updateViewportFromCoordinates = (lat, lng, zoom) => {
     lat = parseFloat(lat);
     lng = parseFloat(lng);
+    zoom = parseFloat(zoom)
     if (!(isNaN(lat) || isNaN(lng))) {
       if (lat < 90 && lat > -90) {
-        setViewPort({...viewport, latitude: lat, longitude: lng})
+        setViewPort({...viewport, latitude: lat, longitude: lng, zoom: zoom})
       }
     }
   };
 
-  const _onViewportChange = viewport =>
-    setViewPort({ ...viewport});
+  const _onViewportChange = viewport => {
+    if (initState) {
+      setInitState(false)
+    } else {
+      const addr = "/map/" + viewport.latitude + "/" + viewport.longitude + "/" + viewport.zoom;
+      history.push(addr)
+    }
+    //setViewPort(viewport)
+  }
 
   const [render, setRender] = useState(false);
   const [data, setData] = useState();
@@ -100,8 +112,16 @@ const Map = props => {
   };
 
   useEffect(() => {
-    updateHotSpots(viewport)
-  }, []);
+    checkHotSpotRange(viewport)
+  }, [viewport]);
+
+  useEffect(() => {
+    if (hotSpotUpdateStatus) {
+      console.log("Etsitään")
+      setHotSpotUpdateStatus(false)
+      updateHotSpots(viewport)
+    }
+  },[hotSpotUpdateStatus])
 
   useEffect(() => {
     setData(hotSpots)
