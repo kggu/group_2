@@ -16,7 +16,7 @@ export const BackendAPIProvider = ({children}) => {
   const [requestedRange, setRequestedRange] = useState(false)
   const [hotSpotUpdateStatus, setHotSpotUpdateStatus ] = useState(true);
 
-  const checkHotSpotRange = async (viewport) => {
+  const checkHotSpotRange = (viewport) => {
     const distance = Math.abs(
       Math.acos(
       Math.sin(viewport.latitude * Math.PI/180.0) * Math.sin(requestedViewport.latitude * Math.PI/180.0)
