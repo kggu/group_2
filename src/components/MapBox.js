@@ -21,6 +21,7 @@ const Map = props => {
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
+    console.log("testi")
   }, [props.match.params.lat, props.match.params.lng]);
 
   const updateViewportFromCoordinates = (lat, lng) => {
@@ -28,8 +29,7 @@ const Map = props => {
     lng = parseFloat(lng);
     if (!(isNaN(lat) || isNaN(lng))) {
       if (lat < 90 && lat > -90) {
-        setViewPort({...viewport, latitude: lat, longitude: lng})
-        checkHotSpotRange(viewport)
+        setViewPort({...viewport, latitude: lat, longitude: lng}) 
       }
     }
   };
@@ -37,6 +37,7 @@ const Map = props => {
   const _onViewportChange = viewport => {
     const addr = "/map/" + viewport.latitude + "/" + viewport.longitude;
     history.push(addr)
+    setViewPort(viewport)
   }
 
   const [render, setRender] = useState(false);
@@ -85,11 +86,17 @@ const Map = props => {
     );
   };
 
+  const checkViewportForUpdate = async (viewport) => {
+    checkHotSpotRange(viewport).then(() => {
+      if (hotSpotUpdateStatus) {
+        updateHotSpots(viewport)
+      }
+      const addr = "/map/" + viewport.latitude + "/" + viewport.longitude;
+      history.push(addr)
+    })
+  }
   useEffect(() => {
-    checkHotSpotRange(viewport)
-    if (hotSpotUpdateStatus) {
-      updateHotSpots(viewport)
-    }
+    checkViewportForUpdate(viewport)
   }, [viewport]);
 
   useEffect(() => {

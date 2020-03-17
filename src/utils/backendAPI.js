@@ -12,11 +12,17 @@ export const BackendAPIProvider = ({children}) => {
   
   const [hotSpots, setHotSpots] = useState();
 
-  const [requestedViewport, setRequestedViewport] = useState(false);
-  const [requestedRange, setRequestedRange] = useState(false)
+  const [requestedViewport, setRequestedViewport] = useState({
+    width: "100%",
+    height: window.innerHeight,
+    latitude: 65.013,
+    longitude: 25.47,
+    zoom: 35 
+  });
+  const [requestedRange, setRequestedRange] = useState(0)
   const [hotSpotUpdateStatus, setHotSpotUpdateStatus ] = useState(true);
 
-  const checkHotSpotRange = (viewport) => {
+  const checkHotSpotRange = async (viewport) => {
     const distance = Math.abs(
       Math.acos(
       Math.sin(viewport.latitude * Math.PI/180.0) * Math.sin(requestedViewport.latitude * Math.PI/180.0)
