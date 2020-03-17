@@ -3,17 +3,16 @@ import { Link } from "react-router-dom";
 import { ListGroup, Button, Badge, Row, Col } from "react-bootstrap";
 
 // TODO get data from api, render 3-4 nearby hotspots
-// TODO when range search is fixed in backendAPI.js
 const NearbyHotspots = props => {
   return (
     <ListGroup variant="">
-        <ListGroup.Item>
+        <ListGroup.Item className="text-center">
             Nearby hotspots
         </ListGroup.Item>
       <Link to="/hotspot/subway-linnanmaa">
         <ListGroup.Item>
           <Row>
-            <Col md="auto">
+            <Col md="">
               <Badge variant="secondary">FOOD</Badge>
             </Col>
             <Col>
@@ -25,7 +24,7 @@ const NearbyHotspots = props => {
       <Link to="/hotspot/paska-kaupunni">
         <ListGroup.Item>
           <Row>
-            <Col md="auto">
+            <Col md="">
               <Badge variant="secondary">ARTS</Badge>
             </Col>
             <Col>

@@ -2,7 +2,6 @@ import React from "react";
 import { ListGroup } from "react-bootstrap";
 
 const HotspotInfo = props => {
-  const creationDate = props.hotspotInfo.createdAt;
 
   return (
       <ListGroup variant="">

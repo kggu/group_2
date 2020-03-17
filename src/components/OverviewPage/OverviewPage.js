@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "../frontpage.css";
 import axios from "axios";
 import { Container, Jumbotron, Button, Row, Col, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "../frontpage.css";
 import "./OverviewPage.css";
 import OpeningHoursTable from "./OpeningHoursTable";
 import HotspotInfo from "./HotspotInfo";
@@ -30,13 +30,7 @@ const OverviewPage = props => {
 
   // temporary solution for request errors.. clean this up later.
   if (requestError) {
-    return (
-      <Container fluid={true}>
-        <Jumbotron className="jumbotronLuokka text-secondary">
-          <h1>{requestError}</h1>
-        </Jumbotron>
-      </Container>
-    );
+    return <div>{requestError}</div>;
   }
 
   if (!hotspotData) {
@@ -47,12 +41,18 @@ const OverviewPage = props => {
   if (hotspotData)
     return (
       <Container>
-        <Jumbotron className="text-center custombg-primary">
+        <Jumbotron className="custombg-primary text-center">
           <h1>{hotspotData.name}</h1>
-          <p><Badge variant="secondary">{hotspotData.category}</Badge> {hotspotData.description}</p>
+          <p>
+            <Badge variant="secondary">{hotspotData.category}</Badge>{" "}
+            {hotspotData.description}
+          </p>
         </Jumbotron>
         <Row>
-          <Col className="custombg-primary infoContainer rounded" md={{ span: 8 }}>
+          <Col
+            className="custombg-primary hotspotInfo-container rounded"
+            md={8}
+          >
             <HotspotInfo hotspotInfo={hotspotData} />
             <div
               className="text-center"
@@ -71,13 +71,20 @@ const OverviewPage = props => {
             </div>
           </Col>
 
-          <Col className="custombg-primary containerClass rounded" md={{ span: 3, offset: 1 }}>
+          <Col
+            className="custombg-primary openingHours-container rounded"
+            md={{ span: 3, offset: 1 }}
+          >
             <OpeningHoursTable openingHours={hotspotData.openingHours} />
           </Col>
         </Row>
         <Row>
-          <Col className="nearbyContainer" md={{ span: 3, offset: 9 }}>
-            <NearbyHotspots/>
+          <Col md={9}></Col>
+          <Col
+            className=" custombg-primary nearbyHotspots-container rounded"
+            md={3}
+          >
+            <NearbyHotspots />
           </Col>
         </Row>
       </Container>
