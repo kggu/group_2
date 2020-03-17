@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 
 const OpeningHoursTable = props => {
   return (
-    <Table striped bordered size="sm">
+    <Table striped size="sm" bordered variant="light">
       <tbody>
         <tr>
           <td>Monday</td>

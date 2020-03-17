@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../frontpage.css";
 import axios from "axios";
-import { Container, Jumbotron, Button, Row, Col } from "react-bootstrap";
+import { Container, Jumbotron, Button, Row, Col, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./OverviewPage.css";
 import OpeningHoursTable from "./OpeningHoursTable";
@@ -49,7 +49,7 @@ const OverviewPage = props => {
       <Container>
         <Jumbotron className="text-center custombg-primary">
           <h1>{hotspotData.name}</h1>
-          <p>{hotspotData.description}</p>
+          <p><Badge variant="secondary">{hotspotData.category}</Badge> {hotspotData.description}</p>
         </Jumbotron>
         <Row>
           <Col className="custombg-primary infoContainer rounded" md={{ span: 8 }}>
@@ -71,13 +71,13 @@ const OverviewPage = props => {
             </div>
           </Col>
 
-          <Col className="containerClass rounded" md={{ span: 3, offset: 1 }}>
+          <Col className="custombg-primary containerClass rounded" md={{ span: 3, offset: 1 }}>
             <OpeningHoursTable openingHours={hotspotData.openingHours} />
           </Col>
         </Row>
         <Row>
           <Col className="nearbyContainer" md={{ span: 3, offset: 9 }}>
-            <NearbyHotspots />
+            <NearbyHotspots/>
           </Col>
         </Row>
       </Container>

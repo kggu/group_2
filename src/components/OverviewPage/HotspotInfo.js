@@ -14,7 +14,6 @@ const HotspotInfo = props => {
         {props.hotspotInfo.address.postalCode} {props.hotspotInfo.address.city},{" "}
         {props.hotspotInfo.address.country}
       </ListGroup.Item>
-      <ListGroup.Item>{props.hotspotInfo.category}</ListGroup.Item>
     </ListGroup>
   );
 };
