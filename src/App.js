@@ -22,8 +22,7 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/" exact component = {Frontpage}/>
-          <Route exact path="/map" component={map} />
-          <Route exact path="/map/:lat/:lng" component={map} />
+          <Route exact path="/map/:lat/:lng/:zoom" component={map} />
           <Route exact path="/hotspot/:slug" component={OverviewPage} />
           <PrivateRoute path="/profile" component={Profile} />
         </Switch>
