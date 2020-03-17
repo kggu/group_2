@@ -20,7 +20,7 @@ const Map = props => {
 
   const { updateHotSpots, hotSpots } = useBackendAPI();
 
-  //createNewHotspot(request);
+  createNewHotSpot(request);
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
