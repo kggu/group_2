@@ -7,32 +7,34 @@ import Col from "react-bootstrap/Col"
 
 const HotspotCreation = props => {
 
-    const { createNewHotspot } = useBackendAPI();
+    const { createNewHotSpot } = useBackendAPI();
 
     const handleSubmit = (e) => {
         const [longitude, latitude] = props.lngLat
         e.preventDefault();
         const NewHotspot = {
             name: e.target.formGridName.value,
-            description: e.target.fromDescription,
+            description: e.target.formDescription.value,
             address: {
-                address: e.target.formGridAddress,
-                postalcode: e.target.formGridZip,
-                city: e.target.formGridCity,
-                country: e.target.formGridCountry
+                address: e.target.formGridAddress.value,
+                postalCode: e.target.formGridZip.value,
+                city: e.target.formGridCity.value,
+                country: e.target.formGridCountry.value
             },
             category: e.target.formCategory.value,
             location: {
                 longitude: longitude.longitude,
                 latitude: longitude.latitude
-            },
-            openingHours: {
-                weekday: e.target.formSelectDay,
-                openingTime: e.target.formOpeningTime,
-                closingTime: e.target.formClosingTime
             }
-        }
-        createNewHotspot(NewHotspot); 
+            /*
+            openingHours: {
+                weekday: e.target.formSelectDay.value,
+                openingTime: e.target.formOpeningTime.value,
+                closingTime: e.target.formClosingTime.value
+            }*/
+        };
+        console.log(NewHotspot)
+        createNewHotSpot(NewHotspot);
     }
 
     return(
@@ -59,8 +61,8 @@ const HotspotCreation = props => {
                         <Form.Group controlId="formCategory">
                             <Form.Label>Category</Form.Label>
                             <Form.Control as="select">
-                                <option>Food</option>
-                                <option>Bar</option>
+                                <option>FOOD</option>
+                                <option>DRINKS</option>
                                 <option>...</option>
                                 <option>...</option>
                                 <option>...</option>
