@@ -51,8 +51,13 @@ const Map = props => {
   
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat
-    console.log(longitude, latitude);
-    setClickLocation(clickLocation => [...clickLocation, { longitude, latitude }]);
+    console.log(clickLocation.length);
+    if(clickLocation.length > 0) {
+      setClickLocation([]);
+    } 
+    else{
+      setClickLocation(clickLocation => [...clickLocation, { longitude, latitude }]);
+    }
   };
    
   const _onClickMarker = clickedMarker => {
@@ -128,8 +133,7 @@ const Map = props => {
           <HotspotCreation show={show} onHide={handleClose}></HotspotCreation>
 
           {clickLocation.map((m, i) => (
-              <NewHotspotPopup {...m} key={i} handler={handleShow}>
-              </NewHotspotPopup>
+              <NewHotspotPopup {...m} key={i} openModal={handleShow}></NewHotspotPopup>
           ))}
           
           {clickLocation.map((m, i) => (

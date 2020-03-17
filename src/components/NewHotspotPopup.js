@@ -27,7 +27,7 @@ const HotspotPopup = props => {
             `}
             </style>
           </>
-            <Button variant="orange" onClick = {props.handler()}>
+            <Button variant="orange" onClick = {() => props.openModal()}>
               Create Hotspot
             </Button>
         </Card.Body>

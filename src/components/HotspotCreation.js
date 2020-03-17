@@ -26,37 +26,53 @@ const HotspotCreation = props => {
                         <Form.Control type="name" placeholder="Enter name" />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formGridCategory">
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control as="select" value="Choose...">
-                            <option>Food</option>
-                            <option>Bar</option>
-                            <option>...</option>
-                            <option>...</option>
-                        </Form.Control>
+                        <Form.Group controlId="formSelectCategory">
+                            <Form.Label>Category</Form.Label>
+                            <Form.Control as="select">
+                                <option>Food</option>
+                                <option>Bar</option>
+                                <option>...</option>
+                                <option>...</option>
+                                <option>...</option>
+                            </Form.Control>
                         </Form.Group>
                     </Form.Row>
                     
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form.Group controlId="formTextArea">
                         <Form.Label>Description</Form.Label>
                         <Form.Control as="textarea" rows="3" />
                     </Form.Group>
 
-                    <Form.Row>
-                    <Form.Group controlId="formGridAddress1">
+                    <Form.Group controlId="formGridAddress">
                         <Form.Label>Address</Form.Label>
                         <Form.Control placeholder="1234 Main St" />
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formOpeningHours">
-                        <Form.Label>Opening Hours</Form.Label>
-                        <Form.Control placeholder="XX:XX" />
-                    </Form.Group>
+                    <Form.Row>
+                        <Form.Group controlId="formSelectDay">
+                            <Form.Label>Day of week</Form.Label>
+                            <Form.Control as="select">
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saturday</option>
+                                <option>Sunday</option>
+                            </Form.Control>
+                        </Form.Group>
 
-                    <Form.Group as={Col} controlId="formClosingHours">
-                        <Form.Label>Closing Hours</Form.Label>
-                        <Form.Control placeholder="XX:XX" />
-                    </Form.Group>
+                        <Form.Group as={Col} controlId="formOpeningHours">
+                            <Form.Label>Opening Hours</Form.Label>
+                            <Form.Control placeholder="XX:XX" />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formClosingHours">
+                            <Form.Label>Closing Hours</Form.Label>
+                            <Form.Control placeholder="XX:XX" />
+                        </Form.Group>
+
+                        <Button variant="primary">Save</Button>
                     </Form.Row>
 
                     <Form.Row>
@@ -70,7 +86,7 @@ const HotspotCreation = props => {
                         <Form.Control />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formGridZip">
+                        <Form.Group as={Col} controlId="formGridCountry">
                         <Form.Label>Country</Form.Label>
                         <Form.Control />
                         </Form.Group>
