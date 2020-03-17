@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useBackendAPI } from "../utils/backendAPI"
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal"
 import Form from "react-bootstrap/Form"
 import Col from "react-bootstrap/Col"
 
 const HotspotCreation = props => {
+
+    const { createNewHotspot } = useBackendAPI();
 
     const handleSubmit = (e) => {
         const [longitude, latitude] = props.lngLat
@@ -28,7 +31,8 @@ const HotspotCreation = props => {
                 openingTime: e.target.formOpeningTime,
                 closingTime: e.target.formClosingTime
             }
-        } 
+        }
+        createNewHotspot(NewHotspot); 
     }
 
     return(
