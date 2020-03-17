@@ -16,18 +16,8 @@ const Map = props => {
     longitude: 25.47,
     zoom: 16
   });
-
-  const [ viewportUpdateStatus, setViewportUpdateStatus ] = useState(false);
   
-  const { updateHotSpots, hotSpots } = useBackendAPI();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setViewportUpdateStatus(true)
-      console.log("updated")
-    }, 1000);
-    return () => clearInterval(interval);
-  });
+  const { updateHotSpots, hotSpots, hotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
@@ -44,14 +34,9 @@ const Map = props => {
   };
 
   const _onViewportChange = viewport => {
-    if (viewportUpdateStatus) {
-      const addr = "/map/" + viewport.latitude + "/" + viewport.longitude;
-      history.push(addr)
-      setViewportUpdateStatus(false)
-    }
-    setViewPort(viewport)
+    const addr = "/map/" + viewport.latitude + "/" + viewport.longitude;
+    history.push(addr)
   }
-    //setViewPort({ ...viewport});
 
   const [render, setRender] = useState(false);
   const [data, setData] = useState();
@@ -100,8 +85,11 @@ const Map = props => {
   };
 
   useEffect(() => {
-    updateHotSpots(viewport)
-  }, []);
+    checkHotSpotRange(viewport)
+    if (hotSpotUpdateStatus) {
+      updateHotSpots(viewport)
+    }
+  }, [viewport]);
 
   useEffect(() => {
     setData(hotSpots)

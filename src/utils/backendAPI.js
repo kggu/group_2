@@ -12,18 +12,46 @@ export const BackendAPIProvider = ({children}) => {
   
   const [hotSpots, setHotSpots] = useState();
 
+  const [requestedViewport, setRequestedViewport] = useState(false);
+  const [requestedRange, setRequestedRange] = useState(false)
+  const [hotSpotUpdateStatus, setHotSpotUpdateStatus ] = useState(true);
+
+  const checkHotSpotRange = async (viewport) => {
+    const distance = Math.abs(
+      Math.acos(
+      Math.sin(viewport.latitude * Math.PI/180.0) * Math.sin(requestedViewport.latitude * Math.PI/180.0)
+      + Math.cos(viewport.latitude * Math.PI/180.0) * Math.cos(requestedViewport.latitude * Math.PI/180.0)
+      * Math.cos(requestedViewport.longitude * Math.PI/180.0 - viewport.longitude * Math.PI/180.0)
+      ));
+    const distanceInMeters = distance * 6731000;
+    console.log(distanceInMeters)
+    console.log(requestedRange)
+    if (distanceInMeters > requestedRange / 2) {
+      setHotSpotUpdateStatus(true)
+    }
+  }
+
   const updateHotSpots = async (viewport) => {
-    //TODO fix range
     console.log(viewport)
+    setHotSpotUpdateStatus(false)
+    setRequestedViewport(viewport)
+    const lng = viewport.longitude
+    const lat = viewport.latitude
+    const zoom = viewport.zoom
+    let range = 78271.484 / (Math.pow(2,zoom)) * 2048
+    setRequestedRange(range)
+    range = parseInt(range)
+    console.log(range)
     const address =
       process.env.REACT_APP_API_ROOT +
       "/hotspot/search?longitude=" +
-      viewport.longitude +
+      lng +
       "&latitude=" +
-      viewport.latitude +
+      lat +
       "&range=" +        
-      500000000;
+      range;
     const response = await axios.get(address).then( response => {
+      console.log(response)
       setHotSpots(response.data)
     });
   };
@@ -50,6 +78,8 @@ export const BackendAPIProvider = ({children}) => {
       value={{
           updateHotSpots,
           hotSpots,
+          hotSpotUpdateStatus,
+          checkHotSpotRange,
           createNewHotSpot
       }}
     >
