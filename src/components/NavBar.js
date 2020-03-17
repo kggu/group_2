@@ -20,7 +20,7 @@ const NavBar = () => {
     .then(results =>  {
       const lat = results[0].geometry.location.lat();
       const lng = results[0].geometry.location.lng();
-      const addr = "/map/" + lat + "/" + lng;
+      const addr = "/map/" + lat + "/" + lng + "/16";
       history.push(addr)
     })
     .catch(error => console.error(error));
