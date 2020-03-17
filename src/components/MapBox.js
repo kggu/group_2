@@ -6,20 +6,18 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from "./HotspotPopup";
 import SideBar from "./SideBar";
+import history from "../utils/history";
 
 const Map = props => {
   const [viewport, setViewPort] = useState({
     width: "100%",
-
     height: window.innerHeight,
     latitude: 65.013,
     longitude: 25.47,
     zoom: 16
   });
   
-  const { updateHotSpots, hotSpots } = useBackendAPI();
-
-  //createNewHotspot(request);
+  const { updateHotSpots, hotSpots, hotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng);
@@ -31,12 +29,15 @@ const Map = props => {
     if (!(isNaN(lat) || isNaN(lng))) {
       if (lat < 90 && lat > -90) {
         setViewPort({...viewport, latitude: lat, longitude: lng})
+        checkHotSpotRange(viewport)
       }
     }
   };
 
-  const _onViewportChange = viewport =>
-    setViewPort({ ...viewport});
+  const _onViewportChange = viewport => {
+    const addr = "/map/" + viewport.latitude + "/" + viewport.longitude;
+    history.push(addr)
+  }
 
   const [render, setRender] = useState(false);
   const [data, setData] = useState();
@@ -85,8 +86,11 @@ const Map = props => {
   };
 
   useEffect(() => {
-    updateHotSpots(viewport)
-  }, []);
+    checkHotSpotRange(viewport)
+    if (hotSpotUpdateStatus) {
+      updateHotSpots(viewport)
+    }
+  }, [viewport]);
 
   useEffect(() => {
     setData(hotSpots)
