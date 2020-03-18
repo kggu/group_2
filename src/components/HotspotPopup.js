@@ -22,7 +22,7 @@ const HotspotPopup = props => {
           <Card.Title>{props.name}</Card.Title>
           <Card.Text>{props.description}</Card.Text>
           <Link to={"/hotspot/" + props.slug}>
-            <Button variant="orange">Overview</Button>
+            <Button variant="customorange">Overview</Button>
           </Link>
         </Card.Body>
       </Card>

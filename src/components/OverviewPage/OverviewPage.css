@@ -1,0 +1,19 @@
+.openingHours-container{
+    max-width: 250px;
+    max-height: 300px;
+    padding-top: 1rem;
+}
+
+.hotspotInfo-container {
+    background-color: #b6e1e0;
+    margin-left: 1rem;
+    padding-top: 1rem;
+}
+
+.nearbyHotspots-container {
+    max-width: 250px;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-left: 1rem;
+}
