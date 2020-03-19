@@ -56,7 +56,11 @@ const Map = props => {
   const [selectedMarker, setSelectedMarker] = useState();
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    window.location.reload(false);
+  }
+  
   const handleShow = () => setShow(true);
   
   const onClickMap = (e) => {

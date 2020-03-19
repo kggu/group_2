@@ -124,7 +124,7 @@ const HotspotCreation = props => {
                         </Form.Group>
                     </Form.Row>
 
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" onClick = {() => props.onHide()}>
                         Submit
                     </Button>
                 </Form>
