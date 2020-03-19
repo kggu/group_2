@@ -10,7 +10,6 @@ import SideBar from "./SideBar";
 const Map = props => {
   const [viewport, setViewPort] = useState({
     width: "100%",
-
     height: window.innerHeight,
     latitude: 65.013,
     longitude: 25.47,
