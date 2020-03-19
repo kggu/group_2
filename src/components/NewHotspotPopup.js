@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import { Button } from "react-bootstrap";
-import "./HotspotPopup.css";
 
 const HotspotPopup = props => {
   return (
@@ -12,18 +11,25 @@ const HotspotPopup = props => {
       tipSize={5}
       anchor="bottom"
       closeButton={false}
+      offsetTop={-30}
       longitude={props.longitude}
       latitude={props.latitude}
-      offsetTop={-500}
-      offsetLeft={-500}
     >
-      <Card style={{ width: "15rem" }}>
+      <Card style={{ width: "11rem" }}>
         <Card.Body>
-          <Card.Title>{props.name}</Card.Title>
-          <Card.Text>{props.description}</Card.Text>
-          <Link to={"/hotspot/" + props.slug}>
-            <Button variant="customorange">Overview</Button>
-          </Link>
+          <>
+            <style type="text/css">
+              {`
+              .btn-orange {
+              background-color: #e8630a;
+              color: white;
+              }
+            `}
+            </style>
+          </>
+            <Button variant="orange" onClick = {() => props.openModal()}>
+              Create Hotspot
+            </Button>
         </Card.Body>
       </Card>
     </Popup>
