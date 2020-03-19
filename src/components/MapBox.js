@@ -60,7 +60,7 @@ const Map = props => {
     setShow(false);
     window.location.reload(false);
   }
-  
+
   const handleShow = () => setShow(true);
   
   const onClickMap = (e) => {
@@ -152,7 +152,7 @@ const Map = props => {
           onClick = {onClickMap}
         >
 
-          <HotspotCreation show={show} onHide={handleClose} lngLat={clickLocation}></HotspotCreation>
+          <HotspotCreation lngLat={clickLocation} show={show} onHide={handleClose}></HotspotCreation>
 
           {clickLocation.map((m, i) => (
               <NewHotspotPopup {...m} key={i} openModal={handleShow}></NewHotspotPopup>

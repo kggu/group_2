@@ -25,16 +25,16 @@ const HotspotCreation = props => {
             location: {
                 longitude: longitude.longitude,
                 latitude: longitude.latitude
-            }
-            /*
-            openingHours: {
+            },
+            openingHours: [{
                 weekday: e.target.formSelectDay.value,
                 openingTime: e.target.formOpeningTime.value,
                 closingTime: e.target.formClosingTime.value
-            }*/
+            }]
         };
         console.log(NewHotspot)
         createNewHotSpot(NewHotspot);
+        props.onHide();
     }
 
     return(
@@ -124,7 +124,7 @@ const HotspotCreation = props => {
                         </Form.Group>
                     </Form.Row>
 
-                    <Button variant="primary" type="submit" onClick = {() => props.onHide()}>
+                    <Button variant="primary" type="submit">
                         Submit
                     </Button>
                 </Form>
