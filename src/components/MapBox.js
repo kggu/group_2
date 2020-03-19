@@ -160,7 +160,7 @@ const Map = props => {
           
           {clickLocation.map((m, i) => (
             <Marker {...m} key={i}>
-              <HotspotMarker></HotspotMarker>
+              <HotspotMarker handler={_onClickMarker}></HotspotMarker>
             </Marker>
           ))}
 

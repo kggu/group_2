@@ -26,11 +26,12 @@ const HotspotCreation = props => {
                 longitude: longitude.longitude,
                 latitude: longitude.latitude
             },
+            /*
             openingHours: [{
                 weekday: e.target.formSelectDay.value,
                 openingTime: e.target.formOpeningTime.value,
                 closingTime: e.target.formClosingTime.value
-            }]
+            }] */
         };
         console.log(NewHotspot)
         createNewHotSpot(NewHotspot);
