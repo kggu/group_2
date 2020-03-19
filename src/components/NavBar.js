@@ -27,6 +27,7 @@ const NavBar = () => {
   };
 
   return (
+
     <Navbar fill variant="customdark" fixed="top" expand="lg">
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">

@@ -9,13 +9,13 @@ const Frontpage = () => {
                 <h1>
                     HotSpotted
                 </h1>
-                <p>
+                <p className = "mb-0">
                     By students, for students.
                 </p>
             </div>
             <footer className="footerLuokka text-secondary">
-                <p>Frontend: Riina, Miikka, Samuli & Sami</p>
-                <p>Backend: Mike, Kim, Wesley & Shane</p>
+                <p className = "mb-0">Frontend: Riina, Miikka, Samuli & Sami</p>
+                <p className = "mb-0">Backend: Mike, Kim, Wesley & Shane</p>
             </footer>
         </div>
     );
