@@ -1,16 +1,34 @@
-import React from "react";
 import Comment from "./Comment";
+import PostComment from "./PostComment"
+import React, { Fragment } from "react";
+import { useAuth0 } from "../../../react-auth0-spa";
+import "./comments.css";
+
 
 const CommentContainer = props => {
+
+  const {loading, user} = useAuth0();
+  const totalComments = 2;
+
+  if (loading || !user ){
+    return <h1>Loading...</h1>
+  }
+
+
   return (
-    <div className="border">
-      <div className="border">
-        <p>Comments (0)</p>
+    <div className="">
+      <div className="border-custom">
+        <p>Comments ({totalComments})</p>
       </div>
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
+      <div className="comments">
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+      </div>
+      <div className="postComment border-custom">
+      <PostComment userName={user.name} userPicture={user.picture}/>
+      </div>
     </div>
   );
 };

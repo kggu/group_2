@@ -24,8 +24,8 @@ const OverviewPage = props => {
       console.log(response.data);
       setHotspotData(response.data);
     } catch (error) {
-      console.log(error.response.status);
-      setRequestError(error.response.status);
+      console.log(error);
+      setRequestError(error);
     }
   };
 

@@ -1,0 +1,39 @@
+.postComment {
+  margin-bottom: 1rem;
+}
+
+.user-img {
+  max-width: 6rem;
+  max-height: 6rem;
+  margin: 0.25rem;
+  margin-left: 1.25rem;
+}
+
+.comment-form {
+  max-width: 70%;
+  height: 80%;
+  margin-top: 0.25rem;
+
+}
+
+.submit-button {
+  background-color: #e8630a;
+  color: #ffffff;
+  position: relative;
+  margin-bottom: 4rem;
+  margin-left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.3s;
+}
+
+.comment-submit {
+  background-color: #e8630a;
+  color: #ffffff;
+  transition: 0.3s;
+  width: 50px;
+}
+
+.submit-button:hover {
+  background-color: #ac4907;
+}
