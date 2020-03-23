@@ -1,19 +1,17 @@
 import Comment from "./Comment";
-import PostComment from "./PostComment"
+import PostComment from "./PostComment";
 import React, { Fragment } from "react";
 import { useAuth0 } from "../../../react-auth0-spa";
 import "./comments.css";
 
-
 const CommentContainer = props => {
-
-  const {loading, user} = useAuth0();
+  const { loading, user } = useAuth0();
   const totalComments = 2;
 
-  if (loading || !user ){
-    return <h1>Loading...</h1>
+  //temporary
+  if (loading || !user) {
+    return <p>Loading...</p>;
   }
-
 
   return (
     <div className="">
@@ -21,13 +19,12 @@ const CommentContainer = props => {
         <p>Comments ({totalComments})</p>
       </div>
       <div className="comments">
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
+        <Comment userName={user.name} userPicture={user.picture}/>
+        <Comment userName={user.name} userPicture={user.picture}/>
+        <Comment userName={user.name} userPicture={user.picture}/>
       </div>
-      <div className="postComment border-custom">
-      <PostComment userName={user.name} userPicture={user.picture}/>
+      <div className="postComment">
+        <PostComment userName={user.name} userPicture={user.picture} />
       </div>
     </div>
   );
