@@ -15,11 +15,10 @@ const CommentContainer = props => {
 
   return (
     <div className="">
-      <div className="border-custom">
+      <div className="border-custom comments-header">
         <p>Comments ({totalComments})</p>
       </div>
       <div className="comments">
-        <Comment userName={user.name} userPicture={user.picture}/>
         <Comment userName={user.name} userPicture={user.picture}/>
         <Comment userName={user.name} userPicture={user.picture}/>
       </div>

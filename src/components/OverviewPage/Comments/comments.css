@@ -1,18 +1,49 @@
 
 
-.postComment {
-  margin-bottom: 0rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
-  border-top: 2px solid #9cd3d3;
+/*
+This needs to be cleaned up, currently it is a mess.
+*/
+
+.comments-header {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    margin-bottom: 0.5rem;
+    background: #9cd3d3;   
 }
 
-.user-img {
+.userComment {
+    margin-bottom: 0.5rem;
+}
+
+.comment-text {
+    background: #9cd3d3;
+    font-size: small;
+
+    height: 80%;
+}
+
+.postComment {
+  margin-left: -1rem;
+  margin-right: -1rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  border-top: 2px solid #9cd3d3;
+  background: #9cd3d3;
+}
+
+.user-img-post {
   max-width: 6rem;
   max-height: 6rem;
   margin: 0.25rem;
   margin-left: 1.25rem;
 }
+
+.user-img {
+    max-width: 6rem;
+    max-height: 6rem;
+    margin: 0.25rem;
+    margin-left: 1.25rem;
+  }
 
 .comment-form {
   max-width: 100%;

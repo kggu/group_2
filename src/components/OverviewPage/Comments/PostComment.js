@@ -5,7 +5,7 @@ const PostComment = props => {
   return (
     <Row>
       <InputGroup>
-        <Image className="user-img" src={props.userPicture} rounded></Image>
+        <Image className="user-img-post" src={props.userPicture} rounded></Image>
         <div className="comment-details">
           <p className="comment-info">Commenting as {props.userName}</p>
           <FormControl
