@@ -48,6 +48,7 @@ This needs to be cleaned up, currently it is a mess.
 .comment-form {
   max-width: 100%;
   height: 80%;
+  resize: none;
 }
 
 .comment-info {

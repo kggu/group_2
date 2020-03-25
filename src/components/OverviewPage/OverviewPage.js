@@ -64,7 +64,7 @@ const OverviewPage = props => {
                   "/map/" +
                   hotspotData.location.latitude +
                   "/" +
-                  hotspotData.location.longitude
+                  hotspotData.location.longitude + "/16"
                 }
               >
                 <Button variant="customorange">View</Button>

@@ -10,7 +10,8 @@ const PostComment = props => {
           <p className="comment-info">Commenting as {props.userName}</p>
           <FormControl
             className="comment-form rounded"
-            aria-describedby="basic-addon1"
+            as="textarea"
+            rows="2"
           />
         </div>
         <Button variant="submit-button" className="submit-button">
