@@ -5,16 +5,16 @@ const PostComment = props => {
   return (
     <Row>
       <InputGroup>
-        <Image className="user-img-post" src={props.userPicture} rounded></Image>
+        <Image className="post-user-img" src={props.userPicture} rounded></Image>
         <div className="comment-details">
           <p className="comment-info">Commenting as {props.userName}</p>
           <FormControl
-            className="comment-form rounded"
+            className="post-form rounded"
             as="textarea"
             rows="2"
           />
         </div>
-        <Button variant="submit-button" className="submit-button">
+        <Button variant="post-button" className="post-button">
           post
         </Button>
       </InputGroup>

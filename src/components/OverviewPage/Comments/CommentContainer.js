@@ -1,15 +1,19 @@
 import Comment from "./Comment";
 import PostComment from "./PostComment";
-import React, { Fragment } from "react";
+import React from "react";
 import { useAuth0 } from "../../../react-auth0-spa";
 import "./comments.css";
 
 const CommentContainer = props => {
-  const { loading, user } = useAuth0();
+  const { loading, user, isAuthenticated } = useAuth0();
   const totalComments = 2;
 
-  //temporary
-  if (loading || !user) {
+  //TODO: add proper view if user is not logged in
+  //      add proper loading view
+  //      add styling for comments-header
+  //      fetch data from api
+
+  if (loading) {
     return <p>Loading...</p>;
   }
 
@@ -19,11 +23,15 @@ const CommentContainer = props => {
         <p>Comments ({totalComments})</p>
       </div>
       <div className="comments">
-        <Comment userName={user.name} userPicture={user.picture}/>
-        <Comment userName={user.name} userPicture={user.picture}/>
+        <Comment userName={user.name} userPicture={user.picture} />
+        <Comment userName={user.name} userPicture={user.picture} />
       </div>
       <div className="postComment">
-        <PostComment userName={user.name} userPicture={user.picture} />
+        {isAuthenticated ? (
+          <PostComment userName={user.name} userPicture={user.picture} />
+        ) : (
+          <p> You must be logged in to post comments.</p>
+        )}
       </div>
     </div>
   );

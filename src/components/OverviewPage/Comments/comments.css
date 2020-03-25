@@ -1,25 +1,13 @@
 
-
-/*
-This needs to be cleaned up, currently it is a mess.
-*/
-
 .comments-header {
-    margin-left: -1rem;
-    margin-right: -1rem;
-    margin-bottom: 0.5rem;
-    background: #9cd3d3;   
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-bottom: 0.5rem;
+  background: #9cd3d3;
 }
 
 .userComment {
-    margin-bottom: 0.5rem;
-}
-
-.comment-text {
-    background: #9cd3d3;
-    font-size: small;
-
-    height: 80%;
+  margin-bottom: 0.5rem;
 }
 
 .postComment {
@@ -31,37 +19,44 @@ This needs to be cleaned up, currently it is a mess.
   background: #9cd3d3;
 }
 
-.user-img-post {
+.comment-text {
+  background: #9cd3d3;
+  font-size: small;
+
+  height: 80%;
+}
+
+.user-img {
   max-width: 6rem;
   max-height: 6rem;
   margin: 0.25rem;
   margin-left: 1.25rem;
 }
 
-.user-img {
-    max-width: 6rem;
-    max-height: 6rem;
-    margin: 0.25rem;
-    margin-left: 1.25rem;
-  }
+.comment-info {
+  margin: 0;
+  font-weight: 500;
+  font-size: x-small;
+}
 
-.comment-form {
+.comment-details {
+  width: 70%;
+}
+
+.post-user-img {
+  max-width: 6rem;
+  max-height: 6rem;
+  margin: 0.25rem;
+  margin-left: 1.25rem;
+}
+
+.post-form {
   max-width: 100%;
   height: 80%;
   resize: none;
 }
 
-.comment-info {
-    margin: 0;
-    font-weight: 500;
-    font-size: x-small;
-}
-
-.comment-details {
-    width: 70%;
-}
-
-.submit-button {
+.post-button {
   background-color: #e8630a;
   color: #ffffff;
   position: relative;
@@ -72,13 +67,6 @@ This needs to be cleaned up, currently it is a mess.
   transition: 0.3s;
 }
 
-.comment-submit {
-  background-color: #e8630a;
-  color: #ffffff;
-  transition: 0.3s;
-  width: 50px;
-}
-
-.submit-button:hover {
+.post-button:hover {
   background-color: #ac4907;
 }
