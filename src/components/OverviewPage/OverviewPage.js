@@ -7,6 +7,7 @@ import "./OverviewPage.css";
 import OpeningHoursTable from "./OpeningHoursTable";
 import HotspotInfo from "./HotspotInfo";
 import NearbyHotspots from "./NearbyHotspots";
+import CommentContainer from "./Comments/CommentContainer";
 
 const OverviewPage = props => {
   const [hotspotData, setHotspotData] = useState();
@@ -23,8 +24,8 @@ const OverviewPage = props => {
       console.log(response.data);
       setHotspotData(response.data);
     } catch (error) {
-      console.log(error.response.status);
-      setRequestError(error.response.status);
+      console.log(error);
+      setRequestError(error);
     }
   };
 
@@ -41,8 +42,8 @@ const OverviewPage = props => {
   if (hotspotData)
     return (
       <Container>
-        <Jumbotron className="custombg-primary text-center">
-          <h1>{hotspotData.name}</h1>
+        <Jumbotron className="custombg-primary text-center border-custom">
+          <h1 className="display-4">{hotspotData.name}</h1>
           <p>
             <Badge variant="secondary">{hotspotData.category}</Badge>{" "}
             {hotspotData.description}
@@ -50,7 +51,7 @@ const OverviewPage = props => {
         </Jumbotron>
         <Row>
           <Col
-            className="custombg-primary hotspotInfo-container rounded"
+            className="custombg-primary hotspotInfo-container rounded border-custom"
             md={8}
           >
             <HotspotInfo hotspotInfo={hotspotData} />
@@ -63,7 +64,8 @@ const OverviewPage = props => {
                   "/map/" +
                   hotspotData.location.latitude +
                   "/" +
-                  hotspotData.location.longitude
+                  hotspotData.location.longitude +
+                  "/16"
                 }
               >
                 <Button variant="customorange">View</Button>
@@ -72,17 +74,22 @@ const OverviewPage = props => {
           </Col>
 
           <Col
-            className="custombg-primary openingHours-container rounded"
+            className="custombg-primary openingHours-container rounded border-custom"
             md={{ span: 3, offset: 1 }}
           >
             <OpeningHoursTable openingHours={hotspotData.openingHours} />
           </Col>
         </Row>
         <Row>
-          <Col md={9}></Col>
           <Col
-            className=" custombg-primary nearbyHotspots-container rounded"
-            md={3}
+            className="custombg-primary hotspotComments-container rounded border-custom"
+            md={8}
+          >
+            <CommentContainer />
+          </Col>
+          <Col
+            className=" custombg-primary nearbyHotspots-container rounded border-custom"
+            md={{ span: 3, offset: 1 }}
           >
             <NearbyHotspots />
           </Col>
