@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useBackendAPI } from "../utils/backendAPI"
 import MapGL, { Marker,Popup } from "react-map-gl";
-import {Row, Col} from 'react-bootstrap'
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import HotspotMarker from "./HotspotMarker";
@@ -22,7 +21,7 @@ const Map = props => {
   
   const [ initState, setInitState ] = useState(true)
   
-  const { updateHotSpots, hotSpots, hotspotCategories, hotSpotUpdateStatus, setHotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
+  const { updateHotSpots, hotSpots, hotSpotUpdateStatus, setHotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng, props.match.params.zoom);
@@ -135,11 +134,10 @@ const Map = props => {
   }, [selectedMarker, render, data]);
 
   return (
-    <div className="container-fluid">
-      <Row>
-      <Col md={2}>
-        <SideBar />
-      </Col>
+    <div className="container-fluid px-0">
+      <div className="col-md-2 d-none d-md-block bg-light sidebar-4">
+      <SideBar />
+      </div>
       <div className="col-md-9 ml-sm-auto col-lg-10 px-0">
         <MapGL
           {...viewport}
@@ -166,7 +164,6 @@ const Map = props => {
 
         </MapGL>
       </div>
-      </Row>
       </div>
   );
 };
