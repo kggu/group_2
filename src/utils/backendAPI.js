@@ -11,6 +11,7 @@ export const BackendAPIProvider = ({children}) => {
   const { getTokenSilently } = useAuth0();
   
   const [hotSpots, setHotSpots] = useState();
+  const [hotspotCategories, setHotspotCategories] = useState();
 
   
   const [requestedRange, setRequestedRange] = useState(0)
@@ -63,6 +64,14 @@ export const BackendAPIProvider = ({children}) => {
     });
   };
 
+  const getHotspotCategories = async () => {
+    const address =
+    process.env.REACT_APP_API_ROOT + "/hotspot/categories"
+    const response = await axios.get(address);
+    console.log(response.data);
+    setHotspotCategories(response.data);
+  };
+
   const createNewHotSpot = async (request) => {
     const token = await getTokenSilently();
 
@@ -79,6 +88,10 @@ export const BackendAPIProvider = ({children}) => {
     console.log("Post request");
     console.log(response);
   };
+
+  useEffect(() => {
+      getHotspotCategories()
+  }, []); 
     
   return (
     <BackendAPIContext.Provider
@@ -86,6 +99,7 @@ export const BackendAPIProvider = ({children}) => {
           updateHotSpots,
           hotSpots,
           hotSpotUpdateStatus,
+          hotspotCategories,
           checkHotSpotRange,
           createNewHotSpot,
           setHotSpotUpdateStatus
