@@ -7,7 +7,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
 import NewHotspotPopup from './NewHotspotPopup';
-import SideBar from "./SideBar";
+import SideBar from "./MapPage/SideBar";
 import history from "../utils/history";
 import HotspotCreation from "./HotspotCreation"
 
@@ -137,7 +137,7 @@ const Map = props => {
   return (
     <div className="container-fluid">
       <Row>
-      <Col md={2}>
+      <Col md={2} className="px-0">
         <SideBar />
       </Col>
       <div className="col-md-9 ml-sm-auto col-lg-10 px-0">
