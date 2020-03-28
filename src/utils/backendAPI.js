@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useAuth0 } from "../react-auth0-spa";
 
-
 export const BackendAPIContext = React.createContext();
 
 export const useBackendAPI = () => useContext(BackendAPIContext);
@@ -12,6 +11,14 @@ export const BackendAPIProvider = ({children}) => {
   
   const [hotSpots, setHotSpots] = useState();
   const [hotspotCategories, setHotspotCategories] = useState();
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+
+  //debug, remove later
+  useEffect(() => {
+    console.log("updated:" + selectedCategory);
+}, [selectedCategory]);
 
   
   const [requestedRange, setRequestedRange] = useState(0)
@@ -57,7 +64,11 @@ export const BackendAPIProvider = ({children}) => {
       "&latitude=" +
       lat +
       "&range=" +        
-      range;
+      range + 
+      "&category=" +
+      selectedCategory;
+
+    console.log(address);
     const response = await axios.get(address).then( response => {
       console.log(response)
       setHotSpots(response.data)
@@ -100,6 +111,8 @@ export const BackendAPIProvider = ({children}) => {
           hotSpots,
           hotSpotUpdateStatus,
           hotspotCategories,
+          selectedCategory,
+          setSelectedCategory,
           checkHotSpotRange,
           createNewHotSpot,
           setHotSpotUpdateStatus
