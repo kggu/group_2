@@ -12,6 +12,8 @@ import history from "./utils/history";
 
 import PrivateRoute from "./components/PrivateRoute";
 
+import { GoogleAPIProvider } from "./utils/googleAPI";
+
 function App() {
   return (
     <div className="App">
@@ -19,7 +21,9 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/" exact component = {Frontpage}/>
-          <Route exact path="/map/:lat/:lng/:zoom" component={map} />
+          <GoogleAPIProvider>
+            <Route exact path="/map/:lat/:lng/:zoom" component={map} />
+          </GoogleAPIProvider>
           <Route exact path="/hotspot/:slug" component={OverviewPage} />
           <PrivateRoute path="/profile" component={Profile} />
         </Switch>
