@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useBackendAPI } from "../utils/backendAPI"
 import MapGL, { Marker,Popup } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-
+import { useAuth0 } from "../react-auth0-spa";
 import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
 import NewHotspotPopup from './NewHotspotPopup';
 import SideBar from "./SideBar";
 import history from "../utils/history";
 import HotspotCreation from "./HotspotCreation"
+import NotLoggedInPopup from "./NotLoggedInPopup"
 
 const Map = props => {
   const [viewport, setViewPort] = useState({
@@ -55,6 +56,7 @@ const Map = props => {
   const [clickLocation, setClickLocation] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState();
   const [show, setShow] = useState(false);
+  const { isAuthenticated, loginWithRedirect, logout} = useAuth0();
 
   const handleClose = () => {
     setShow(false);
@@ -151,13 +153,17 @@ const Map = props => {
           onClick={() => setRender(false)}
           onClick = {onClickMap}
         >
-
-          <HotspotCreation lngLat={clickLocation} show={show} onHide={handleClose}></HotspotCreation>
-
+          {!isAuthenticated && (
+              <NotLoggedInPopup show={show} onHide={handleClose}></NotLoggedInPopup>
+          )}
+          {isAuthenticated &&  (
+              <HotspotCreation lngLat={clickLocation} show={show} onHide={handleClose}></HotspotCreation>
+          )}
+          
           {clickLocation.map((m, i) => (
               <NewHotspotPopup {...m} key={i} openModal={handleShow}></NewHotspotPopup>
           ))}
-          
+ 
           {clickLocation.map((m, i) => (
             <Marker {...m} key={i}>
               <HotspotMarker handler={_onClickMarker}></HotspotMarker>
