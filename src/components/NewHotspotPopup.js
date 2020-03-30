@@ -1,11 +1,14 @@
 import { Popup } from "react-map-gl";
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useAuth0 } from "../react-auth0-spa";
 import Card from "react-bootstrap/Card";
 import { Button } from "react-bootstrap";
 
 const HotspotPopup = props => {
+
+  const { isAuthenticated, loginWithRedirect, logout} = useAuth0();
+
   return (
     <Popup
       tipSize={5}
