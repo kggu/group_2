@@ -21,11 +21,10 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/" exact component = {Frontpage}/>
+          <Route exact path="/hotspot/:slug" component={OverviewPage} />
           <GoogleAPIProvider>
             <Route exact path="/map/:lat/:lng/:zoom" component={map} />
           </GoogleAPIProvider>
-          <Route exact path="/hotspot/:slug" component={OverviewPage} />
-          <PrivateRoute path="/profile" component={Profile} />
         </Switch>
       </Router>
     </div>
