@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useAuth0 } from "../react-auth0-spa";
 
-
 export const BackendAPIContext = React.createContext();
 
 export const useBackendAPI = () => useContext(BackendAPIContext);
@@ -11,6 +10,15 @@ export const BackendAPIProvider = ({children}) => {
   const { getTokenSilently } = useAuth0();
   
   const [hotSpots, setHotSpots] = useState();
+  const [hotspotCategories, setHotspotCategories] = useState();
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+
+  //debug, remove later
+  useEffect(() => {
+    console.log("updated:" + selectedCategory);
+}, [selectedCategory]);
 
   
   const [requestedRange, setRequestedRange] = useState(0)
@@ -56,11 +64,23 @@ export const BackendAPIProvider = ({children}) => {
       "&latitude=" +
       lat +
       "&range=" +        
-      range;
+      range + 
+      "&category=" +
+      selectedCategory;
+
+    console.log(address);
     const response = await axios.get(address).then( response => {
       console.log(response)
       setHotSpots(response.data)
     });
+  };
+
+  const getHotspotCategories = async () => {
+    const address =
+    process.env.REACT_APP_API_ROOT + "/hotspot/categories"
+    const response = await axios.get(address);
+    console.log(response.data);
+    setHotspotCategories(response.data);
   };
 
   const createNewHotSpot = async (request) => {
@@ -79,6 +99,10 @@ export const BackendAPIProvider = ({children}) => {
     console.log("Post request");
     console.log(response);
   };
+
+  useEffect(() => {
+      getHotspotCategories()
+  }, []); 
     
   return (
     <BackendAPIContext.Provider
@@ -86,6 +110,9 @@ export const BackendAPIProvider = ({children}) => {
           updateHotSpots,
           hotSpots,
           hotSpotUpdateStatus,
+          hotspotCategories,
+          selectedCategory,
+          setSelectedCategory,
           checkHotSpotRange,
           createNewHotSpot,
           setHotSpotUpdateStatus

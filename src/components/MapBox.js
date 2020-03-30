@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useBackendAPI } from "../utils/backendAPI"
 import { useGoogleAPI } from "../utils/googleAPI"
 import MapGL, { Marker,Popup } from "react-map-gl";
+import {Row, Col} from 'react-bootstrap'
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
 import NewHotspotPopup from './NewHotspotPopup';
-import SideBar from "./SideBar";
+import SideBar from "./MapPage/SideBar";
 import history from "../utils/history";
 import HotspotCreation from "./HotspotCreation"
 
@@ -22,7 +23,7 @@ const Map = props => {
   
   const [ initState, setInitState ] = useState(true)
   
-  const { updateHotSpots, hotSpots, hotSpotUpdateStatus, setHotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
+  const { updateHotSpots, hotSpots, hotspotCategories, hotSpotUpdateStatus, setHotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
 
   const { storeLocation, findNearbyPlaces } = useGoogleAPI();
 
@@ -139,10 +140,11 @@ const Map = props => {
   }, [selectedMarker, render, data]);
 
   return (
-    <div className="container-fluid px-0">
-      <div className="col-md-2 d-none d-md-block bg-light sidebar-4">
-      <SideBar />
-      </div>
+    <div className="container-fluid">
+      <Row>
+      <Col md={2} className="px-0">
+        <SideBar />
+      </Col>
       <div className="col-md-9 ml-sm-auto col-lg-10 px-0">
         <MapGL
           {...viewport}
@@ -169,6 +171,7 @@ const Map = props => {
 
         </MapGL>
       </div>
+      </Row>
       </div>
   );
 };
