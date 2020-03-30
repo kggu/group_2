@@ -9,11 +9,13 @@ const SideBar = () => {
     setSelectedCategory
   } = useBackendAPI();
   const [categoryItems, setCategoryItems] = useState();
+  const [selectedItem, selectItem] = useState("");
 
-  const _selectCategory = clickedCategory => {
-    console.log("clicked: " + clickedCategory);
-    setSelectedCategory(clickedCategory);
-  };
+  useEffect(() => {
+    if (hotspotCategories) {
+      _loadCategoryItems();
+    }
+  }, [hotspotCategories, selectedItem]);
 
   const _loadCategoryItems = () => {
     setCategoryItems(
@@ -22,26 +24,32 @@ const SideBar = () => {
           <CategoryItem
             value={category.value}
             name={category.name}
-            onClick={_selectCategory}
+            handleClick={_selectCategory}
+            selectedItem={selectedItem}
           />
         );
       })
     );
   };
 
-  useEffect(() => {
-    if (hotspotCategories) {
-      _loadCategoryItems();
+  const _selectCategory = clickedCategory => {
+    console.log("clicked: " + clickedCategory);
+    if (selectedCategory === clickedCategory) {
+      selectItem("");
+      setSelectedCategory("");
+    } else {
+      selectItem(clickedCategory);
+      setSelectedCategory(clickedCategory);
     }
-  }, [hotspotCategories]);
-
-
+  };
 
   return (
     <div className="sidebar">
       <div className="categories">
-        <div>Categories</div>
-        <button onClick={()=>_selectCategory("")}>reset</button>
+        <div className="categories-header">
+          <div>Categories</div>
+          <button onClick={() => _selectCategory("")}>reset</button>
+        </div>
         {categoryItems ? categoryItems : <small>loading...</small>}
       </div>
     </div>
@@ -50,8 +58,12 @@ const SideBar = () => {
 
 const CategoryItem = props => {
   return (
-    <div className="category-item">
-      <a onClick={() => props.onClick(props.value)}>{props.name}</a>
+    <div
+      className={`category-item ${
+        props.selectedItem == props.value ? "category-item-selected" : ""
+      }`}
+    >
+      <a onClick={() => props.handleClick(props.value)}>{props.name}</a>
     </div>
   );
 };
