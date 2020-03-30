@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 
 export const GoogleAPIContext = React.createContext();
 
@@ -6,6 +7,8 @@ export const useGoogleAPI = () => useContext(GoogleAPIContext);
 
 export const GoogleAPIProvider = ({children}) => {
     const [ storedLocation, setStoredLocation ] = useState();
+
+    const google = window.google = window.google ? window.google : {}
 
     const storeLocation = (lng, lat) => {
         setStoredLocation({
@@ -15,18 +18,31 @@ export const GoogleAPIProvider = ({children}) => {
     }
 
     const findNearbyPlaces = async () => {
-        console.log(storedLocation)
+        console.log(storedLocation.longitude)
+
+        const location = new google.maps.LatLng(storedLocation.latitude, storedLocation.longitude)
+        console.log(location)
+
+        const map = new google.maps.Map(document.getElementById('map'), {
+            center: location,
+            zoom: 15
+        });
+
+        var request = {
+            location: location,
+            radius: '500',
+            type: ['point_of_interest']
+        };
+        
+        const service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, foundSearchCallback);
     }
 
-    /*const [viewport, setViewPort] = useState({
-        width: "100%",
-        height: window.innerHeight,
-        latitude: 65.013,
-        longitude: 25.47,
-        zoom: 16
-      });*/
+    const foundSearchCallback = (results, status) => {
+        console.log(results)
+        console.log(status)
+    }
 
-      
     return (
       <GoogleAPIContext.Provider
         value={{
