@@ -7,10 +7,7 @@ import Frontpage from "./components/Frontpage";
 import OverviewPage from "./components/OverviewPage/OverviewPage"
 
 import { Router, Route, Switch } from "react-router-dom";
-import Profile from "./components/Profile";
 import history from "./utils/history";
-
-import PrivateRoute from "./components/PrivateRoute";
 
 import { GoogleAPIProvider } from "./utils/googleAPI";
 
