@@ -19,7 +19,7 @@ const HotspotCreation = props => {
     }, [foundSuggestions]);
 
     useEffect(() => {
-        if (suggestions) {
+        if (suggestions && suggestions.length > 1) {
             setShowSuggestion(true)
         }
     }, [suggestions]);
