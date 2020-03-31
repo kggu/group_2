@@ -25,9 +25,14 @@ const HotspotCreation = props => {
     }, [suggestions]);
 
     const handleChangeSuggestion = (e) => {
-        console.log("testi")
+
+        //TODO: Work-in-progress, only updates name value
+
         const selectedIndex = e.target.value
-        console.log(selectedIndex)
+        const mainForm = e.target.parentNode.parentNode.parentNode
+        const selectedSuggestion = suggestions[e.target.value]
+        console.log(selectedSuggestion)
+        mainForm.formGridName.value = selectedSuggestion.name
     }
 
     const handleSubmit = (e) => {
@@ -76,7 +81,7 @@ const HotspotCreation = props => {
                 <p>
                 <Form onSubmit={handleSubmit}>
                     {showSuggestions && (<Form.Row>
-                        <Form.Group controlId="formCategory1">
+                        <Form.Group controlId="formSuggestions">
                             <Form.Label>Suggestions</Form.Label>
                             <Form.Control as="select" onChange={handleChangeSuggestion}>
                                 {
