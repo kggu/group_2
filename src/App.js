@@ -7,10 +7,9 @@ import Frontpage from "./components/Frontpage";
 import OverviewPage from "./components/OverviewPage/OverviewPage"
 
 import { Router, Route, Switch } from "react-router-dom";
-import Profile from "./components/Profile";
 import history from "./utils/history";
 
-import PrivateRoute from "./components/PrivateRoute";
+import { GoogleAPIProvider } from "./utils/googleAPI";
 
 function App() {
   return (
@@ -19,9 +18,10 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/" exact component = {Frontpage}/>
-          <Route exact path="/map/:lat/:lng/:zoom" component={map} />
           <Route exact path="/hotspot/:slug" component={OverviewPage} />
-          <PrivateRoute path="/profile" component={Profile} />
+          <GoogleAPIProvider>
+            <Route exact path="/map/:lat/:lng/:zoom" component={map} />
+          </GoogleAPIProvider>
         </Switch>
       </Router>
     </div>

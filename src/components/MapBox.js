@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useBackendAPI } from "../utils/backendAPI"
+import { useGoogleAPI } from "../utils/googleAPI"
 import MapGL, { Marker,Popup } from "react-map-gl";
 import {Row, Col} from 'react-bootstrap'
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -24,6 +25,8 @@ const Map = props => {
   const [ initState, setInitState ] = useState(true)
   
   const { updateHotSpots, hotSpots, hotspotCategories, hotSpotUpdateStatus, setHotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
+
+  const { storeLocation, findNearbyPlaces } = useGoogleAPI();
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng, props.match.params.zoom);
@@ -64,8 +67,11 @@ const Map = props => {
     window.location.reload(false);
   }
 
-  const handleShow = () => setShow(true);
-  
+  const handleShow = () => {
+    findNearbyPlaces();
+    setShow(true);
+  }
+
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat
     if(clickLocation.length > 0) {
@@ -73,6 +79,7 @@ const Map = props => {
     } 
     else{
       setClickLocation(clickLocation => [...clickLocation, { longitude, latitude }]);
+      storeLocation(longitude, latitude)
     }
     console.log(clickLocation)
   };
