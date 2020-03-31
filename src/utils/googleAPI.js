@@ -8,6 +8,8 @@ export const useGoogleAPI = () => useContext(GoogleAPIContext);
 export const GoogleAPIProvider = ({children}) => {
     const [ storedLocation, setStoredLocation ] = useState();
 
+    const [ foundSuggestions, setFoundSuggestions ] = useState();
+
     const google = window.google = window.google ? window.google : {}
 
     const storeLocation = (lng, lat) => {
@@ -30,7 +32,7 @@ export const GoogleAPIProvider = ({children}) => {
 
         var request = {
             location: location,
-            radius: '500',
+            radius: '30',
             type: ['point_of_interest']
         };
         
@@ -40,14 +42,17 @@ export const GoogleAPIProvider = ({children}) => {
 
     const foundSearchCallback = (results, status) => {
         console.log(results)
-        console.log(status)
+        if (status == "OK") {
+            setFoundSuggestions(results)
+        }
     }
 
     return (
       <GoogleAPIContext.Provider
         value={{
             storeLocation,
-            findNearbyPlaces
+            findNearbyPlaces,
+            foundSuggestions
         }}
       >
       {children}

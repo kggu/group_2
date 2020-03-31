@@ -67,13 +67,15 @@ const Map = props => {
     window.location.reload(false);
   }
 
-  const handleShow = () => setShow(true);
-  
+  const handleShow = () => {
+    findNearbyPlaces();
+    setShow(true);
+  }
+
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat
     if(clickLocation.length > 0) {
       setClickLocation([]);
-      findNearbyPlaces();
     } 
     else{
       setClickLocation(clickLocation => [...clickLocation, { longitude, latitude }]);

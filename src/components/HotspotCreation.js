@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useBackendAPI } from "../utils/backendAPI"
+import { useGoogleAPI } from "../utils/googleAPI"
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal"
 import Form from "react-bootstrap/Form"
@@ -8,6 +9,26 @@ import Col from "react-bootstrap/Col"
 const HotspotCreation = props => {
 
     const { createNewHotSpot } = useBackendAPI();
+    const { foundSuggestions } = useGoogleAPI();
+
+    const [ suggestions, setSuggestions ] = useState();
+    const [ showSuggestions, setShowSuggestion ] = useState(false)
+
+    useEffect(() => {
+        setSuggestions(foundSuggestions)
+    }, [foundSuggestions]);
+
+    useEffect(() => {
+        if (suggestions) {
+            setShowSuggestion(true)
+        }
+    }, [suggestions]);
+
+    const handleChangeSuggestion = (e) => {
+        console.log("testi")
+        const selectedIndex = e.target.value
+        console.log(selectedIndex)
+    }
 
     const handleSubmit = (e) => {
         const [longitude, latitude] = props.lngLat
@@ -34,6 +55,7 @@ const HotspotCreation = props => {
             }] */
         };
         console.log(NewHotspot)
+        console.log(foundSuggestions)
         createNewHotSpot(NewHotspot);
         props.onHide();
     }
@@ -53,6 +75,19 @@ const HotspotCreation = props => {
             <Modal.Body>
                 <p>
                 <Form onSubmit={handleSubmit}>
+                    {showSuggestions && (<Form.Row>
+                        <Form.Group controlId="formCategory1">
+                            <Form.Label>Suggestions</Form.Label>
+                            <Form.Control as="select" onChange={handleChangeSuggestion}>
+                                {
+                                    suggestions.map((option, index) => {
+                                        return (<option value={index} key={option.id} >{option.name}</option>)
+                                    })
+                                }
+                            </Form.Control>
+                        </Form.Group>
+                    </Form.Row>)}
+
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridName">
                         <Form.Label>Name</Form.Label>
