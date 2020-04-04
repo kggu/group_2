@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useBackendAPI } from "../utils/backendAPI"
+import { useGoogleAPI } from "../utils/googleAPI"
 import MapGL, { Marker,Popup } from "react-map-gl";
 import {Row, Col} from 'react-bootstrap'
 import "mapbox-gl/dist/mapbox-gl.css";
-
+import { useAuth0 } from "../react-auth0-spa";
 import HotspotMarker from "./HotspotMarker";
 import HotspotPopup from './HotspotPopup';
 import NewHotspotPopup from './NewHotspotPopup';
 import SideBar from "./MapPage/SideBar";
 import history from "../utils/history";
 import HotspotCreation from "./HotspotCreation"
+import NotLoggedInPopup from "./NotLoggedInPopup"
 
 const Map = props => {
   const [viewport, setViewPort] = useState({
@@ -23,6 +25,8 @@ const Map = props => {
   const [ initState, setInitState ] = useState(true)
   
   const { updateHotSpots, hotSpots, hotspotCategories, hotSpotUpdateStatus, setHotSpotUpdateStatus, checkHotSpotRange } = useBackendAPI();
+
+  const { storeLocation, findNearbyPlaces } = useGoogleAPI();
 
   useEffect(() => {
     updateViewportFromCoordinates(props.match.params.lat, props.match.params.lng, props.match.params.zoom);
@@ -56,10 +60,18 @@ const Map = props => {
   const [clickLocation, setClickLocation] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState();
   const [show, setShow] = useState(false);
+  const { isAuthenticated, loginWithRedirect, logout} = useAuth0();
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  
+  const handleClose = () => {
+    setShow(false);
+    window.location.reload(false);
+  }
+
+  const handleShow = () => {
+    findNearbyPlaces();
+    setShow(true);
+  }
+
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat
     if(clickLocation.length > 0) {
@@ -67,6 +79,7 @@ const Map = props => {
     } 
     else{
       setClickLocation(clickLocation => [...clickLocation, { longitude, latitude }]);
+      storeLocation(longitude, latitude)
     }
     console.log(clickLocation)
   };
@@ -149,16 +162,20 @@ const Map = props => {
           onClick={() => setRender(false)}
           onClick = {onClickMap}
         >
-
-          <HotspotCreation show={show} onHide={handleClose} lngLat={clickLocation}></HotspotCreation>
-
+          {!isAuthenticated && (
+              <NotLoggedInPopup show={show} onHide={handleClose}></NotLoggedInPopup>
+          )}
+          {isAuthenticated &&  (
+              <HotspotCreation lngLat={clickLocation} show={show} onHide={handleClose}></HotspotCreation>
+          )}
+          
           {clickLocation.map((m, i) => (
               <NewHotspotPopup {...m} key={i} openModal={handleShow}></NewHotspotPopup>
           ))}
-          
+ 
           {clickLocation.map((m, i) => (
             <Marker {...m} key={i}>
-              <HotspotMarker></HotspotMarker>
+              <HotspotMarker handler={_onClickMarker}></HotspotMarker>
             </Marker>
           ))}
 
