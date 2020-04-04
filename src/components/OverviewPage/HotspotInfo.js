@@ -2,18 +2,25 @@ import React from "react";
 import { ListGroup } from "react-bootstrap";
 
 const HotspotInfo = props => {
-
   return (
-      <ListGroup variant="">
-      <ListGroup.Item className="">
-        Created by {props.hotspotInfo.creator.name}
-      </ListGroup.Item>
-      <ListGroup.Item>
-        {props.hotspotInfo.address.address},{" "}
+    <div>
+            <div className="hotspot-header">
+        <div>{props.hotspotInfo.name}</div>
+
+      </div>
+    <div className="hotspot-info">
+
+      <div className="hotspot-address">
+        {" "}
+        {props.hotspotInfo.address.address},
+        <br></br>
         {props.hotspotInfo.address.postalCode} {props.hotspotInfo.address.city},{" "}
         {props.hotspotInfo.address.country}
-      </ListGroup.Item>
-    </ListGroup>
+
+      </div>
+      <div>Created by {props.hotspotInfo.creator.name}</div>
+    </div>
+    </div>
   );
 };
 
