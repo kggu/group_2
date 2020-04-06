@@ -16,6 +16,9 @@ const HotspotCreation = props => {
 
     const [ name, setName ] = useState('');
     const [ address, setAddress ] = useState('');
+    const [ city, setCity ] = useState('');
+    const [ zip, setZip ] = useState('');
+    const [ country, setCountry ] = useState('');
 
     useEffect(() => {
         setSuggestions(foundSuggestions)
@@ -41,7 +44,12 @@ const HotspotCreation = props => {
 
     useEffect(() => {
         if (foundDetailedSuggestionInfo) {
-            console.log(foundDetailedSuggestionInfo)
+            const newDetails = foundDetailedSuggestionInfo;
+            setName(newDetails.name);
+            setAddress(newDetails.address);
+            setCity(newDetails.city);
+            setZip(newDetails.zip);
+            setCountry(newDetails.country);
         }
     }, [foundDetailedSuggestionInfo])
 
@@ -81,6 +89,18 @@ const HotspotCreation = props => {
 
     const handleChangeAddress = (e) => {
         setAddress(e.target.value);
+    }
+
+    const handleChangeCity = (e) => {
+        setCity(e.target.value)
+    }
+
+    const handleChangeZip = (e) => {
+        setZip(e.target.value)
+    }
+
+    const handleChangeCountry = (e) => {
+        setCountry(e.target.value)
     }
 
     return(
