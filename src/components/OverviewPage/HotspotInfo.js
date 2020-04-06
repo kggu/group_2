@@ -3,9 +3,8 @@ import { Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const HotspotInfo = props => {
-
   const parseLocalTime = timeString => {
-    return (timeString.slice(0,10) + " " +  timeString.slice(11,19));
+    return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
   };
 
   const creationDate = parseLocalTime(props.hotspotInfo.createdAt);
@@ -19,17 +18,17 @@ const HotspotInfo = props => {
       </div>
       <div className="hotspot-info">
         <div className="hotspot-address">
-        <i className="fas fa-map-marker-alt"></i> 
-          {""}{props.hotspotInfo.address.address}
+          <i className="fas fa-map-marker-alt"></i>
+          {" "}{props.hotspotInfo.address.address}
           {","} {props.hotspotInfo.address.postalCode}{" "}
           {props.hotspotInfo.address.city}
           <br />
-          <i class="far fa-flag"></i> {""}{props.hotspotInfo.address.country} <br />
+          <i class="far fa-flag"></i>
+          {props.hotspotInfo.address.country} <br />
           <div className="hotspot-creator-info">
             {/*<Image src={props.hotspotInfo.creator.picture}*/} Created by{" "}
             {props.hotspotInfo.creator.nickname} <br />
             <small>{creationDate}</small>
-
           </div>
           <div className="hotspot-link">
             <Link

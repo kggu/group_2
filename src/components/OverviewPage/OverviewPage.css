@@ -35,6 +35,10 @@
 
 .hotspot-creator-info {
   margin-top: 1rem;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .hotspot-creator-info img {
@@ -66,14 +70,14 @@
 }
 
 .hotspot-address i {
-    color: grey;
-    margin-right: 0.5rem;
+  color: grey;
+  margin-right: 0.5rem;
 }
 
 .hotspot-link {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .hotspot-rating {
