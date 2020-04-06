@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const HotspotInfo = props => {
   return (
@@ -17,12 +18,25 @@ const HotspotInfo = props => {
           {props.hotspotInfo.address.city}
           <br></br>
           {props.hotspotInfo.address.country} <br></br>
-          <br></br>
           <div className="hotspot-creator-info">
             {/*<Image src={props.hotspotInfo.creator.picture}*/} Created by{" "}
             {props.hotspotInfo.creator.nickname}
           </div>
+          <div className="hotspot-link">
+          <Link
+            to={
+              "/map/" +
+              props.hotspotInfo.location.latitude +
+              "/" +
+              props.hotspotInfo.location.longitude +
+              "/16"
+            }
+          >
+            <Button variant="customorange">View</Button>
+          </Link>
+          </div>
         </div>
+
         <div className="hotspot-rating">
           RATING GOES HERE
           <div className="voting-controls">
