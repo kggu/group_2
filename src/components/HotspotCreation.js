@@ -9,10 +9,16 @@ import Col from "react-bootstrap/Col"
 const HotspotCreation = props => {
 
     const { createNewHotSpot } = useBackendAPI();
-    const { foundSuggestions } = useGoogleAPI();
+    const { foundSuggestions, findDetails, foundDetailedSuggestionInfo } = useGoogleAPI();
 
     const [ suggestions, setSuggestions ] = useState();
     const [ showSuggestions, setShowSuggestion ] = useState(false)
+
+    const [ name, setName ] = useState('');
+    const [ address, setAddress ] = useState('');
+    const [ city, setCity ] = useState('');
+    const [ zip, setZip ] = useState('');
+    const [ country, setCountry ] = useState('');
 
     useEffect(() => {
         setSuggestions(foundSuggestions)
@@ -29,11 +35,23 @@ const HotspotCreation = props => {
         //TODO: Work-in-progress, only updates name value
 
         const selectedIndex = e.target.value
-        const mainForm = e.target.parentNode.parentNode.parentNode
-        const selectedSuggestion = suggestions[e.target.value]
+        const selectedSuggestion = suggestions[selectedIndex]
         console.log(selectedSuggestion)
-        mainForm.formGridName.value = selectedSuggestion.name
+        findDetails(selectedSuggestion.place_id)
+        //const mainForm = e.target.parentNode.parentNode.parentNode
+        //mainForm.formGridName.value = selectedSuggestion.name
     }
+
+    useEffect(() => {
+        if (foundDetailedSuggestionInfo) {
+            const newDetails = foundDetailedSuggestionInfo;
+            setName(newDetails.name);
+            setAddress(newDetails.address);
+            setCity(newDetails.city);
+            setZip(newDetails.zip);
+            setCountry(newDetails.country);
+        }
+    }, [foundDetailedSuggestionInfo])
 
     const handleSubmit = (e) => {
         const [longitude, latitude] = props.lngLat
@@ -63,6 +81,26 @@ const HotspotCreation = props => {
         console.log(foundSuggestions)
         createNewHotSpot(NewHotspot);
         props.onHide();
+    }
+
+    const handleChangeName = (e) => {
+        setName(e.target.value);
+    }
+
+    const handleChangeAddress = (e) => {
+        setAddress(e.target.value);
+    }
+
+    const handleChangeCity = (e) => {
+        setCity(e.target.value)
+    }
+
+    const handleChangeZip = (e) => {
+        setZip(e.target.value)
+    }
+
+    const handleChangeCountry = (e) => {
+        setCountry(e.target.value)
     }
 
     return(
@@ -96,17 +134,18 @@ const HotspotCreation = props => {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridName">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control type="name" placeholder="Enter name" />
+                            <Form.Control type="name" value ={name} onChange={handleChangeName}></Form.Control>
                         </Form.Group>
 
                         <Form.Group controlId="formCategory">
                             <Form.Label>Category</Form.Label>
                             <Form.Control as="select">
                                 <option>FOOD</option>
+                                <option>SPORTS</option>
                                 <option>DRINKS</option>
-                                <option>...</option>
-                                <option>...</option>
-                                <option>...</option>
+                                <option>ARTS</option>
+                                <option>KNOWLEDGE</option>
+                                <option>MUSIC</option>
                             </Form.Control>
                         </Form.Group>
                     </Form.Row>
@@ -118,7 +157,7 @@ const HotspotCreation = props => {
 
                     <Form.Group controlId="formGridAddress">
                         <Form.Label>Address</Form.Label>
-                        <Form.Control placeholder="1234 Main St" />
+                        <Form.Control value={address} onChange={handleChangeAddress}/>
                     </Form.Group>
 
                     <Form.Row>
@@ -151,17 +190,17 @@ const HotspotCreation = props => {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridCity">
                         <Form.Label>City</Form.Label>
-                        <Form.Control />
+                        <Form.Control value={city} onChange={handleChangeCity} />
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridZip">
                         <Form.Label>Zip</Form.Label>
-                        <Form.Control />
+                        <Form.Control value={zip} onChange={handleChangeZip}/>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridCountry">
                         <Form.Label>Country</Form.Label>
-                        <Form.Control />
+                        <Form.Control value={country} onChange={handleChangeCountry}/>
                         </Form.Group>
                     </Form.Row>
 
