@@ -3,6 +3,13 @@ import { Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const HotspotInfo = props => {
+
+  const parseLocalTime = timeString => {
+    return (timeString.slice(0,10) + " " +  timeString.slice(11,19));
+  };
+
+  const creationDate = parseLocalTime(props.hotspotInfo.createdAt);
+
   return (
     <div>
       <div className="hotspot-header">
@@ -16,24 +23,25 @@ const HotspotInfo = props => {
           {props.hotspotInfo.address.address}
           {","} {props.hotspotInfo.address.postalCode}{" "}
           {props.hotspotInfo.address.city}
-          <br></br>
-          {props.hotspotInfo.address.country} <br></br>
+          <br />
+          {props.hotspotInfo.address.country} <br />
           <div className="hotspot-creator-info">
             {/*<Image src={props.hotspotInfo.creator.picture}*/} Created by{" "}
-            {props.hotspotInfo.creator.nickname}
+            {props.hotspotInfo.creator.nickname} <br />
+            <small>{creationDate}</small>
           </div>
           <div className="hotspot-link">
-          <Link
-            to={
-              "/map/" +
-              props.hotspotInfo.location.latitude +
-              "/" +
-              props.hotspotInfo.location.longitude +
-              "/16"
-            }
-          >
-            <Button variant="customorange">View</Button>
-          </Link>
+            <Link
+              to={
+                "/map/" +
+                props.hotspotInfo.location.latitude +
+                "/" +
+                props.hotspotInfo.location.longitude +
+                "/16"
+              }
+            >
+              <Button variant="customorange">View</Button>
+            </Link>
           </div>
         </div>
 
