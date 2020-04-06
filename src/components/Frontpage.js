@@ -39,10 +39,10 @@ const Frontpage = props => {
                     top:70,
                     right:10
                 }}>
-                <Toast.Header>
+                <Toast.Header className = "errorMessageStyling">
                     <strong className="mr-auto">Error message</strong>
                 </Toast.Header>
-                <Toast.Body>{errorMessage}</Toast.Body>
+                <Toast.Body className = "errorMessageStyling text-secondary">{errorMessage}</Toast.Body>
             </Toast>
         </div>
     );
