@@ -65,6 +65,11 @@
   border-right: 2px solid #9cd3d3;
 }
 
+.hotspot-address i {
+    color: grey;
+    margin-right: 0.5rem;
+}
+
 .hotspot-link {
     margin-top: 2rem;
     display: flex;
