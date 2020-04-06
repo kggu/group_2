@@ -30,7 +30,7 @@ const HotspotCreation = props => {
 
         const selectedIndex = e.target.value
         const mainForm = e.target.parentNode.parentNode.parentNode
-        const selectedSuggestion = suggestions[e.target.value]
+        const selectedSuggestion = suggestions[selectedIndex]
         console.log(selectedSuggestion)
         mainForm.formGridName.value = selectedSuggestion.name
     }
@@ -103,10 +103,11 @@ const HotspotCreation = props => {
                             <Form.Label>Category</Form.Label>
                             <Form.Control as="select">
                                 <option>FOOD</option>
+                                <option>SPORTS</option>
                                 <option>DRINKS</option>
-                                <option>...</option>
-                                <option>...</option>
-                                <option>...</option>
+                                <option>ARTS</option>
+                                <option>KNOWLEDGE</option>
+                                <option>MUSIC</option>
                             </Form.Control>
                         </Form.Group>
                     </Form.Row>
