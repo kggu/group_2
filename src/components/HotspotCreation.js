@@ -13,6 +13,7 @@ const HotspotCreation = props => {
 
     const [ suggestions, setSuggestions ] = useState();
     const [ showSuggestions, setShowSuggestion ] = useState(false)
+    const [ openingHours, setOpeningHours] = useState([]);
 
     useEffect(() => {
         setSuggestions(foundSuggestions)
@@ -52,18 +53,23 @@ const HotspotCreation = props => {
                 longitude: longitude.longitude,
                 latitude: longitude.latitude
             },
-            /*
-            openingHours: [{
-                weekday: e.target.formSelectDay.value,
-                openingTime: e.target.formOpeningTime.value,
-                closingTime: e.target.formClosingTime.value
-            }] */
+            
+            openingHours: openingHours()
         };
         console.log(NewHotspot)
         console.log(foundSuggestions)
         createNewHotSpot(NewHotspot);
         props.onHide();
     }
+
+    const handleOpeningHours = (e) => {
+        e.preventDefault();
+        setOpeningHours([{
+            weekDay: e.target.formWeekDay.value,
+            openingTime: e.target.formOpeningTime.value,
+            closingTime: e.target.formClosingtime.value
+        }])
+    };
 
     return(
         <Modal
@@ -103,10 +109,11 @@ const HotspotCreation = props => {
                             <Form.Label>Category</Form.Label>
                             <Form.Control as="select">
                                 <option>FOOD</option>
+                                <option>SPORTS</option>
                                 <option>DRINKS</option>
-                                <option>...</option>
-                                <option>...</option>
-                                <option>...</option>
+                                <option>ARTS</option>
+                                <option>KNOWLEDGE</option>
+                                <option>MUSIC</option>
                             </Form.Control>
                         </Form.Group>
                     </Form.Row>
@@ -122,7 +129,7 @@ const HotspotCreation = props => {
                     </Form.Group>
 
                     <Form.Row>
-                        <Form.Group controlId="formSelectDay">
+                        <Form.Group controlId="formWeekDay">
                             <Form.Label>Day of week</Form.Label>
                             <Form.Control as="select">
                                 <option>Monday</option>
@@ -145,7 +152,7 @@ const HotspotCreation = props => {
                             <Form.Control placeholder="XX:XX" />
                         </Form.Group>
 
-                        <Button variant="primary">Save</Button>
+                        <Button variant="primary" onClick={handleOpeningHours}>Save</Button>
                     </Form.Row>
 
                     <Form.Row>
