@@ -14,6 +14,8 @@ export const BackendAPIProvider = ({children}) => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  const [hotSpotCreationResolved, setHotSpotCreationResolved] = useState();
+
 
   //debug, remove later
   useEffect(() => {
@@ -95,9 +97,10 @@ export const BackendAPIProvider = ({children}) => {
       }
     }
 
-    const response = await axios.post(address, request, axiosConfig);
-    console.log("Post request");
-    console.log(response);
+    const response = await axios.post(address, request, axiosConfig).then( response => {
+      setHotSpotCreationResolved(response)
+      console.log(response)
+    });
   };
 
   useEffect(() => {
@@ -115,7 +118,8 @@ export const BackendAPIProvider = ({children}) => {
           setSelectedCategory,
           checkHotSpotRange,
           createNewHotSpot,
-          setHotSpotUpdateStatus
+          setHotSpotUpdateStatus,
+          hotSpotCreationResolved
       }}
     >
     {children}
