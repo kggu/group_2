@@ -41,8 +41,9 @@ const HotspotCreation = props => {
     }, [foundSuggestions]);
 
     useEffect(() => {
-        if (suggestions && suggestions.length > 1) {
+        if (suggestions) {
             setShowSuggestion(true)
+            findDetails(suggestions[0].place_id)
         }
     }, [suggestions]);
 
