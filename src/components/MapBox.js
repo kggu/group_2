@@ -51,7 +51,6 @@ const Map = props => {
       const addr = "/map/" + viewport.latitude + "/" + viewport.longitude + "/" + viewport.zoom;
       history.push(addr)
     }
-    //setViewPort(viewport)
   }
 
   const [render, setRender] = useState(false);
@@ -64,7 +63,8 @@ const Map = props => {
 
   const handleClose = () => {
     setShow(false);
-    //window.location.reload(false);
+    setClickLocation([]);
+    updateHotSpots(viewport)
   }
 
   const handleShow = () => {
@@ -131,7 +131,6 @@ const Map = props => {
 
   useEffect(() => {
     if (hotSpotUpdateStatus) {
-      console.log("Etsitään")
       setHotSpotUpdateStatus(false)
       updateHotSpots(viewport)
     }
