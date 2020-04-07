@@ -29,6 +29,11 @@ const HotspotCreation = props => {
     useEffect(() => {
         setLoadingStatus(false)
         setAwaitingResponse(false)
+        setName('');
+        setAddress('');
+        setCity('');
+        setZip('');
+        setCountry('');
     }, [props.lngLat])
 
     useEffect(() => {
@@ -58,7 +63,7 @@ const HotspotCreation = props => {
             setCountry(newDetails.country);
         }
     }, [foundDetailedSuggestionInfo])
-    
+
 
     const handleSubmit = (e) => {
         const [longitude, latitude] = props.lngLat
