@@ -5,20 +5,36 @@ import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal"
 import Form from "react-bootstrap/Form"
 import Col from "react-bootstrap/Col"
+import Spinner from "react-bootstrap/Spinner"
+import Alert from "react-bootstrap/Alert"
 
 const HotspotCreation = props => {
 
-    const { createNewHotSpot } = useBackendAPI();
+    const { createNewHotSpot, hotSpotCreationResolved } = useBackendAPI();
     const { foundSuggestions, findDetails, foundDetailedSuggestionInfo } = useGoogleAPI();
 
     const [ suggestions, setSuggestions ] = useState();
     const [ showSuggestions, setShowSuggestion ] = useState(false)
+    const [ openingHours, setOpeningHours] = useState([]);
+
+    const [ awaitingResponse, setAwaitingResponse ] = useState(false)
+    const [ loadingStatus, setLoadingStatus ] = useState(false);
 
     const [ name, setName ] = useState('');
     const [ address, setAddress ] = useState('');
     const [ city, setCity ] = useState('');
     const [ zip, setZip ] = useState('');
     const [ country, setCountry ] = useState('');
+    
+    useEffect(() => {
+        setLoadingStatus(false)
+        setAwaitingResponse(false)
+        setName('');
+        setAddress('');
+        setCity('');
+        setZip('');
+        setCountry('');
+    }, [props.lngLat])
 
     useEffect(() => {
         setSuggestions(foundSuggestions)
@@ -31,15 +47,10 @@ const HotspotCreation = props => {
     }, [suggestions]);
 
     const handleChangeSuggestion = (e) => {
-
-        //TODO: Work-in-progress, only updates name value
-
         const selectedIndex = e.target.value
         const selectedSuggestion = suggestions[selectedIndex]
         console.log(selectedSuggestion)
         findDetails(selectedSuggestion.place_id)
-        //const mainForm = e.target.parentNode.parentNode.parentNode
-        //mainForm.formGridName.value = selectedSuggestion.name
     }
 
     useEffect(() => {
@@ -52,6 +63,7 @@ const HotspotCreation = props => {
             setCountry(newDetails.country);
         }
     }, [foundDetailedSuggestionInfo])
+
 
     const handleSubmit = (e) => {
         const [longitude, latitude] = props.lngLat
@@ -70,19 +82,32 @@ const HotspotCreation = props => {
                 longitude: longitude.longitude,
                 latitude: longitude.latitude
             },
-            /*
-            openingHours: [{
-                weekday: e.target.formSelectDay.value,
-                openingTime: e.target.formOpeningTime.value,
-                closingTime: e.target.formClosingTime.value
-            }] */
+            
+            openingHours: openingHours
         };
         console.log(NewHotspot)
         console.log(foundSuggestions)
         createNewHotSpot(NewHotspot);
-        props.onHide();
+        setAwaitingResponse(true)
+        setLoadingStatus(true)
+        //props.onHide();
     }
 
+    useEffect(() => {
+        if (loadingStatus) {
+            setLoadingStatus(false)
+        }
+    },[hotSpotCreationResolved])
+
+    const handleOpeningHours = (e) => {
+        e.preventDefault();
+        setOpeningHours([{
+            weekDay: e.target.formWeekDay.value,
+            openingTime: e.target.formOpeningTime.value,
+            closingTime: e.target.formClosingtime.value
+        }])
+    };
+    
     const handleChangeName = (e) => {
         setName(e.target.value);
     }
@@ -117,7 +142,8 @@ const HotspotCreation = props => {
             </Modal.Header>
             <Modal.Body>
                 <p>
-                <Form onSubmit={handleSubmit}>
+                {!awaitingResponse && (<Form onSubmit={handleSubmit}>
+
                     {showSuggestions && (<Form.Row>
                         <Form.Group controlId="formSuggestions">
                             <Form.Label>Suggestions</Form.Label>
@@ -161,7 +187,7 @@ const HotspotCreation = props => {
                     </Form.Group>
 
                     <Form.Row>
-                        <Form.Group controlId="formSelectDay">
+                        <Form.Group controlId="formWeekDay">
                             <Form.Label>Day of week</Form.Label>
                             <Form.Control as="select">
                                 <option>Monday</option>
@@ -184,7 +210,7 @@ const HotspotCreation = props => {
                             <Form.Control placeholder="XX:XX" />
                         </Form.Group>
 
-                        <Button variant="primary">Save</Button>
+                        <Button variant="primary" onClick={handleOpeningHours}>Save</Button>
                     </Form.Row>
 
                     <Form.Row>
@@ -208,6 +234,15 @@ const HotspotCreation = props => {
                         Submit
                     </Button>
                 </Form>
+                )}
+
+                {awaitingResponse && loadingStatus && ( <Spinner animation="border" role="status"> </Spinner> )}
+
+                {awaitingResponse && !loadingStatus && ( <Alert variant="success">
+                    <Alert.Heading>HotSpot successfully created</Alert.Heading>
+                </Alert>
+                )}
+
                 </p>
             </Modal.Body>
         </Modal>
