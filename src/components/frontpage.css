@@ -4,9 +4,13 @@
     max-width: 1050px;
     margin: 0 auto;
     background-color: #b6e1e0;
-    margin-top: 72px;
+    margin-top: 62px;
 }
 .errorMessageStyling{
     background-color: #f3efef;
     font-family: Arial, Helvetica, sans-serif;
+}
+.containerStyling{
+    min-height: 100vh;
+    background-color: #d4ebd0;
 }
