@@ -55,24 +55,7 @@ const OverviewPage = props => {
             md={8}
           >
             <HotspotInfo hotspotInfo={hotspotData} />
-            <div
-              className="text-center"
-              style={{ margin: "0 auto", marginTop: "1rem" }}
-            >
-              <Link
-                to={
-                  "/map/" +
-                  hotspotData.location.latitude +
-                  "/" +
-                  hotspotData.location.longitude +
-                  "/16"
-                }
-              >
-                <Button variant="customorange">View</Button>
-              </Link>
-            </div>
           </Col>
-
           <Col
             className="custombg-primary openingHours-container rounded border-custom"
             md={{ span: 3, offset: 1 }}
