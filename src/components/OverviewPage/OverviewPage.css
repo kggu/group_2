@@ -29,8 +29,8 @@
 }
 
 .hotspot-info {
-  margin-top: 0.5rem;
   display: flex;
+  height: 93%;
 }
 
 .hotspot-creator-info {
@@ -38,12 +38,13 @@
   font-weight: 500;
   text-align: center;
   border: 1px solid black;
-  border-radius: 10px;
+  background-color: #9cd3d3;
+  border-radius: 5px;
 }
 
 .hotspot-creator-info img {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 50%;
+  max-height: 50%;
 }
 
 .hotspot-header {
@@ -63,11 +64,17 @@
 }
 
 .hotspot-address {
+  padding-top: 0.5rem;
   padding-right: 1rem;
-  margin-bottom: 1rem;
   font-weight: 550;
   border-right: 2px solid #9cd3d3;
+
 }
+.hotspot-address ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+} 
 
 .hotspot-address i {
   color: grey;
@@ -84,13 +91,18 @@
   margin-left: 1rem;
 }
 
-.voting-controls {
-  margin-top: 2rem;
-  border: 0px solid black;
+.hotspot-actions {
+  margin-top: auto;
+  margin-left: auto;
+  margin-bottom: 1rem;
 }
 
+.view-button {
+  width: 125px;
+  max-width: 125px;
+}
 .vote-button {
-  margin-right: 1rem;
+  margin-left: 1rem;
   background-color: #e8630a;
   color: #ffffff;
   transition: 0.3s;
@@ -101,6 +113,12 @@
 .vote-button:hover {
   background-color: #ac4907;
 }
+
+
 .jumbotronStyle {
   margin-top: 72px;
+}
+
+.cont {
+  height: 100%;
 }

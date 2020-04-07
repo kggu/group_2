@@ -1,16 +1,25 @@
 import React from "react";
-import { Image, Button } from "react-bootstrap";
+import { Image, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const HotspotInfo = props => {
-  const parseLocalTime = timeString => {
+const HotspotInfo = (props) => {
+  const parseLocalTime = (timeString) => {
     return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
   };
+
+  const renderTooltip = (msg) => {
+    return (
+      <Tooltip id="button-tooltip">
+        {msg}
+      </Tooltip>
+    );
+  };
+
 
   const creationDate = parseLocalTime(props.hotspotInfo.createdAt);
 
   return (
-    <div>
+    <div className="cont">
       <div className="hotspot-header">
         <div>
           <a>{props.hotspotInfo.name}</a>
@@ -18,16 +27,21 @@ const HotspotInfo = props => {
       </div>
       <div className="hotspot-info">
         <div className="hotspot-address">
-          <i className="fas fa-map-marker-alt"></i>
-          {" "}{props.hotspotInfo.address.address}
-          {","} {props.hotspotInfo.address.postalCode}{" "}
-          {props.hotspotInfo.address.city}
-          <br />
-          <i class="far fa-flag"></i>
-          {props.hotspotInfo.address.country} <br />
+          <ul>
+            <li>
+              <i className="fas fa-map-marker-alt"></i>{" "}
+              {props.hotspotInfo.address.address}
+              {","} {props.hotspotInfo.address.postalCode}{" "}
+              {props.hotspotInfo.address.city}
+            </li>
+            <li>
+              <i class="fas fa-flag"></i>
+              {props.hotspotInfo.address.country}
+            </li>
+          </ul>
           <div className="hotspot-creator-info">
-            {/*<Image src={props.hotspotInfo.creator.picture}*/} Created by{" "}
-            {props.hotspotInfo.creator.nickname} <br />
+            Created by {props.hotspotInfo.creator.nickname} <br />
+            {/* <Image src={props.hotspotInfo.creator.picture}/>  <br />*/}
             <small>{creationDate}</small>
           </div>
           <div className="hotspot-link">
@@ -40,21 +54,31 @@ const HotspotInfo = props => {
                 "/16"
               }
             >
-              <Button variant="customorange">View</Button>
+              <Button className="view-button" variant="customorange">Show on map</Button>
             </Link>
           </div>
         </div>
 
-        <div className="hotspot-rating">
-          RATING GOES HERE
-          <div className="voting-controls">
-            <Button className="vote-button" onClick="" variant="">
-              +
+        <div className="hotspot-rating">TODO: rating controls</div>
+        <div className="hotspot-actions">
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 250, hide: 100 }}
+            overlay={renderTooltip("Report this hotspot")}
+          >
+            <Button className="vote-button" variant="">
+              <i className="fas fa-trash"></i>
             </Button>
-            <Button className="vote-button" onclick="" variant="">
-              -
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="top"
+            delay={{ show: 250, hide: 100 }}
+            overlay={renderTooltip("Suggest a change")}
+          >
+            <Button className="vote-button" variant="">
+              <i className="fas fa-pen"></i>
             </Button>
-          </div>
+          </OverlayTrigger>
         </div>
       </div>
     </div>
