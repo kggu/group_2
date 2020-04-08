@@ -1,21 +1,18 @@
 import { Popup } from "react-map-gl";
 import React from "react";
 import { Link } from "react-router-dom";
-
 import Card from "react-bootstrap/Card";
 import { Button } from "react-bootstrap";
 import "./HotspotPopup.css";
 
-const HotspotPopup = props => {
+const HotspotPopup = (props) => {
   return (
     <Popup
       tipSize={5}
-      anchor="bottom"
       closeButton={false}
       longitude={props.longitude}
       latitude={props.latitude}
-      offsetTop={-500}
-      offsetLeft={-500}
+      offsetTop={-30}
     >
       <Card style={{ width: "15rem" }}>
         <Card.Body>
