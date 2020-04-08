@@ -15,7 +15,6 @@ const CommentContainer = (props) => {
 
   useEffect(() => {
     if (props.comments) {
-      console.log(props.comments);
       _mapComments();
     }
   }, []);
@@ -26,7 +25,7 @@ const CommentContainer = (props) => {
     }
 
     props.comments.sort((a,b) => a.createdAt < b.createdAt);
-    
+
     setComments(
       props.comments.map(function (comment) {
         return (
@@ -41,7 +40,7 @@ const CommentContainer = (props) => {
     );
   };
 
-  if (loading || !isAuthenticated) {
+  if (loading) {
     return <div className="text-center">loading...</div>;
   }
 
