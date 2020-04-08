@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import './HotspotInfo.css'
 
 const HotspotInfo = (props) => {
   const parseLocalTime = (timeString) => {
@@ -8,13 +9,8 @@ const HotspotInfo = (props) => {
   };
 
   const renderTooltip = (msg) => {
-    return (
-      <Tooltip id="button-tooltip">
-        {msg}
-      </Tooltip>
-    );
+    return <Tooltip id="button-tooltip">{msg}</Tooltip>;
   };
-
 
   const creationDate = parseLocalTime(props.hotspotInfo.createdAt);
 
@@ -54,12 +50,14 @@ const HotspotInfo = (props) => {
                 "/16"
               }
             >
-              <Button className="view-button" variant="customorange">Show on map</Button>
+              <Button className="view-button" variant="customorange">
+                Show on map
+              </Button>
             </Link>
           </div>
         </div>
 
-        <div className="hotspot-rating">TODO: rating controls</div>
+        <div className="hotspot-rating">{/*TODO: rating controls*/}</div>
         <div className="hotspot-actions">
           <OverlayTrigger
             placement="top"

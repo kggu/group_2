@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ListGroup, Button, Badge, Row, Col } from "react-bootstrap";
+import { ListGroup, Badge, Row, Col } from "react-bootstrap";
 
 // TODO get data from api, render 3-4 nearby hotspots
 const NearbyHotspots = props => {

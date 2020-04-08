@@ -13,14 +13,14 @@ const CommentContainer = props => {
   //      add styling for comments-header
   //      fetch data from api
 
-  if (loading) {
-    return <p>Loading...</p>;
+  if (loading || !isAuthenticated) {
+    return <div className="text-center">loading...</div>;
   }
 
   return (
     <div className="">
       <div className="border-custom comments-header">
-        <p>Comments ({totalComments})</p>
+        <a>Comments ({totalComments})</a>
       </div>
       <div className="comments">
         <Comment userName={user.name} userPicture={user.picture} />
