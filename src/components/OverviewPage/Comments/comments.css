@@ -1,9 +1,13 @@
-
 .comments-header {
   margin-left: -1rem;
   margin-right: -1rem;
   margin-bottom: 0.5rem;
   background: #9cd3d3;
+}
+.comments-header a {
+  margin-left: 1rem;
+  font-size: 1.25em;
+  font-weight: 400;
 }
 
 .userComment {
@@ -22,7 +26,6 @@
 .comment-text {
   background: #9cd3d3;
   font-size: small;
-
   height: 80%;
 }
 
