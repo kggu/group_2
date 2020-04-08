@@ -68,7 +68,7 @@ const OverviewPage = props => {
             className="custombg-primary hotspotComments-container rounded border-custom"
             md={8}
           >
-            <CommentContainer />
+            <CommentContainer comments={hotspotData.comments} />
           </Col>
           <Col
             className=" custombg-primary nearbyHotspots-container rounded border-custom"
