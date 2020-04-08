@@ -12,6 +12,7 @@
 
 .nearbyHotspots-container {
   max-width: 250px;
+  max-height: 375px;
   margin-top: 1rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
