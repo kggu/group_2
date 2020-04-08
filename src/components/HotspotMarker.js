@@ -1,6 +1,5 @@
 import Logo from "../logo.png";
 import React from 'react'
-import HotspotPopup from "./HotspotPopup";
 
 const HotspotMarker = props => {
   const size = 30;
