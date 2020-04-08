@@ -62,6 +62,9 @@
 
 .hotspot-rating {
   margin-left: 1rem;
+  border: 2px solid black;
+  width: 45%;
+  height: 45%
 }
 
 .hotspot-actions {

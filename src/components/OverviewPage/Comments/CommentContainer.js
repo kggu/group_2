@@ -31,7 +31,7 @@ const CommentContainer = (props) => {
         return (
           <Comment
             commentText={comment.text}
-            userName={comment.user.name}
+            userName={comment.user.nickname}
             userPicture={comment.user.picture}
             createdAt={parseLocalTime(comment.createdAt)}
           />
@@ -57,7 +57,7 @@ const CommentContainer = (props) => {
       </div>
       <div className="postComment">
         {isAuthenticated ? (
-          <PostComment slug={props.slug} userName={user.name} userPicture={user.picture} />
+          <PostComment slug={props.slug} userName={user.nickname} userPicture={user.picture} />
         ) : (
           <p> You must be logged in to post comments.</p>
         )}

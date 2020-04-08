@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import './HotspotInfo.css'
+import "./HotspotInfo.css";
 
 const HotspotInfo = (props) => {
   const parseLocalTime = (timeString) => {
     return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
   };
 
-  const renderTooltip = (msg) => {
-    return <Tooltip id="button-tooltip">{msg}</Tooltip>;
-  };
-
   const creationDate = parseLocalTime(props.hotspotInfo.createdAt);
+
+  useEffect(() => {
+    console.log(props.hotspotInfo.ratings);
+  }, []);
 
   return (
     <div className="cont">
@@ -56,29 +56,55 @@ const HotspotInfo = (props) => {
             </Link>
           </div>
         </div>
+        <HotspotRating
+          ratingAverage={props.hotspotInfo.ratingAverage}
+          ratings={props.hotspotInfo.ratings}
+        />
 
-        <div className="hotspot-rating">{/*TODO: rating controls*/}</div>
-        <div className="hotspot-actions">
-          <OverlayTrigger
-            placement="top"
-            delay={{ show: 250, hide: 100 }}
-            overlay={renderTooltip("Report this hotspot")}
-          >
-            <Button className="vote-button" variant="">
-              <i className="fas fa-trash"></i>
-            </Button>
-          </OverlayTrigger>
-          <OverlayTrigger
-            placement="top"
-            delay={{ show: 250, hide: 100 }}
-            overlay={renderTooltip("Suggest a change")}
-          >
-            <Button className="vote-button" variant="">
-              <i className="fas fa-pen"></i>
-            </Button>
-          </OverlayTrigger>
-        </div>
+        <HotspotActions />
       </div>
+    </div>
+  );
+};
+
+const HotspotRating = (props) => {
+  return <div className="hotspot-rating">avg: {props.ratingAverage}
+  
+  <div>
+    {props.ratings.map( function(rating) {
+      return (
+        <div>{rating.creator.nickname}: {rating.rating}</div>
+      );
+    })}
+  </div>
+  </div>;
+};
+
+const HotspotActions = (props) => {
+  const renderTooltip = (msg) => {
+    return <Tooltip id="button-tooltip">{msg}</Tooltip>;
+  };
+
+  return (
+    <div className="hotspot-actions">
+      <OverlayTrigger
+        placement="top"
+        delay={{ show: 250, hide: 100 }}
+        overlay={renderTooltip("Report this hotspot")}
+      >
+        <Button className="vote-button" variant="">
+          <i className="fas fa-trash"></i>
+        </Button>
+      </OverlayTrigger>
+      <OverlayTrigger
+        placement="top"
+        delay={{ show: 250, hide: 100 }}
+        overlay={renderTooltip("Suggest a change")}
+      >
+        <Button className="vote-button" variant="">
+          <i className="fas fa-pen"></i>
+        </Button>
+      </OverlayTrigger>
     </div>
   );
 };
