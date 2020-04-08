@@ -15,7 +15,6 @@ const CommentContainer = (props) => {
 
   useEffect(() => {
     if (props.comments) {
-      console.log("--COMMENTS--");
       console.log(props.comments);
       _mapComments();
     }
@@ -26,6 +25,8 @@ const CommentContainer = (props) => {
       return;
     }
 
+    props.comments.sort((a,b) => a.createdAt < b.createdAt);
+    
     setComments(
       props.comments.map(function (comment) {
         return (
@@ -40,11 +41,6 @@ const CommentContainer = (props) => {
     );
   };
 
-  //TODO: add proper view if user is not logged in
-  //      add proper loading view
-  //      add styling for comments-header
-  //      fetch data from api
-
   if (loading || !isAuthenticated) {
     return <div className="text-center">loading...</div>;
   }
@@ -52,7 +48,7 @@ const CommentContainer = (props) => {
   return (
     <div className="">
       <div className="border-custom comments-header">
-        <a>Comments {comments !== undefined && (comments.length)}</a>
+        <a>Comments {comments !== undefined && comments.length}</a>
       </div>
       <div className="comments">
         {comments}
@@ -62,7 +58,7 @@ const CommentContainer = (props) => {
       </div>
       <div className="postComment">
         {isAuthenticated ? (
-          <PostComment userName={user.name} userPicture={user.picture} />
+          <PostComment slug={props.slug} userName={user.name} userPicture={user.picture} />
         ) : (
           <p> You must be logged in to post comments.</p>
         )}
