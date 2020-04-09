@@ -15,7 +15,6 @@ const CommentContainer = (props) => {
 
   useEffect(() => {
     if (props.comments) {
-      console.log(props.comments);
       _mapComments();
     }
   }, []);
@@ -26,13 +25,13 @@ const CommentContainer = (props) => {
     }
 
     props.comments.sort((a,b) => a.createdAt < b.createdAt);
-    
+
     setComments(
       props.comments.map(function (comment) {
         return (
           <Comment
             commentText={comment.text}
-            userName={comment.user.name}
+            userName={comment.user.nickname}
             userPicture={comment.user.picture}
             createdAt={parseLocalTime(comment.createdAt)}
           />
@@ -41,7 +40,7 @@ const CommentContainer = (props) => {
     );
   };
 
-  if (loading || !isAuthenticated) {
+  if (loading) {
     return <div className="text-center">loading...</div>;
   }
 
@@ -58,7 +57,7 @@ const CommentContainer = (props) => {
       </div>
       <div className="postComment">
         {isAuthenticated ? (
-          <PostComment slug={props.slug} userName={user.name} userPicture={user.picture} />
+          <PostComment slug={props.slug} userName={user.nickname} userPicture={user.picture} />
         ) : (
           <p> You must be logged in to post comments.</p>
         )}
