@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Image, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./HotspotInfo.css";
+import { useBackendAPI } from "../../utils/backendAPI";
 
 const HotspotInfo = (props) => {
   const parseLocalTime = (timeString) => {
@@ -59,6 +60,7 @@ const HotspotInfo = (props) => {
         <HotspotRating
           ratingAverage={props.hotspotInfo.ratingAverage}
           ratings={props.hotspotInfo.ratings}
+          slug={props.hotspotInfo.slug}
         />
 
         <HotspotActions />
@@ -68,17 +70,32 @@ const HotspotInfo = (props) => {
 };
 
 const HotspotRating = (props) => {
-  return <div className="hotspot-rating">avg: {props.ratingAverage}
-  
-  <div>
-    {props.ratings.map( function(rating) {
-      return (
-        <div>{rating.creator.nickname}: {rating.rating}</div>
-      );
-    })}
-  </div>
-  </div>;
+  const { rateHotspot } = useBackendAPI();
+
+  const _rateHotspot = () => {};
+
+  return (
+    <div className="hotspot-rating">
+      <a>
+        Average rating: {props.ratingAverage}
+        <br></br>
+      </a>
+      <a>Rated by {props.ratings.length} students</a>
+      <Button>asd</Button>
+      <div className="rated-by">
+        {props.ratings.map(function (rating) {
+          return (
+            <div>
+              {rating.creator.nickname}: {rating.rating}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
+
+const StarRating = (props) => {};
 
 const HotspotActions = (props) => {
   const renderTooltip = (msg) => {

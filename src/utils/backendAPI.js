@@ -120,6 +120,23 @@ export const BackendAPIProvider = ({children}) => {
     });
   };
 
+  const rateHotspot = async (request, slug) => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/rate"
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    const response = await axios.post(address, request, axiosConfig).then( response => {
+      console.log(response)
+    });
+  };
+
   useEffect(() => {
       getHotspotCategories()
   }, []); 
@@ -136,6 +153,7 @@ export const BackendAPIProvider = ({children}) => {
           checkHotSpotRange,
           createNewHotSpot,
           createHotspotComment,
+          rateHotspot,
           setHotSpotUpdateStatus,
           hotSpotCreationResolved
       }}
