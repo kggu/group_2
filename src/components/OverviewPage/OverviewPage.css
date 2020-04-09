@@ -1,7 +1,8 @@
 .openingHours-container {
   max-width: 250px;
-  max-height: 300px;
-  padding-top: 1rem;
+  height: 300px;
+  overflow: visible; 
+  padding-top: 0rem;
 }
 
 .hotspotInfo-container {
