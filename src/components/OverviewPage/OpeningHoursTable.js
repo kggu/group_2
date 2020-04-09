@@ -13,6 +13,12 @@ const OpeningHoursTable = (props) => {
     SUNDAY: 7,
   };
 
+  let hasOpeningHours = true;
+
+  if (props.openingHours.length == 0) {
+    hasOpeningHours = false;
+  }
+
   props.openingHours.sort((a, b) => enumDays[a.weekDay] > enumDays[b.weekDay]);
 
   return (
@@ -20,20 +26,25 @@ const OpeningHoursTable = (props) => {
       <div className="opening-header">
         <a>Opening hours</a>
       </div>
-      <tbody className="opening-table">
-        {props.openingHours.map(function (day, i) {
-          return (
-            <tr>
-              <td className="opening-weekday">{day.weekDay.toLowerCase()}</td>
-              <td className="opening-hours">
-                <small>
-                  {day.openingTime} - {day.closingTime}
-                </small>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
+
+      {!hasOpeningHours && <div className="info text-center">No opening hours available.</div>}
+
+      {hasOpeningHours && (
+        <tbody className="opening-table">
+          {props.openingHours.map(function (day, i) {
+            return (
+              <tr>
+                <td className="opening-weekday">{day.weekDay.toLowerCase()}</td>
+                <td className="opening-hours">
+                  <small>
+                    {day.openingTime} - {day.closingTime}
+                  </small>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      )}
     </div>
   );
 };
