@@ -19,7 +19,9 @@ const OpeningHoursTable = (props) => {
     hasOpeningHours = false;
   }
 
-  props.openingHours.sort((a, b) => enumDays[a.weekDay] > enumDays[b.weekDay]);
+  props.openingHours.sort((a, b) =>
+    enumDays[a.weekDay] > enumDays[b.weekDay] ? 1 : -1
+  );
 
   return (
     <div className="opening-container">
@@ -27,7 +29,9 @@ const OpeningHoursTable = (props) => {
         <a>Opening hours</a>
       </div>
 
-      {!hasOpeningHours && <div className="info text-center">No opening hours available.</div>}
+      {!hasOpeningHours && (
+        <div className="info text-center">No opening hours available.</div>
+      )}
 
       {hasOpeningHours && (
         <tbody className="opening-table">
