@@ -119,15 +119,11 @@ const HotspotActions = (props) => {
     return <Tooltip id="button-tooltip">{msg}</Tooltip>;
   };
 
-  const _renderReportModal = () => {
-    console.log("joo");
-  };
-
-  function ReportHotspotModal(props) {
+  const ReportHotspotModal = (props) => {
     return (
       <Modal
         {...props}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -136,11 +132,16 @@ const HotspotActions = (props) => {
           <a>Are sure you want to report this Hotspot?</a>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
+          <Button variant="" onClick={props.onHide}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={props.onHide}>
+            Report
+          </Button>
         </Modal.Footer>
       </Modal>
     );
-  }
+  };
 
   return (
     <div className="hotspot-actions">
@@ -166,10 +167,7 @@ const HotspotActions = (props) => {
           <i className="fas fa-pen"></i>
         </Button>
       </OverlayTrigger>
-      <ReportHotspotModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
+      <ReportHotspotModal show={modalShow} onHide={() => setModalShow(false)} />
     </div>
   );
 };
