@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Image, Button, OverlayTrigger, Tooltip, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./HotspotInfo.css";
 import { useBackendAPI } from "../../utils/backendAPI";
@@ -73,15 +73,15 @@ const HotspotRating = (props) => {
   const { rateHotspot } = useBackendAPI();
   const [userRating, setUserRating] = useState();
 
-  const _handleChange = e => {
+  const _handleChange = (e) => {
     setUserRating(e.target.value);
-  }
+  };
 
   const _rateHotspot = () => {
     const rating = {
-      rating: userRating
-    }
-    rateHotspot(rating,props.slug);
+      rating: userRating,
+    };
+    rateHotspot(rating, props.slug);
   };
 
   return (
@@ -113,30 +113,63 @@ const HotspotRating = (props) => {
 const StarRating = (props) => {};
 
 const HotspotActions = (props) => {
-  const renderTooltip = (msg) => {
+  const [modalShow, setModalShow] = useState(false);
+
+  const _renderTooltip = (msg) => {
     return <Tooltip id="button-tooltip">{msg}</Tooltip>;
   };
+
+  const _renderReportModal = () => {
+    console.log("joo");
+  };
+
+  function ReportHotspotModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <h4>Report hotspot</h4>
+          <a>Are sure you want to report this Hotspot?</a>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
 
   return (
     <div className="hotspot-actions">
       <OverlayTrigger
         placement="top"
         delay={{ show: 250, hide: 100 }}
-        overlay={renderTooltip("Report this hotspot")}
+        overlay={_renderTooltip("Report this hotspot")}
       >
-        <Button className="vote-button" variant="">
+        <Button
+          onClick={() => setModalShow(true)}
+          className="action-button"
+          variant=""
+        >
           <i className="fas fa-trash"></i>
         </Button>
       </OverlayTrigger>
       <OverlayTrigger
         placement="top"
         delay={{ show: 250, hide: 100 }}
-        overlay={renderTooltip("Suggest a change")}
+        overlay={_renderTooltip("Suggest a change")}
       >
-        <Button className="vote-button" variant="">
+        <Button className="action-button" variant="">
           <i className="fas fa-pen"></i>
         </Button>
       </OverlayTrigger>
+      <ReportHotspotModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };
