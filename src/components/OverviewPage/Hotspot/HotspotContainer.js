@@ -12,10 +12,6 @@ const HotspotContainer = (props) => {
 
   const creationDate = parseLocalTime(props.hotspotInfo.createdAt);
 
-  useEffect(() => {
-    console.log(props.hotspotInfo.ratings);
-  }, []);
-
   return (
     <div className="cont">
       <div className="hotspot-header">
@@ -63,7 +59,7 @@ const HotspotContainer = (props) => {
           ratings={props.hotspotInfo.ratings}
           slug={props.hotspotInfo.slug}
         />
-        <HotspotActions />
+        <HotspotActions hotspotData={props.hotspotInfo}/>
       </div>
     </div>
   );
