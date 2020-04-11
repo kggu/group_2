@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Jumbotron, Button, Row, Col, Badge } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import "../frontpage.css";
 import "./OverviewPage.css";
-import OpeningHoursTable from "./OpeningHoursTable";
-import HotspotInfo from "./HotspotInfo";
+import OpeningHoursTable from "./Hotspot/OpeningHoursTable";
+import HotspotContainer from "./Hotspot/HotspotContainer";
 import NearbyHotspots from "./NearbyHotspots";
 import CommentContainer from "./Comments/CommentContainer";
 
@@ -54,7 +53,7 @@ const OverviewPage = props => {
             className="custombg-primary hotspotInfo-container rounded border-custom"
             md={8}
           >
-            <HotspotInfo hotspotInfo={hotspotData} />
+            <HotspotContainer hotspotInfo={hotspotData} />
           </Col>
           <Col
             className="custombg-primary openingHours-container rounded border-custom"
