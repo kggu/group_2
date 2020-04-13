@@ -43,8 +43,16 @@ const HotspotActions = (props) => {
   };
 
   const EditHotspotModal = (props) => {
-
     console.log(props);
+
+    const [openingHours, setOpeningHours] = useState();
+
+    props.hotspotData.openingHours.forEach(weekday => {
+      console.log(weekday);
+    });
+
+    const mapOpeningHours = () => {};
+
     return (
       <Modal
         {...props}
@@ -58,86 +66,91 @@ const HotspotActions = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control type="name" value={props.hotspotData.name}></Form.Control>
-                </Form.Group>
-
-                <Form.Group controlId="formCategory">
-                  <Form.Label>Category</Form.Label>
-                  <Form.Control as="select">
-                    <option>FOOD</option>
-                    <option>SPORTS</option>
-                    <option>DRINKS</option>
-                    <option>ARTS</option>
-                    <option>KNOWLEDGE</option>
-                    <option>MUSIC</option>
-                  </Form.Control>
-                </Form.Group>
-              </Form.Row>
-
-              <Form.Group controlId="formDescription">
-                <Form.Label>Description</Form.Label>
-                <Form.Control as="textarea" rows="3" />
+          <Form>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="name"
+                  value={props.hotspotData.name}
+                ></Form.Control>
               </Form.Group>
 
-              <Form.Group controlId="formGridAddress">
-                <Form.Label>Address</Form.Label>
-                <Form.Control value={"address"} />
+              <Form.Group controlId="formCategory">
+                <Form.Label>Category</Form.Label>
+                <Form.Control as="select">
+                  <option>FOOD</option>
+                  <option>SPORTS</option>
+                  <option>DRINKS</option>
+                  <option>ARTS</option>
+                  <option>KNOWLEDGE</option>
+                  <option>MUSIC</option>
+                </Form.Control>
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Group controlId="formDescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows="3"
+                value={props.hotspotData.description}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formGridAddress">
+              <Form.Label>Address</Form.Label>
+              <Form.Control value={props.hotspotData.address.address} />
+            </Form.Group>
+
+            <Form.Row>
+              <Form.Group controlId="formWeekDay">
+                <Form.Label>Day of week</Form.Label>
+                <Form.Control as="select">
+                  <option>Monday</option>
+                  <option>Tuesday</option>
+                  <option>Wednesday</option>
+                  <option>Thursday</option>
+                  <option>Friday</option>
+                  <option>Saturday</option>
+                  <option>Sunday</option>
+                </Form.Control>
               </Form.Group>
 
-              <Form.Row>
-                <Form.Group controlId="formWeekDay">
-                  <Form.Label>Day of week</Form.Label>
-                  <Form.Control as="select">
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
-                  </Form.Control>
-                </Form.Group>
+              <Form.Group as={Col} controlId="formOpeningTime">
+                <Form.Label>Opening Hours</Form.Label>
+                <Form.Control placeholder="XX:XX" />
+              </Form.Group>
 
-                <Form.Group as={Col} controlId="formOpeningTime">
-                  <Form.Label>Opening Hours</Form.Label>
-                  <Form.Control placeholder="XX:XX" />
-                </Form.Group>
+              <Form.Group as={Col} controlId="formClosingTime">
+                <Form.Label>Closing Hours</Form.Label>
+                <Form.Control placeholder="XX:XX" />
+              </Form.Group>
 
-                <Form.Group as={Col} controlId="formClosingTime">
-                  <Form.Label>Closing Hours</Form.Label>
-                  <Form.Control placeholder="XX:XX" />
-                </Form.Group>
+              <Button variant="primary">Save</Button>
+            </Form.Row>
 
-                <Button variant="primary">Save</Button>
-              </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridCity">
+                <Form.Label>City</Form.Label>
+                <Form.Control value={props.hotspotData.address.city} />
+              </Form.Group>
 
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridCity">
-                  <Form.Label>City</Form.Label>
-                  <Form.Control value={"city"} />
-                </Form.Group>
+              <Form.Group as={Col} controlId="formGridZip">
+                <Form.Label>Zip</Form.Label>
+                <Form.Control value={props.hotspotData.address.postalCode} />
+              </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridZip">
-                  <Form.Label>Zip</Form.Label>
-                  <Form.Control value={"asd"} />
-                </Form.Group>
+              <Form.Group as={Col} controlId="formGridCountry">
+                <Form.Label>Country</Form.Label>
+                <Form.Control value={props.hotspotData.address.country} />
+              </Form.Group>
+            </Form.Row>
 
-                <Form.Group as={Col} controlId="formGridCountry">
-                  <Form.Label>Country</Form.Label>
-                  <Form.Control value={"asd"} />
-                </Form.Group>
-              </Form.Row>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
-
-
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
         </Modal.Body>
       </Modal>
     );
@@ -172,7 +185,11 @@ const HotspotActions = (props) => {
         </Button>
       </OverlayTrigger>
       <ReportHotspotModal show={modalShow} onHide={() => setModalShow(false)} />
-      <EditHotspotModal hotspotData={props.hotspotData} show={modalShow2} onHide={() => setModalShow2(false)} />
+      <EditHotspotModal
+        hotspotData={props.hotspotData}
+        show={modalShow2}
+        onHide={() => setModalShow2(false)}
+      />
     </div>
   );
 };
