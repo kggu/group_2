@@ -10,7 +10,7 @@ import "react-google-places-autocomplete/dist/assets/index.css";
 import { Navbar } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import history from "../utils/history";
-import UserScore from "./UserScore"
+import UserScoreField from "./UserScoreField"
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -46,7 +46,7 @@ const NavBar = () => {
           onSelect={({ place_id }) => findLongLat(place_id)}
         />
         {isAuthenticated && (
-          <UserScore></UserScore>
+          <UserScoreField></UserScoreField>
         )}
         {!isAuthenticated && (
           <Button variant="customorange" onClick={() => loginWithRedirect({})}>

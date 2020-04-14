@@ -16,6 +16,8 @@ export const BackendAPIProvider = ({children}) => {
 
   const [hotSpotCreationResolved, setHotSpotCreationResolved] = useState();
 
+  const [userScore, setUserScore] = useState();
+
 
   //debug, remove later
   useEffect(() => {
@@ -137,7 +139,7 @@ export const BackendAPIProvider = ({children}) => {
     });
   };
 
-  const findMyScore = async () => {
+  const findUserScore = async () => {
     const token = await getTokenSilently();
 
     const address = process.env.REACT_APP_API_ROOT + "/student/me/";
@@ -149,10 +151,8 @@ export const BackendAPIProvider = ({children}) => {
       }
     }
 
-    console.log("toimii?")
-
     axios.get(address, axiosConfig).then (response => {
-      console.log(response);
+      setUserScore(response.data.score);
     })
   }
 
@@ -175,7 +175,8 @@ export const BackendAPIProvider = ({children}) => {
           rateHotspot,
           setHotSpotUpdateStatus,
           hotSpotCreationResolved,
-          findMyScore
+          findUserScore,
+          userScore
       }}
     >
     {children}
