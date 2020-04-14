@@ -16,7 +16,7 @@ export const BackendAPIProvider = ({children}) => {
 
   const [hotSpotCreationResolved, setHotSpotCreationResolved] = useState();
 
-  const [userScore, setUserScore] = useState();
+  const [userScore, setUserScore] = useState(-1);
 
 
   //debug, remove later
@@ -140,6 +140,7 @@ export const BackendAPIProvider = ({children}) => {
   };
 
   const findUserScore = async () => {
+    setUserScore(-1);
     const token = await getTokenSilently();
 
     const address = process.env.REACT_APP_API_ROOT + "/student/me/";

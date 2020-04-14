@@ -14,7 +14,9 @@ const UserScoreField = () => {
       }, [user]);
 
       useEffect(() => {
-          setUserScoreFound(true)
+          if (userScore > -1) {
+            setUserScoreFound(true)
+          }
       }, [userScore])
 
     return (
