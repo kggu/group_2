@@ -18,7 +18,7 @@ const Frontpage = props => {
       }, []);
 
     return (
-        <div className="container-fluid px-0">
+        <div className="container-fluid px-0 containerStyling">
             <div className="jumbotron jumbotronLuokka text-secondary">
                 <h1>
                     HotSpotted

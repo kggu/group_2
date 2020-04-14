@@ -14,6 +14,10 @@ export const BackendAPIProvider = ({children}) => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  const [hotSpotCreationResolved, setHotSpotCreationResolved] = useState();
+
+  const [userScore, setUserScore] = useState();
+
 
   //debug, remove later
   useEffect(() => {
@@ -95,10 +99,62 @@ export const BackendAPIProvider = ({children}) => {
       }
     }
 
-    const response = await axios.post(address, request, axiosConfig);
-    console.log("Post request");
-    console.log(response);
+    const response = await axios.post(address, request, axiosConfig).then( response => {
+      setHotSpotCreationResolved(response)
+      console.log(response)
+    });
   };
+
+  const createHotspotComment = async (request, slug) => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/comment"
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    const response = await axios.post(address, request, axiosConfig).then( response => {
+      console.log(response)
+    });
+  };
+
+  const rateHotspot = async (request, slug) => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/rate"
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    const response = await axios.post(address, request, axiosConfig).then( response => {
+      console.log(response)
+    });
+  };
+
+  const findUserScore = async () => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/student/me/";
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    axios.get(address, axiosConfig).then (response => {
+      setUserScore(response.data.score);
+    })
+  }
 
   useEffect(() => {
       getHotspotCategories()
@@ -115,7 +171,12 @@ export const BackendAPIProvider = ({children}) => {
           setSelectedCategory,
           checkHotSpotRange,
           createNewHotSpot,
-          setHotSpotUpdateStatus
+          createHotspotComment,
+          rateHotspot,
+          setHotSpotUpdateStatus,
+          hotSpotCreationResolved,
+          findUserScore,
+          userScore
       }}
     >
     {children}

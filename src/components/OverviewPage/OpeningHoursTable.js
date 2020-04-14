@@ -1,40 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table } from "react-bootstrap";
+import "./OpeningHours.css";
 
-const OpeningHoursTable = props => {
+const OpeningHoursTable = (props) => {
+  const enumDays = {
+    MONDAY: 1,
+    TUESDAY: 2,
+    WEDNESDAY: 3,
+    THURSDAY: 4,
+    FRIDAY: 5,
+    SATURDAY: 6,
+    SUNDAY: 7,
+  };
+
+  let hasOpeningHours = true;
+
+  if (props.openingHours.length == 0) {
+    hasOpeningHours = false;
+  }
+
+  props.openingHours.sort((a, b) => enumDays[a.weekDay] > enumDays[b.weekDay]);
+
   return (
-    <Table striped size="sm" bordered variant="light">
-      <tbody>
-        <tr>
-          <td>Monday</td>
-          <td>00.00 - 00.00</td>
-        </tr>
-        <tr>
-          <td>Tuesday</td>
-          <td>00.00 - 00.00</td>
-        </tr>
-        <tr>
-          <td>Wednesday</td>
-          <td>00.00 - 00.00</td>
-        </tr>
-        <tr>
-          <td>Thursday</td>
-          <td>00.00 - 00.00</td>
-        </tr>
-        <tr>
-          <td>Friday</td>
-          <td>00.00 - 00.00</td>
-        </tr>
-        <tr>
-          <td>Saturday</td>
-          <td>00.00 - 00.00</td>
-        </tr>
-        <tr>
-          <td>Sunday</td>
-          <td>00.00 - 00.00</td>
-        </tr>
-      </tbody>
-    </Table>
+    <div className="opening-container">
+      <div className="opening-header">
+        <a>Opening hours</a>
+      </div>
+
+      {!hasOpeningHours && <div className="info text-center">No opening hours available.</div>}
+
+      {hasOpeningHours && (
+        <tbody className="opening-table">
+          {props.openingHours.map(function (day, i) {
+            return (
+              <tr>
+                <td className="opening-weekday">{day.weekDay.toLowerCase()}</td>
+                <td className="opening-hours">
+                  <small>
+                    {day.openingTime} - {day.closingTime}
+                  </small>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      )}
+    </div>
   );
 };
 

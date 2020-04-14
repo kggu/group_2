@@ -5,42 +5,53 @@ import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal"
 import Form from "react-bootstrap/Form"
 import Col from "react-bootstrap/Col"
+import Spinner from "react-bootstrap/Spinner"
+import Alert from "react-bootstrap/Alert"
 
 const HotspotCreation = props => {
 
-    const { createNewHotSpot } = useBackendAPI();
+    const { createNewHotSpot, hotSpotCreationResolved } = useBackendAPI();
     const { foundSuggestions, findDetails, foundDetailedSuggestionInfo } = useGoogleAPI();
 
     const [ suggestions, setSuggestions ] = useState();
     const [ showSuggestions, setShowSuggestion ] = useState(false)
     const [ openingHours, setOpeningHours] = useState([]);
 
+    const [ awaitingResponse, setAwaitingResponse ] = useState(false)
+    const [ loadingStatus, setLoadingStatus ] = useState(false);
+
     const [ name, setName ] = useState('');
     const [ address, setAddress ] = useState('');
     const [ city, setCity ] = useState('');
     const [ zip, setZip ] = useState('');
     const [ country, setCountry ] = useState('');
+    
+    useEffect(() => {
+        setLoadingStatus(false)
+        setAwaitingResponse(false)
+        setName('');
+        setAddress('');
+        setCity('');
+        setZip('');
+        setCountry('');
+    }, [props.lngLat])
 
     useEffect(() => {
         setSuggestions(foundSuggestions)
     }, [foundSuggestions]);
 
     useEffect(() => {
-        if (suggestions && suggestions.length > 1) {
+        if (suggestions) {
             setShowSuggestion(true)
+            findDetails(suggestions[0].place_id)
         }
     }, [suggestions]);
 
     const handleChangeSuggestion = (e) => {
-
-        //TODO: Work-in-progress, only updates name value
-
         const selectedIndex = e.target.value
         const selectedSuggestion = suggestions[selectedIndex]
         console.log(selectedSuggestion)
         findDetails(selectedSuggestion.place_id)
-        //const mainForm = e.target.parentNode.parentNode.parentNode
-        //mainForm.formGridName.value = selectedSuggestion.name
     }
 
     useEffect(() => {
@@ -53,6 +64,7 @@ const HotspotCreation = props => {
             setCountry(newDetails.country);
         }
     }, [foundDetailedSuggestionInfo])
+
 
     const handleSubmit = (e) => {
         const [longitude, latitude] = props.lngLat
@@ -72,15 +84,22 @@ const HotspotCreation = props => {
                 latitude: longitude.latitude
             },
             
-            openingHours: openingHours()
+            openingHours: openingHours
         };
         console.log(NewHotspot)
         console.log(foundSuggestions)
         createNewHotSpot(NewHotspot);
-        props.onHide();
+        setAwaitingResponse(true)
+        setLoadingStatus(true)
+        //props.onHide();
     }
 
-<<<<<<< HEAD
+    useEffect(() => {
+        if (loadingStatus) {
+            setLoadingStatus(false)
+        }
+    },[hotSpotCreationResolved])
+
     const handleOpeningHours = (e) => {
         e.preventDefault();
         setOpeningHours([{
@@ -89,7 +108,7 @@ const HotspotCreation = props => {
             closingTime: e.target.formClosingtime.value
         }])
     };
-=======
+    
     const handleChangeName = (e) => {
         setName(e.target.value);
     }
@@ -109,7 +128,6 @@ const HotspotCreation = props => {
     const handleChangeCountry = (e) => {
         setCountry(e.target.value)
     }
->>>>>>> bc770855cd13437ce1ce1191054b5d95a5d01856
 
     return(
         <Modal
@@ -125,7 +143,8 @@ const HotspotCreation = props => {
             </Modal.Header>
             <Modal.Body>
                 <p>
-                <Form onSubmit={handleSubmit}>
+                {!awaitingResponse && (<Form onSubmit={handleSubmit}>
+
                     {showSuggestions && (<Form.Row>
                         <Form.Group controlId="formSuggestions">
                             <Form.Label>Suggestions</Form.Label>
@@ -216,6 +235,15 @@ const HotspotCreation = props => {
                         Submit
                     </Button>
                 </Form>
+                )}
+
+                {awaitingResponse && loadingStatus && ( <Spinner animation="border" role="status"> </Spinner> )}
+
+                {awaitingResponse && !loadingStatus && ( <Alert variant="success">
+                    <Alert.Heading>HotSpot successfully created</Alert.Heading>
+                </Alert>
+                )}
+
                 </p>
             </Modal.Body>
         </Modal>

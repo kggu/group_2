@@ -48,7 +48,7 @@ const SideBar = () => {
       <div className="categories">
         <div className="categories-header">
           <div>Categories</div>
-          <button onClick={() => _selectCategory("")}>reset</button>
+          <button className="resetBtn" onClick={() => _selectCategory("")}>Reset</button>
         </div>
         {categoryItems ? categoryItems : <small>loading...</small>}
       </div>
