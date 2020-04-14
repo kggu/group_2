@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal"
 import Form from "react-bootstrap/Form"
 import Col from "react-bootstrap/Col"
+import Row from "react-bootstrap/Row"
 import Spinner from "react-bootstrap/Spinner"
 import Alert from "react-bootstrap/Alert"
 
@@ -15,7 +16,7 @@ const HotspotCreation = props => {
 
     const [ suggestions, setSuggestions ] = useState();
     const [ showSuggestions, setShowSuggestion ] = useState(false)
-    const [ openingHours, setOpeningHours] = useState([]);
+    const [ savedOpeningHours, setSavedOpeningHours] = useState([]);
 
     const [ awaitingResponse, setAwaitingResponse ] = useState(false)
     const [ loadingStatus, setLoadingStatus ] = useState(false);
@@ -25,6 +26,9 @@ const HotspotCreation = props => {
     const [ city, setCity ] = useState('');
     const [ zip, setZip ] = useState('');
     const [ country, setCountry ] = useState('');
+    const [ savedWeekDay, setWeekDay ] = useState('');
+    const [ savedOpeningTime, setOpeningTime ] = useState('');
+    const [ savedClosingTime, setClosingTime ] = useState('');
     
     useEffect(() => {
         setLoadingStatus(false)
@@ -84,7 +88,7 @@ const HotspotCreation = props => {
                 latitude: longitude.latitude
             },
             
-            openingHours: openingHours
+            openingHours: savedOpeningHours
         };
         console.log(NewHotspot)
         console.log(foundSuggestions)
@@ -101,13 +105,25 @@ const HotspotCreation = props => {
     },[hotSpotCreationResolved])
 
     const handleOpeningHours = (e) => {
-        e.preventDefault();
-        setOpeningHours([{
-            weekDay: e.target.formWeekDay.value,
-            openingTime: e.target.formOpeningTime.value,
-            closingTime: e.target.formClosingtime.value
+        console.log(savedWeekDay, savedOpeningTime, savedClosingTime)
+        setSavedOpeningHours([{
+            weekDay: savedWeekDay,
+            openingTime: savedOpeningTime,
+            closingTime: savedClosingTime
         }])
-    };
+    }
+
+    const handleWeekDayChange = (e) => {
+        setWeekDay(e.target.value);
+    }
+
+    const handleOpeningTimeChange = (e) => {
+        setOpeningTime(e.target.value);
+    }
+
+    const handleClosingTimeChange = (e) => {
+        setClosingTime(e.target.value);
+    }
     
     const handleChangeName = (e) => {
         setName(e.target.value);
@@ -190,28 +206,31 @@ const HotspotCreation = props => {
                     <Form.Row>
                         <Form.Group controlId="formWeekDay">
                             <Form.Label>Day of week</Form.Label>
-                            <Form.Control as="select">
-                                <option>Monday</option>
-                                <option>Tuesday</option>
-                                <option>Wednesday</option>
-                                <option>Thursday</option>
-                                <option>Friday</option>
-                                <option>Saturday</option>
-                                <option>Sunday</option>
+                            <Form.Control as="select" value={savedWeekDay} onChange={handleWeekDayChange}>
+                                <option>Select a weekday</option>
+                                <option>MONDAY</option>
+                                <option>TUESDAY</option>
+                                <option>WEDNESDAY</option>
+                                <option>THURSDAY</option>
+                                <option>FRIDAY</option>
+                                <option>SATURDAY</option>
+                                <option>SUNDAY</option>
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formOpeningTime">
+                        <Form.Group as={Col} controlId="formOpeningTime" value={savedOpeningTime} onChange={handleOpeningTimeChange}>
                             <Form.Label>Opening Hours</Form.Label>
-                            <Form.Control placeholder="XX:XX" />
+                            <Form.Control placeholder="XX:XX:XX" />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formClosingTime">
+                        <Form.Group as={Col} controlId="formClosingTime" value={savedClosingTime} onChange={handleClosingTimeChange}>
                             <Form.Label>Closing Hours</Form.Label>
-                            <Form.Control placeholder="XX:XX" />
+                            <Form.Control placeholder="XX:XX:XX" />
                         </Form.Group>
-
-                        <Button variant="primary" onClick={handleOpeningHours}>Save</Button>
+                        
+                        <Form.Group>
+                            <Button controlId="openingHoursButton" onClick={handleOpeningHours}>Save</Button>
+                        </Form.Group>
                     </Form.Row>
 
                     <Form.Row>
