@@ -137,6 +137,25 @@ export const BackendAPIProvider = ({children}) => {
     });
   };
 
+  const findMyScore = async () => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/student/me/";
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    console.log("toimii?")
+
+    axios.get(address, axiosConfig).then (response => {
+      console.log(response);
+    })
+  }
+
   useEffect(() => {
       getHotspotCategories()
   }, []); 
@@ -155,7 +174,8 @@ export const BackendAPIProvider = ({children}) => {
           createHotspotComment,
           rateHotspot,
           setHotSpotUpdateStatus,
-          hotSpotCreationResolved
+          hotSpotCreationResolved,
+          findMyScore
       }}
     >
     {children}
