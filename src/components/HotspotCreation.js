@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useBackendAPI } from "../utils/backendAPI"
 import { useGoogleAPI } from "../utils/googleAPI"
 import { Button } from "react-bootstrap";
@@ -6,6 +6,8 @@ import Modal from "react-bootstrap/Modal"
 import Form from "react-bootstrap/Form"
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
+import Overlay from 'react-bootstrap/Overlay'
+import Tooltip from 'react-bootstrap/Tooltip'
 import Spinner from "react-bootstrap/Spinner"
 import Alert from "react-bootstrap/Alert"
 
@@ -26,9 +28,12 @@ const HotspotCreation = props => {
     const [ city, setCity ] = useState('');
     const [ zip, setZip ] = useState('');
     const [ country, setCountry ] = useState('');
-    const [ savedWeekDay, setWeekDay ] = useState('');
-    const [ savedOpeningTime, setOpeningTime ] = useState('');
-    const [ savedClosingTime, setClosingTime ] = useState('');
+    const [ weekDay, setWeekDay ] = useState('');
+    const [ openingTime, setOpeningTime ] = useState('');
+    const [ closingTime, setClosingTime ] = useState('');
+    const [show, setShow] = useState(false); 
+
+    const target = useRef(null);
     
     useEffect(() => {
         setLoadingStatus(false)
@@ -103,13 +108,20 @@ const HotspotCreation = props => {
         }
     },[hotSpotCreationResolved])
 
-    const handleOpeningHours = (e) => {
-        setSavedOpeningHours([{
-            weekDay: [{...savedOpeningHours, savedWeekDay}],
-            openingTime: [{...savedOpeningHours, savedOpeningTime}],
-            closingTime: [{...savedOpeningHours, savedClosingTime}]
-        }])
-        console.log(savedOpeningHours);
+    const handleOpeningHours = () => {
+        var openingHoursArr = savedOpeningHours.map(function(item){return item.weekDay});
+        var isDuplicate = openingHoursArr.some(function(item, idx){
+            return openingHoursArr.indexOf(item) != idx
+        });
+
+        if(isDuplicate == false) {
+            setSavedOpeningHours(savedOpeningHours => [
+                ...savedOpeningHours, {weekDay, openingTime, closingTime}
+            ]);
+            console.log(savedOpeningHours)
+        } else {
+            alert("You have already set opening hours for this day!")
+        }
     }
 
     const handleWeekDayChange = (e) => {
@@ -205,7 +217,7 @@ const HotspotCreation = props => {
                     <Form.Row>
                         <Form.Group controlId="formWeekDay">
                             <Form.Label>Day of week</Form.Label>
-                            <Form.Control as="select" value={savedWeekDay} onChange={handleWeekDayChange}>
+                            <Form.Control as="select" value={weekDay} onChange={handleWeekDayChange}>
                                 <option>Select a weekday</option>
                                 <option>MONDAY</option>
                                 <option>TUESDAY</option>
@@ -217,18 +229,18 @@ const HotspotCreation = props => {
                             </Form.Control>
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formOpeningTime" value={savedOpeningTime} onChange={handleOpeningTimeChange}>
+                        <Form.Group as={Col} controlId="formOpeningTime" value={openingTime} onChange={handleOpeningTimeChange}>
                             <Form.Label>Opening Hours</Form.Label>
                             <Form.Control placeholder="XX:XX:XX" />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formClosingTime" value={savedClosingTime} onChange={handleClosingTimeChange}>
+                        <Form.Group as={Col} controlId="formClosingTime" value={closingTime} onChange={handleClosingTimeChange}>
                             <Form.Label>Closing Hours</Form.Label>
                             <Form.Control placeholder="XX:XX:XX" />
                         </Form.Group>
                         
                         <Form.Group>
-                            <Button controlId="openingHoursButton" onClick={handleOpeningHours}>Save</Button>
+                            <Button ref={target} controlId="openingHoursButton" onClick={() => {handleOpeningHours();}}>Save</Button>
                         </Form.Group>
                     </Form.Row>
 
