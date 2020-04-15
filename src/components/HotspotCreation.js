@@ -87,7 +87,6 @@ const HotspotCreation = props => {
                 longitude: longitude.longitude,
                 latitude: longitude.latitude
             },
-            
             openingHours: savedOpeningHours
         };
         console.log(NewHotspot)
@@ -105,12 +104,12 @@ const HotspotCreation = props => {
     },[hotSpotCreationResolved])
 
     const handleOpeningHours = (e) => {
-        console.log(savedWeekDay, savedOpeningTime, savedClosingTime)
         setSavedOpeningHours([{
-            weekDay: savedWeekDay,
-            openingTime: savedOpeningTime,
-            closingTime: savedClosingTime
+            weekDay: [{...savedOpeningHours, savedWeekDay}],
+            openingTime: [{...savedOpeningHours, savedOpeningTime}],
+            closingTime: [{...savedOpeningHours, savedClosingTime}]
         }])
+        console.log(savedOpeningHours);
     }
 
     const handleWeekDayChange = (e) => {
