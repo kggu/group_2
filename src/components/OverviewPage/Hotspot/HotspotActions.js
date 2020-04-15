@@ -12,6 +12,7 @@ import {
 const HotspotActions = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
+  const [modalShow3, setModalShow3] = useState(false);
 
   const _renderTooltip = (msg) => {
     return <Tooltip id="button-tooltip">{msg}</Tooltip>;
@@ -45,9 +46,7 @@ const HotspotActions = (props) => {
   const EditHotspotModal = (props) => {
     console.log(props);
 
-    const [openingHours, setOpeningHours] = useState();
-
-    props.hotspotData.openingHours.forEach(weekday => {
+    props.hotspotData.openingHours.forEach((weekday) => {
       console.log(weekday);
     });
 
@@ -62,7 +61,7 @@ const HotspotActions = (props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Suggest a change
+            Edit hotspot
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -147,8 +146,75 @@ const HotspotActions = (props) => {
               </Form.Group>
             </Form.Row>
 
-            <Button variant="primary" type="submit">
+            <Button
+              onClick={() => {
+                setModalShow3(true);
+                setModalShow2(false);
+              }}
+              variant="primary"
+              type="submit"
+            >
               Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    );
+  };
+
+  const ReviewHotspotChanges = (props) => {
+    console.log(props);
+
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Review changes
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridCity">
+                <Form.Label>City</Form.Label>
+                <Form.Control value={props.hotspotData.address.city} />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridCountry">
+                <Form.Label>Country</Form.Label>
+                <Form.Control value={props.hotspotData.address.country} />
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridCity">
+                <Form.Label>City</Form.Label>
+                <Form.Control value={props.hotspotData.address.city} />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridCountry">
+                <Form.Label>Country</Form.Label>
+                <Form.Control value={props.hotspotData.address.country} />
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridCity">
+                <Form.Label>City</Form.Label>
+                <Form.Control value={props.hotspotData.address.city} />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridCountry">
+                <Form.Label>Country</Form.Label>
+                <Form.Control value={props.hotspotData.address.country} />
+              </Form.Group>
+            </Form.Row>
+
+            <Button variant="primary" type="submit">
+              Request changes
             </Button>
           </Form>
         </Modal.Body>
@@ -189,6 +255,11 @@ const HotspotActions = (props) => {
         hotspotData={props.hotspotData}
         show={modalShow2}
         onHide={() => setModalShow2(false)}
+      />
+      <ReviewHotspotChanges
+        hotspotData={props.hotspotData}
+        show={modalShow3}
+        onHide={() => setModalShow3(false)}
       />
     </div>
   );
