@@ -32,7 +32,7 @@ const HotspotCreation = props => {
     const [ openingTime, setOpeningTime ] = useState('');
     const [ closingTime, setClosingTime ] = useState('');
     const [show, setShow] = useState(false); 
-
+    const [validated, setValidated] = useState(false);
     const target = useRef(null);
     
     useEffect(() => {
@@ -77,7 +77,13 @@ const HotspotCreation = props => {
 
     const handleSubmit = (e) => {
         const [longitude, latitude] = props.lngLat
-        e.preventDefault();
+        const form = e.currentTarget;
+        
+        if (form.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
         const NewHotspot = {
             name: e.target.formGridName.value,
             description: e.target.formDescription.value,
@@ -97,8 +103,9 @@ const HotspotCreation = props => {
         console.log(NewHotspot)
         console.log(foundSuggestions)
         createNewHotSpot(NewHotspot);
-        setAwaitingResponse(true)
+        //setAwaitingResponse(true)
         setLoadingStatus(true)
+        setValidated(true);
         //props.onHide();
     }
 
@@ -121,8 +128,6 @@ const HotspotCreation = props => {
         }
 
     },[savedOpeningHours])
-
-   
 
     const handleOpeningHours = () => {
         setSavedOpeningHours(savedOpeningHours => [
@@ -176,7 +181,7 @@ const HotspotCreation = props => {
             </Modal.Header>
             <Modal.Body>
                 <p>
-                {!awaitingResponse && (<Form onSubmit={handleSubmit}>
+                {!awaitingResponse && (<Form noValidate validated={validated} onSubmit={handleSubmit}>
 
                     {showSuggestions && (<Form.Row>
                         <Form.Group controlId="formSuggestions">
@@ -194,12 +199,15 @@ const HotspotCreation = props => {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridName">
                         <Form.Label>Name</Form.Label>
-                            <Form.Control type="name" value ={name} onChange={handleChangeName}></Form.Control>
+                            <Form.Control required type="name" value ={name} onChange={handleChangeName}></Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid name.
+                            </Form.Control.Feedback>
                         </Form.Group>
 
-                        <Form.Group controlId="formCategory">
+                        <Form.Group md="4" controlId="formCategory">
                             <Form.Label>Category</Form.Label>
-                            <Form.Control as="select">
+                            <Form.Control required as="select">
                                 <option>FOOD</option>
                                 <option>SPORTS</option>
                                 <option>DRINKS</option>
@@ -207,23 +215,32 @@ const HotspotCreation = props => {
                                 <option>KNOWLEDGE</option>
                                 <option>MUSIC</option>
                             </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid category.
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Form.Row>
                     
                     <Form.Group controlId="formDescription">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" rows="3" />
+                        <Form.Control required as="textarea" rows="3" />
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid description.
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group controlId="formGridAddress">
                         <Form.Label>Address</Form.Label>
-                        <Form.Control value={address} onChange={handleChangeAddress}/>
+                        <Form.Control required value={address} onChange={handleChangeAddress}/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid address.
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Row>
                         <Form.Group controlId="formWeekDay">
                             <Form.Label>Day of week</Form.Label>
-                            <Form.Control as="select" value={weekDay} onChange={handleWeekDayChange}>
+                            <Form.Control required as="select" value={weekDay} onChange={handleWeekDayChange}>
                                 <option>Select a weekday</option>
                                 <option>MONDAY</option>
                                 <option>TUESDAY</option>
@@ -233,16 +250,25 @@ const HotspotCreation = props => {
                                 <option>SATURDAY</option>
                                 <option>SUNDAY</option>
                             </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid weekday.
+                            </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formOpeningTime" value={openingTime} onChange={handleOpeningTimeChange}>
                             <Form.Label>Opening Hours</Form.Label>
-                            <Form.Control placeholder="XX:XX:XX" />
+                            <Form.Control required placeholder="XX:XX:XX" />
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid opening time.
+                            </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formClosingTime" value={closingTime} onChange={handleClosingTimeChange}>
                             <Form.Label>Closing Hours</Form.Label>
-                            <Form.Control placeholder="XX:XX:XX" />
+                            <Form.Control required placeholder="XX:XX:XX" />
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid closing time.
+                            </Form.Control.Feedback>
                         </Form.Group>
                         
                         <Form.Group>
@@ -253,17 +279,26 @@ const HotspotCreation = props => {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridCity">
                         <Form.Label>City</Form.Label>
-                        <Form.Control value={city} onChange={handleChangeCity} />
+                        <Form.Control required value={city} onChange={handleChangeCity} />
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid city.
+                        </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridZip">
                         <Form.Label>Zip</Form.Label>
-                        <Form.Control value={zip} onChange={handleChangeZip}/>
+                        <Form.Control required value={zip} onChange={handleChangeZip}/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid zip.
+                        </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridCountry">
                         <Form.Label>Country</Form.Label>
-                        <Form.Control value={country} onChange={handleChangeCountry}/>
+                        <Form.Control required value={country} onChange={handleChangeCountry}/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid country.
+                        </Form.Control.Feedback>
                         </Form.Group>
                     </Form.Row>
 
