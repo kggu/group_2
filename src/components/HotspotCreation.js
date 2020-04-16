@@ -108,21 +108,26 @@ const HotspotCreation = props => {
         }
     },[hotSpotCreationResolved])
 
-    const handleOpeningHours = () => {
-        
-        var openingHoursArr = savedOpeningHours.map(function(item){return item.weekDay});
-        var isDuplicate = openingHoursArr.some(function(item, idx){
-            return openingHoursArr.indexOf(item) != idx
+    useEffect(() => {
+        console.log(savedOpeningHours)
+        var valueArr = savedOpeningHours.map(function(item){ return item.weekDay });
+        var isDuplicate = valueArr.some(function(item, idx){ 
+            return valueArr.indexOf(item) != idx 
         });
-
-        if(isDuplicate == false) {
-            setSavedOpeningHours(savedOpeningHours => [
-                ...savedOpeningHours, {weekDay, openingTime, closingTime}
-            ]);
-            console.log(savedOpeningHours)
-        } else {
-            alert("You have already set opening hours for this day!")
+        
+        if(isDuplicate == true) {
+            savedOpeningHours.splice(-1)
+            alert("Duplicate weekday")
         }
+
+    },[savedOpeningHours])
+
+   
+
+    const handleOpeningHours = () => {
+        setSavedOpeningHours(savedOpeningHours => [
+             ...savedOpeningHours, {weekDay, openingTime, closingTime}
+        ]);
     }
 
     const handleWeekDayChange = (e) => {
