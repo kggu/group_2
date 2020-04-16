@@ -8,6 +8,7 @@ import {
   Col,
   Alert,
 } from "react-bootstrap";
+import ReviewHotspotChanges from './EditHotspot'
 
 const HotspotActions = (props) => {
   const [modalShow, setModalShow] = useState(false);
@@ -50,7 +51,6 @@ const HotspotActions = (props) => {
       console.log(weekday);
     });
 
-    const mapOpeningHours = () => {};
 
     return (
       <Modal
@@ -155,66 +155,6 @@ const HotspotActions = (props) => {
               type="submit"
             >
               Submit
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    );
-  };
-
-  const ReviewHotspotChanges = (props) => {
-    console.log(props);
-
-    return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Review changes
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridCity">
-                <Form.Label>City</Form.Label>
-                <Form.Control value={props.hotspotData.address.city} />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridCountry">
-                <Form.Label>Country</Form.Label>
-                <Form.Control value={props.hotspotData.address.country} />
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridCity">
-                <Form.Label>City</Form.Label>
-                <Form.Control value={props.hotspotData.address.city} />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridCountry">
-                <Form.Label>Country</Form.Label>
-                <Form.Control value={props.hotspotData.address.country} />
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridCity">
-                <Form.Label>City</Form.Label>
-                <Form.Control value={props.hotspotData.address.city} />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridCountry">
-                <Form.Label>Country</Form.Label>
-                <Form.Control value={props.hotspotData.address.country} />
-              </Form.Group>
-            </Form.Row>
-
-            <Button variant="primary" type="submit">
-              Request changes
             </Button>
           </Form>
         </Modal.Body>
