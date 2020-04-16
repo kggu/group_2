@@ -76,35 +76,35 @@ const HotspotCreation = props => {
 
 
     const handleSubmit = (e) => {
-        const [longitude, latitude] = props.lngLat
         const form = e.currentTarget;
         
         if (form.checkValidity() === false) {
             e.preventDefault();
             e.stopPropagation();
-        }
-
-        const NewHotspot = {
-            name: e.target.formGridName.value,
-            description: e.target.formDescription.value,
-            address: {
-                address: e.target.formGridAddress.value,
-                postalCode: e.target.formGridZip.value,
-                city: e.target.formGridCity.value,
-                country: e.target.formGridCountry.value
-            },
-            category: e.target.formCategory.value,
-            location: {
-                longitude: longitude.longitude,
-                latitude: longitude.latitude
-            },
-            openingHours: savedOpeningHours
-        };
-        console.log(NewHotspot)
-        console.log(foundSuggestions)
-        createNewHotSpot(NewHotspot);
-        //setAwaitingResponse(true)
-        setLoadingStatus(true)
+        } else {
+            const [longitude, latitude] = props.lngLat
+            const NewHotspot = {
+                name: e.target.formGridName.value,
+                description: e.target.formDescription.value,
+                address: {
+                    address: e.target.formGridAddress.value,
+                    postalCode: e.target.formGridZip.value,
+                    city: e.target.formGridCity.value,
+                    country: e.target.formGridCountry.value
+                },
+                category: e.target.formCategory.value,
+                location: {
+                    longitude: longitude.longitude,
+                    latitude: longitude.latitude
+                },
+                openingHours: savedOpeningHours
+            };
+            console.log(NewHotspot)
+            console.log(foundSuggestions)
+            createNewHotSpot(NewHotspot);
+            setAwaitingResponse(true)
+            setLoadingStatus(true)
+        }     
         setValidated(true);
         //props.onHide();
     }
