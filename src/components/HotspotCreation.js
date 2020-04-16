@@ -109,6 +109,7 @@ const HotspotCreation = props => {
     },[hotSpotCreationResolved])
 
     const handleOpeningHours = () => {
+        
         var openingHoursArr = savedOpeningHours.map(function(item){return item.weekDay});
         var isDuplicate = openingHoursArr.some(function(item, idx){
             return openingHoursArr.indexOf(item) != idx
