@@ -10,6 +10,7 @@ const UserScoreField = () => {
 
     useEffect(() => {
         setUserScoreFound(false)
+        console.log(user)
         findUserScore();
       }, [user]);
 
