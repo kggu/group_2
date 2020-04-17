@@ -111,11 +111,6 @@ const HotspotCreation = props => {
         //props.onHide();
     }
 
-    const resetInfo = () => {
-        setValidated(false);
-        console.log("nollaus")
-    }
-
     useEffect(() => {
         if (loadingStatus) {
             setLoadingStatus(false)
