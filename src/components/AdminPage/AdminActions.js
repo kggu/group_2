@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Tabs from "react-bootstrap/Tabs"
 import Tab from "react-bootstrap/Tab"
 import "./AdminActions.css";
+import AdminPageUserList from "./AdminPageUserList";
 
 const AdminActions = () => {
     const [key, setKey] = useState('View suggestions')
@@ -15,7 +16,7 @@ const AdminActions = () => {
                     <p>In progress.</p>
                 </Tab>
                 <Tab eventKey="Manage users" title="Manage Users" tabClassName="bg-darkblue">
-                    <p>Users</p>
+                    <AdminPageUserList></AdminPageUserList>
                 </Tab>
             </Tabs>
 }
