@@ -84,7 +84,7 @@ const Map = (props) => {
     updateHotSpots(viewport);
   };
 
-  const handleShow = () => {
+  const handleShow = (props) => {
     findNearbyPlaces();
     setShow(true);
   };
