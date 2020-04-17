@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Tabs from "react-bootstrap/Tabs"
 import Tab from "react-bootstrap/Tab"
+import "./AdminActions.css";
 
 const AdminActions = () => {
     const [key, setKey] = useState('View suggestions')
@@ -8,11 +9,12 @@ const AdminActions = () => {
     return <Tabs
             id="Admin actions"
             activeKey={key}
-            onSelect={(k) => setKey(k)}>
-                <Tab eventKey="View suggestions" title="View suggestions">
+            onSelect={(k) => setKey(k)}
+            className="custom-tabs">
+                <Tab eventKey="View suggestions" title="View suggestions" tabClassName="bg-darkblue">
                     <p>In progress.</p>
                 </Tab>
-                <Tab eventKey="Manage users" title="Manage Users">
+                <Tab eventKey="Manage users" title="Manage Users" tabClassName="bg-darkblue">
                     <p>Users</p>
                 </Tab>
             </Tabs>
