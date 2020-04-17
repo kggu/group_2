@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./frontpage.css";
 import "./footer.css";
 import { Toast } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import qs from "qs"
 
@@ -30,6 +31,7 @@ const Frontpage = props => {
             <footer className="footerLuokka text-secondary">
                 <p className = "mb-0">Frontend: Riina, Miikka, Samuli & Sami</p>
                 <p className = "mb-0">Backend: Mike, Kim, Wesley & Shane</p>
+                <p className = "mb-0"><strong><Link to="/admin">Admin login</Link></strong></p>
             </footer>
             <Toast
                 show={showErrorMessage}
