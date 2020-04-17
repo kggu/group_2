@@ -18,6 +18,8 @@ export const BackendAPIProvider = ({children}) => {
 
   const [userScore, setUserScore] = useState(-1);
 
+  const [userQueryResponse, setUserQueryResponse] = useState();
+
 
   //debug, remove later
   useEffect(() => {
@@ -157,6 +159,23 @@ export const BackendAPIProvider = ({children}) => {
     })
   }
 
+  const findUsersForAdmin = async () => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/student/search"
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    axios.get(address, axiosConfig).then (response => {
+      setUserQueryResponse(response);
+    })
+  }
+
   useEffect(() => {
       getHotspotCategories()
   }, []); 
@@ -177,7 +196,9 @@ export const BackendAPIProvider = ({children}) => {
           setHotSpotUpdateStatus,
           hotSpotCreationResolved,
           findUserScore,
-          userScore
+          userScore,
+          findUsersForAdmin,
+          userQueryResponse
       }}
     >
     {children}
