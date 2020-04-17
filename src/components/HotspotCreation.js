@@ -31,7 +31,6 @@ const HotspotCreation = props => {
     const [ weekDay, setWeekDay ] = useState('');
     const [ openingTime, setOpeningTime ] = useState('');
     const [ closingTime, setClosingTime ] = useState('');
-    const [show, setShow] = useState(false); 
     const [validated, setValidated] = useState(false);
     const target = useRef(null);
     
@@ -43,6 +42,10 @@ const HotspotCreation = props => {
         setCity('');
         setZip('');
         setCountry('');
+        setWeekDay('');
+        setOpeningTime('');
+        setClosingTime('');
+        setValidated(false);
     }, [props.lngLat])
 
     useEffect(() => {
@@ -73,7 +76,6 @@ const HotspotCreation = props => {
             setCountry(newDetails.country);
         }
     }, [foundDetailedSuggestionInfo])
-
 
     const handleSubmit = (e) => {
         const form = e.currentTarget;
@@ -107,6 +109,11 @@ const HotspotCreation = props => {
         }     
         setValidated(true);
         //props.onHide();
+    }
+
+    const resetInfo = () => {
+        setValidated(false);
+        console.log("nollaus")
     }
 
     useEffect(() => {
@@ -241,7 +248,7 @@ const HotspotCreation = props => {
                         <Form.Group controlId="formWeekDay">
                             <Form.Label>Day of week</Form.Label>
                             <Form.Control required as="select" value={weekDay} onChange={handleWeekDayChange}>
-                                <option>Select a weekday</option>
+                                <option></option>
                                 <option>MONDAY</option>
                                 <option>TUESDAY</option>
                                 <option>WEDNESDAY</option>
