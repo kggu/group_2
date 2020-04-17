@@ -172,7 +172,11 @@ export const BackendAPIProvider = ({children}) => {
     }
 
     axios.get(address, axiosConfig).then (response => {
+      console.log(response);
       setUserQueryResponse(response);
+    }).catch(error => {
+      console.log(error);
+      setUserQueryResponse(error.response);
     })
   }
 
