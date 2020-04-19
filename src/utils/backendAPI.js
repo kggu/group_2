@@ -6,10 +6,11 @@ export const BackendAPIContext = React.createContext();
 
 export const useBackendAPI = () => useContext(BackendAPIContext);
 
-export const BackendAPIProvider = ({children}) => {
+export const BackendAPIProvider = ({ children }) => {
   const { getTokenSilently } = useAuth0();
-  
+
   const [hotSpots, setHotSpots] = useState();
+  const [selectedHotspot, setSelectedHotspot] = useState();
   const [hotspotCategories, setHotspotCategories] = useState();
 
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -18,70 +19,68 @@ export const BackendAPIProvider = ({children}) => {
 
   const [userScore, setUserScore] = useState();
 
-
-  //debug, remove later
-  useEffect(() => {
-    console.log("updated:" + selectedCategory);
-}, [selectedCategory]);
-
-  
-  const [requestedRange, setRequestedRange] = useState(0)
-  const [hotSpotUpdateStatus, setHotSpotUpdateStatus ] = useState(false);
+  const [requestedRange, setRequestedRange] = useState(0);
+  const [hotSpotUpdateStatus, setHotSpotUpdateStatus] = useState(false);
   const [requestedViewport, setRequestedViewport] = useState({
     width: "100%",
     height: window.innerHeight,
     latitude: 65.013,
     longitude: 25.47,
-    zoom: 35 
+    zoom: 35,
   });
 
   const checkHotSpotRange = async (viewport) => {
     const distance = Math.abs(
       Math.acos(
-      Math.sin(viewport.latitude * Math.PI/180.0) * Math.sin(requestedViewport.latitude * Math.PI/180.0)
-      + Math.cos(viewport.latitude * Math.PI/180.0) * Math.cos(requestedViewport.latitude * Math.PI/180.0)
-      * Math.cos(requestedViewport.longitude * Math.PI/180.0 - viewport.longitude * Math.PI/180.0)
-      ));
+        Math.sin((viewport.latitude * Math.PI) / 180.0) *
+          Math.sin((requestedViewport.latitude * Math.PI) / 180.0) +
+          Math.cos((viewport.latitude * Math.PI) / 180.0) *
+            Math.cos((requestedViewport.latitude * Math.PI) / 180.0) *
+            Math.cos(
+              (requestedViewport.longitude * Math.PI) / 180.0 -
+                (viewport.longitude * Math.PI) / 180.0
+            )
+      )
+    );
     const distanceInMeters = distance * 6731000;
     //console.log(distanceInMeters)
     //console.log(requestedRange)
     if (distanceInMeters > requestedRange / 2) {
-      setHotSpotUpdateStatus(true)
+      setHotSpotUpdateStatus(true);
     }
-  }
+  };
 
   const updateHotSpots = async (viewport) => {
-    console.log(viewport)
+    console.log(viewport);
     //setHotSpotUpdateStatus(false)
-    setRequestedViewport(viewport)
-    const lng = viewport.longitude
-    const lat = viewport.latitude
-    const zoom = viewport.zoom
-    let range = 78271.484 / (Math.pow(2,zoom)) * 2048
-    setRequestedRange(range)
-    range = parseInt(range)
-    console.log(range)
+    setRequestedViewport(viewport);
+    const lng = viewport.longitude;
+    const lat = viewport.latitude;
+    const zoom = viewport.zoom;
+    let range = (78271.484 / Math.pow(2, zoom)) * 2048;
+    setRequestedRange(range);
+    range = parseInt(range);
+    console.log(range);
     const address =
       process.env.REACT_APP_API_ROOT +
       "/hotspot/search?longitude=" +
       lng +
       "&latitude=" +
       lat +
-      "&range=" +        
-      range + 
+      "&range=" +
+      range +
       "&category=" +
       selectedCategory;
 
     console.log(address);
-    const response = await axios.get(address).then( response => {
-      console.log(response)
-      setHotSpots(response.data)
+    const response = await axios.get(address).then((response) => {
+      console.log(response);
+      setHotSpots(response.data);
     });
   };
 
   const getHotspotCategories = async () => {
-    const address =
-    process.env.REACT_APP_API_ROOT + "/hotspot/categories"
+    const address = process.env.REACT_APP_API_ROOT + "/hotspot/categories";
     const response = await axios.get(address);
     console.log(response.data);
     setHotspotCategories(response.data);
@@ -90,53 +89,72 @@ export const BackendAPIProvider = ({children}) => {
   const createNewHotSpot = async (request) => {
     const token = await getTokenSilently();
 
-    const address = process.env.REACT_APP_API_ROOT + "/hotspot"
+    const address = process.env.REACT_APP_API_ROOT + "/hotspot";
 
     let axiosConfig = {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      }
-    }
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
 
-    const response = await axios.post(address, request, axiosConfig).then( response => {
-      setHotSpotCreationResolved(response)
-      console.log(response)
-    });
+    const response = await axios
+      .post(address, request, axiosConfig)
+      .then((response) => {
+        setHotSpotCreationResolved(response);
+        console.log(response);
+      });
+  };
+
+  const getHotspotWithSlug = async (slug) => {
+    try {
+      const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug;
+      const response = await axios.get(address);
+      console.log(response.data);
+      setSelectedHotspot(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const createHotspotComment = async (request, slug) => {
     const token = await getTokenSilently();
 
-    const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/comment"
+    const address =
+      process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/comment";
 
     let axiosConfig = {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      }
-    }
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
 
-    const response = await axios.post(address, request, axiosConfig).then( response => {
-      console.log(response)
-    });
+    const response = await axios
+      .post(address, request, axiosConfig)
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   const rateHotspot = async (request, slug) => {
     const token = await getTokenSilently();
 
-    const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/rate"
+    const address =
+      process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/rate";
 
     let axiosConfig = {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      }
-    }
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
 
-    const response = await axios.post(address, request, axiosConfig).then( response => {
-      console.log(response)
-    });
+    const response = await axios
+      .post(address, request, axiosConfig)
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   const findUserScore = async () => {
@@ -146,40 +164,42 @@ export const BackendAPIProvider = ({children}) => {
 
     let axiosConfig = {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      }
-    }
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
 
-    axios.get(address, axiosConfig).then (response => {
+    axios.get(address, axiosConfig).then((response) => {
       setUserScore(response.data.score);
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-      getHotspotCategories()
-  }, []); 
-    
+    getHotspotCategories();
+  }, []);
+
   return (
     <BackendAPIContext.Provider
       value={{
-          updateHotSpots,
-          hotSpots,
-          hotSpotUpdateStatus,
-          hotspotCategories,
-          selectedCategory,
-          setSelectedCategory,
-          checkHotSpotRange,
-          createNewHotSpot,
-          createHotspotComment,
-          rateHotspot,
-          setHotSpotUpdateStatus,
-          hotSpotCreationResolved,
-          findUserScore,
-          userScore
+        updateHotSpots,
+        hotSpots,
+        selectedHotspot,
+        getHotspotWithSlug,
+        hotSpotUpdateStatus,
+        hotspotCategories,
+        selectedCategory,
+        setSelectedCategory,
+        checkHotSpotRange,
+        createNewHotSpot,
+        createHotspotComment,
+        rateHotspot,
+        setHotSpotUpdateStatus,
+        hotSpotCreationResolved,
+        findUserScore,
+        userScore,
       }}
     >
-    {children}
-    </BackendAPIContext.Provider>  
+      {children}
+    </BackendAPIContext.Provider>
   );
-}
+};
