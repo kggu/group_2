@@ -19,6 +19,7 @@ export const BackendAPIProvider = ({children}) => {
   const [userScore, setUserScore] = useState(-1);
 
   const [userQueryResponse, setUserQueryResponse] = useState();
+  const [deletionQueryResponse, setDeletionQueryResponse] = useState();
 
 
   //debug, remove later
@@ -178,6 +179,26 @@ export const BackendAPIProvider = ({children}) => {
     })
   }
 
+  const deleteUserContent = async (user) => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/student/" + user.sub;
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+    console.log("deletion request sent")
+    axios.delete(address, axiosConfig).then (response => {
+      setDeletionQueryResponse(response);
+    }).catch(error => {
+      console.log(error);
+      setDeletionQueryResponse(error.response);
+    })
+  }
+
   useEffect(() => {
       getHotspotCategories()
   }, []); 
@@ -200,7 +221,9 @@ export const BackendAPIProvider = ({children}) => {
           findUserScore,
           userScore,
           findUsersForAdmin,
-          userQueryResponse
+          userQueryResponse,
+          deleteUserContent,
+          deletionQueryResponse
       }}
     >
     {children}

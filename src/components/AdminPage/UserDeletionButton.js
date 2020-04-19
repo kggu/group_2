@@ -1,14 +1,17 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Button from "react-bootstrap/Button"
 import Modal from "react-bootstrap/Modal"
 import Alert from "react-bootstrap/Alert"
 import Spinner from "react-bootstrap/Spinner"
+import { useBackendAPI } from "../../utils/backendAPI";
 
 const UserDeletionButton = props => {
     const [showDeletionForm, setShowDeletionForm] = useState(false);
     const [deletionStart, setDeletionStart] = useState(false);
     const [deletionPending, setDeletionPending] = useState(false);
     const [deletionResolved, setDeletionResolved] = useState(false);
+
+    const {deleteUserContent, deletionQueryResponse} = useBackendAPI();
 
     const closeModal = () => {
         setShowDeletionForm(false);
@@ -22,8 +25,22 @@ const UserDeletionButton = props => {
     const startDeletionProcess = () => {
         setDeletionStart(false);
         console.log(props.user);
+        deleteUserContent(props.user);
         setDeletionPending(true);
     }
+
+    useEffect(() => {
+        if (deletionQueryResponse) {
+            console.log(deletionQueryResponse)
+            console.log("does this work?")
+            if (deletionQueryResponse.status == 200) {
+                setDeletionPending(false);
+                setDeletionResolved(true);
+            } else {
+                console.log("Deletion failed");
+            }
+        }
+    },[deletionQueryResponse])
 
     /*const onResolved = () => {
         setDeletionPending(false);
