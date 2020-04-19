@@ -108,6 +108,7 @@ export const BackendAPIProvider = ({ children }) => {
 
   const getHotspotWithSlug = async (slug) => {
     try {
+      setSelectedHotspot('')
       const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug;
       const response = await axios.get(address);
       console.log(response.data);

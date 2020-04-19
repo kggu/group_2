@@ -14,7 +14,7 @@ const OverviewPage = (props) => {
 
   useEffect(() => {
     getHotspotWithSlug(props.match.params.slug);
-  }, []);
+  }, [props.match.params.slug]);
 
   if (!selectedHotspot) {
     return <div> loading...</div>;
