@@ -10,10 +10,11 @@ const NearbyHotspots = (props) => {
   const [hotspotList, mapHotspotList] = useState();
   const { selectedHotspot } = useBackendAPI();
 
-  const searchRange = 200;
+  const searchRange = 3000;
   let hasNearbyPlaces = true;
 
   useEffect(() => {
+    console.log(selectedHotspot);
     getNearbyHotspots(props.location.longitude, props.location.latitude);
   }, []);
 
@@ -22,6 +23,27 @@ const NearbyHotspots = (props) => {
       _mapNearbyHotspots();
     }
   }, [nearbyHotspots, selectedHotspot]);
+
+  function distance(lat1, lon1, lat2, lon2) {
+    if (lat1 == lat2 && lon1 == lon2) {
+      return 0;
+    } else {
+      let radlat1 = (Math.PI * lat1) / 180;
+      let radlat2 = (Math.PI * lat2) / 180;
+      let theta = lon1 - lon2;
+      let radtheta = (Math.PI * theta) / 180;
+      let dist =
+        Math.sin(radlat1) * Math.sin(radlat2) +
+        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = (dist * 180) / Math.PI;
+      dist = dist * 60 * 1.1515;
+      return dist.toString().slice(0,4) + "km";
+    }
+  }
 
   const getNearbyHotspots = async (lng, lat) => {
     const address =
@@ -54,7 +76,16 @@ const NearbyHotspots = (props) => {
           return (
             <Link to={"/hotspot/" + spot.slug}>
               <li>
-                <div className="hotspot-item"> {spot.name} </div>
+                <div className="hotspot-item">
+                  {" "}
+                  {spot.name}{" "}
+                  {distance(
+                    selectedHotspot.location.latitude,
+                    selectedHotspot.location.longitude,
+                    spot.location.latitude,
+                    spot.location.longitude
+                  )}{" "}
+                </div>
               </li>
             </Link>
           );
