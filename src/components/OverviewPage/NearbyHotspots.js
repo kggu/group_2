@@ -19,10 +19,6 @@ const NearbyHotspots = (props) => {
 
   useEffect(() => {
     if (nearbyHotspots) {
-      if (nearbyHotspots.length == 1) {
-        // Check for 1 because data always contains current hotspot
-        hasNearbyPlaces = false;
-      }
       _mapNearbyHotspots();
     }
   }, [nearbyHotspots, selectedHotspot]);
@@ -57,12 +53,19 @@ const NearbyHotspots = (props) => {
         .map(function (spot) {
           return (
             <Link to={"/hotspot/" + spot.slug}>
-              <li className="hotspot-item">{spot.name}</li>
+              <li>
+                <div className="hotspot-item"> {spot.name} </div>
+              </li>
             </Link>
           );
         })
     );
   };
+
+  if (nearbyHotspots && nearbyHotspots.length == 1) {
+    // Check for 1 because data always contains current hotspot
+    hasNearbyPlaces = false;
+  }
 
   return (
     <div>
@@ -71,7 +74,7 @@ const NearbyHotspots = (props) => {
       </div>
 
       {!hasNearbyPlaces && (
-        <div className="hotspot-item">No nearby places.</div>
+        <div className="hotspot-item text-center">No nearby places.</div>
       )}
 
       {hasNearbyPlaces && (
