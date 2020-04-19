@@ -6,7 +6,7 @@ import axios from "axios";
 const NearbyHotspots = (props) => {
   const [nearbyHotspots, setNearbyHotspots] = useState();
   const [hotspotList, mapHotspotList] = useState();
-  const searchRange = 500;
+  const searchRange = 200;
 
   useEffect(() => {
     getNearbyHotspots(props.location.longitude, props.location.latitude);
@@ -38,9 +38,16 @@ const NearbyHotspots = (props) => {
 
   const _mapNearbyHotspots = () => {
     mapHotspotList(
-      nearbyHotspots.map(function (spot) {
-        return <div>{spot.name}</div>;
-      })
+      nearbyHotspots
+        .filter(function (spot) { // Filter current hotspot from the nearby-hotspot list
+          if (spot.slug === props.currentHotspot) {
+            return false;
+          }
+          return true;
+        })
+        .map(function (spot) {
+          return <div>{spot.name}</div>;
+        })
     );
   };
 
