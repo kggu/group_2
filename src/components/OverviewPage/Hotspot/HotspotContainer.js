@@ -23,13 +23,13 @@ const HotspotContainer = (props) => {
         <div className="hotspot-address">
           <ul>
             <li>
-              <i className="fas fa-map-marker-alt"></i>{" "}
+              <i className="hotspot-details-icon fas fa-map-marker-alt"></i>{" "}
               {props.hotspotInfo.address.address}
               {","} {props.hotspotInfo.address.postalCode}{" "}
               {props.hotspotInfo.address.city}
             </li>
             <li>
-              <i class="fas fa-flag"></i>
+              <i class="hotspot-details-icon fas fa-flag"></i>
               {props.hotspotInfo.address.country}
             </li>
           </ul>
