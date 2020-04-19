@@ -14,6 +14,7 @@ const HotspotActions = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [modalShow3, setModalShow3] = useState(false);
+  // CHANGE THESE NAMES LATER !!!!
 
   const _renderTooltip = (msg) => {
     return <Tooltip id="button-tooltip">{msg}</Tooltip>;
@@ -45,10 +46,10 @@ const HotspotActions = (props) => {
   };
 
   const EditHotspotModal = (props) => {
-    console.log(props);
+    //console.log(props);
 
     props.hotspotData.openingHours.forEach((weekday) => {
-      console.log(weekday);
+      //console.log(weekday);
     });
 
 

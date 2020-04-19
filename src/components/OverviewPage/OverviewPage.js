@@ -58,7 +58,7 @@ const OverviewPage = (props) => {
             className=" custombg-primary nearbyHotspots-container rounded border-custom"
             md={{ span: 3, offset: 1 }}
           >
-            <NearbyHotspots />
+            <NearbyHotspots location={selectedHotspot.location} />
           </Col>
         </Row>
       </Container>
