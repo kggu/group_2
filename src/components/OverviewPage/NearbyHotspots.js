@@ -24,6 +24,10 @@ const NearbyHotspots = (props) => {
     }
   }, [nearbyHotspots, selectedHotspot]);
 
+  //TODO: refactor this copy-pasted function
+  //      SPLIT INTO SMALLER COMPONENETS
+  //      limit nearby hotspots list to about 5 items
+
   function distance(lat1, lon1, lat2, lon2) {
     if (lat1 == lat2 && lon1 == lon2) {
       return 0;
@@ -41,7 +45,7 @@ const NearbyHotspots = (props) => {
       dist = Math.acos(dist);
       dist = (dist * 180) / Math.PI;
       dist = dist * 60 * 1.1515;
-      return dist.toString().slice(0,4) + "km";
+      return dist.toString().slice(0, 4) + "km";
     }
   }
 
@@ -74,20 +78,23 @@ const NearbyHotspots = (props) => {
         })
         .map(function (spot) {
           return (
-            <Link to={"/hotspot/" + spot.slug}>
-              <li>
-                <div className="hotspot-item">
-                  {" "}
-                  {spot.name}{" "}
+            <li>
+              <div className="hotspot-item text-center">
+                <Link to={"/hotspot/" + spot.slug}>
+                  <a>{spot.name}</a>
+                </Link>
+                <br></br>
+                <Badge variant="secondary">{spot.category}</Badge>
+                <small>{" "}
                   {distance(
                     selectedHotspot.location.latitude,
                     selectedHotspot.location.longitude,
                     spot.location.latitude,
                     spot.location.longitude
-                  )}{" "}
-                </div>
-              </li>
-            </Link>
+                  )}
+                </small>
+              </div>
+            </li>
           );
         })
     );
