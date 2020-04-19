@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import { useBackendAPI } from "../../utils/backendAPI";
 import Spinner from "react-bootstrap/Spinner"
-import Button from "react-bootstrap/Button"
+import UserDeletionButton from "./UserDeletionButton"
 
 
 const AdminPageUserList = () => {
@@ -29,20 +29,24 @@ const AdminPageUserList = () => {
             <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Nickname</th>
                 <th>Action</th>
             </tr>
         </thead>
         {loading && ( <Spinner animation="border" role="status"> </Spinner> )}
-        {users && users.map((option, index) => {
+        {users && users.map((user, index) => {
             return (<tr>
                 <td>
-                    {index}
+                    {index + 1}
                 </td>
                 <td>
-                    {option.name}
+                    {user.name}
                 </td>
                 <td>
-                    <Button variant="danger">Delete user content</Button>
+                    {user.nickname}
+                </td>
+                <td>
+                    <UserDeletionButton user={user}></UserDeletionButton>
                 </td>
             </tr>)
         })}
