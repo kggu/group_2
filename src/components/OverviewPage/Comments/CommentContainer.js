@@ -31,9 +31,13 @@ const CommentContainer = (props) => {
 
     setComments(
       props.comments.map(function (comment) {
+
+      console.log(comment)
+
         return (
           <Comment
             commentText={comment.text}
+            commentImage={comment.photo}
             userName={comment.user.nickname}
             userPicture={comment.user.picture}
             createdAt={parseLocalTime(comment.createdAt)}
