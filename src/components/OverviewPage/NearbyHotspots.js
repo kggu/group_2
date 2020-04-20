@@ -1,39 +1,113 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ListGroup, Badge, Row, Col } from "react-bootstrap";
+import { Badge, Form } from "react-bootstrap";
+import axios from "axios";
+import "./NearbyHotspots.css";
+import { useBackendAPI } from "../../utils/backendAPI";
+import { calculateDistance } from './distance'
 
-// TODO get data from api, render 3-4 nearby hotspots
-const NearbyHotspots = props => {
+const NearbyHotspots = (props) => {
+  const [nearbyHotspots, setNearbyHotspots] = useState();
+  const [hotspotList, mapHotspotList] = useState();
+  const { selectedHotspot } = useBackendAPI();
+
+  const searchRange = 3000;
+  let hasNearbyPlaces = true;
+
+  useEffect(() => {
+    console.log(selectedHotspot);
+    getNearbyHotspots(props.location.longitude, props.location.latitude);
+  }, []);
+
+  useEffect(() => {
+    if (nearbyHotspots) {
+      _mapNearbyHotspots();
+    }
+  }, [nearbyHotspots, selectedHotspot]);
+
+  const getNearbyHotspots = async (lng, lat) => {
+    const address =
+      process.env.REACT_APP_API_ROOT +
+      "/hotspot/search?longitude=" +
+      lng +
+      "&latitude=" +
+      lat +
+      "&range=" +
+      searchRange;
+
+    console.log(address);
+    const response = await axios.get(address).then((response) => {
+      console.log(response.data);
+      setNearbyHotspots(response.data);
+    });
+  };
+
+  const _mapNearbyHotspots = () => {
+    mapHotspotList(
+      nearbyHotspots
+        .filter(function (spot) {
+          // Filter current hotspot showing in nearby-hotspot list
+          if (spot.slug === props.currentHotspot) {
+            return false;
+          }
+          return true;
+        })
+        .slice(0, 5)
+        // Show max. 5 hotspots in list
+        .map(function (spot) {
+          return (
+            <NearbyListItem
+              slug={spot.slug}
+              name={spot.name}
+              category={spot.category}
+              distance={calculateDistance(
+                selectedHotspot.location.latitude,
+                selectedHotspot.location.longitude,
+                spot.location.latitude,
+                spot.location.longitude
+              )}
+            />
+          );
+        })
+    );
+  };
+
+  if (nearbyHotspots && nearbyHotspots.length == 1) {
+    // Check for 1 because data always contains current hotspot
+    hasNearbyPlaces = false;
+  }
+
   return (
-    <ListGroup variant="">
-        <ListGroup.Item className="text-center">
-            Nearby hotspots
-        </ListGroup.Item>
-      <Link to="/hotspot/subway-linnanmaa">
-        <ListGroup.Item>
-          <Row>
-            <Col md="">
-              <Badge variant="secondary">FOOD</Badge>
-            </Col>
-            <Col>
-              <div>Subway linnanmaa</div>
-            </Col>
-          </Row>
-        </ListGroup.Item>
-      </Link>
-      <Link to="/hotspot/paska-kaupunni">
-        <ListGroup.Item>
-          <Row>
-            <Col md="">
-              <Badge variant="secondary">ARTS</Badge>
-            </Col>
-            <Col>
-              <div>Paska kaupunni</div>
-            </Col>
-          </Row>
-        </ListGroup.Item>
-      </Link>
-    </ListGroup>
+    <div>
+      <div className="nearby-header text-center">
+        <a>Nearby hotspots</a>
+      </div>
+
+      {!hasNearbyPlaces && (
+        <div className="hotspot-item text-center">No nearby places.</div>
+      )}
+
+      {hasNearbyPlaces && (
+        <div className="nearby-list">
+          <ul>{hotspotList}</ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const NearbyListItem = (props) => {
+  return (
+    <li>
+      <div className="hotspot-item text-center">
+        <Link to={"/hotspot/" + props.slug}>
+          <a>{props.name}</a>
+        </Link>
+        <br></br>
+        <Badge variant="secondary">{props.category}</Badge>
+        <small> {props.distance}</small>
+      </div>
+    </li>
   );
 };
 

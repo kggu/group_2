@@ -3,11 +3,14 @@ import PostComment from "./PostComment";
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "../../../react-auth0-spa";
 import "./comments.css";
+import { useBackendAPI } from '../../../utils/backendAPI'
 
 const CommentContainer = (props) => {
   const { loading, user, isAuthenticated } = useAuth0();
   const [comments, setComments] = useState();
   let totalComments = 0;
+
+  const {selectedHotspot} = useBackendAPI(); 
 
   const parseLocalTime = (timeString) => {
     return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
@@ -17,7 +20,7 @@ const CommentContainer = (props) => {
     if (props.comments) {
       _mapComments();
     }
-  }, []);
+  }, [selectedHotspot]);
 
   const _mapComments = () => {
     if (props.comments.length == 0 || !props.comments) {
