@@ -18,7 +18,7 @@ const HotspotPopup = props => {
       longitude={props.longitude}
       latitude={props.latitude}
     >
-      <Card style={{ width: "11rem" }}>
+      <Card border="warning" style={{ width: "11rem" }}>
         <Card.Body>
           <>
             <style type="text/css">
