@@ -11,38 +11,13 @@ import {
 import ReviewHotspotChanges from './EditHotspot'
 
 const HotspotActions = (props) => {
-  const [modalShow, setModalShow] = useState(false);
   const [modalShow2, setModalShow2] = useState(false);
   const [modalShow3, setModalShow3] = useState(false);
   // CHANGE THESE NAMES LATER !!!!
+  // WORK IN PROGRESS
 
   const _renderTooltip = (msg) => {
     return <Tooltip id="button-tooltip">{msg}</Tooltip>;
-  };
-
-  //TODO: add backend request when endpoint is implemented.
-  const ReportHotspotModal = (props) => {
-    return (
-      <Modal
-        {...props}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Body>
-          <h4>Report hotspot</h4>
-          <a>Are sure you want to report this Hotspot?</a>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="" onClick={props.onHide}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={() => props.onHide()}>
-            Report
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
   };
 
   const EditHotspotModal = (props) => {
@@ -168,19 +143,6 @@ const HotspotActions = (props) => {
       <OverlayTrigger
         placement="top"
         delay={{ show: 250, hide: 100 }}
-        overlay={_renderTooltip("Report this hotspot")}
-      >
-        <Button
-          onClick={() => setModalShow(true)}
-          className="action-button"
-          variant=""
-        >
-          <i className="fas fa-trash"></i>
-        </Button>
-      </OverlayTrigger>
-      <OverlayTrigger
-        placement="top"
-        delay={{ show: 250, hide: 100 }}
         overlay={_renderTooltip("Suggest a change")}
       >
         <Button
@@ -191,7 +153,6 @@ const HotspotActions = (props) => {
           <i className="fas fa-pen"></i>
         </Button>
       </OverlayTrigger>
-      <ReportHotspotModal show={modalShow} onHide={() => setModalShow(false)} />
       <EditHotspotModal
         hotspotData={props.hotspotData}
         show={modalShow2}
