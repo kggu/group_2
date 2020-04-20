@@ -41,7 +41,6 @@ const Map = (props) => {
       props.match.params.lng,
       props.match.params.zoom
     );
-    console.log("testi");
   }, [props.match.params.lat, props.match.params.lng, props.match.params.zoom]);
 
   const updateViewportFromCoordinates = (lat, lng, zoom) => {

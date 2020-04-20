@@ -35,18 +35,21 @@ const HotspotCreation = props => {
     const target = useRef(null);
     
     useEffect(() => {
-        setLoadingStatus(false)
-        setAwaitingResponse(false)
-        setName('');
-        setAddress('');
-        setCity('');
-        setZip('');
-        setCountry('');
-        setWeekDay('');
-        setOpeningTime('');
-        setClosingTime('');
-        setSavedOpeningHours([]);
-        setValidated(false);
+        if (props.show) {
+            setLoadingStatus(false)
+            setAwaitingResponse(false)
+            setName('');
+            setAddress('');
+            setCity('');
+            setZip('');
+            setCountry('');
+            setWeekDay('');
+            setOpeningTime('');
+            setClosingTime('');
+            setSavedOpeningHours([]);
+            setValidated(false);
+        }
+        
     }, [props.lngLat])
 
     useEffect(() => {
@@ -119,7 +122,6 @@ const HotspotCreation = props => {
     },[hotSpotCreationResolved])
 
     useEffect(() => {
-        console.log(savedOpeningHours)
         var valueArr = savedOpeningHours.map(function(item){ return item.weekDay });
         var isDuplicate = valueArr.some(function(item, idx){ 
             return valueArr.indexOf(item) != idx 
