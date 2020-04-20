@@ -15,7 +15,6 @@ const NearbyHotspots = (props) => {
   let hasNearbyPlaces = true;
 
   useEffect(() => {
-    console.log(selectedHotspot);
     getNearbyHotspots(props.location.longitude, props.location.latitude);
   }, []);
 
@@ -35,9 +34,8 @@ const NearbyHotspots = (props) => {
       "&range=" +
       searchRange;
 
-    console.log(address);
     const response = await axios.get(address).then((response) => {
-      console.log(response.data);
+      //console.log(response.data);
       setNearbyHotspots(response.data);
     });
   };

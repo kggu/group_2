@@ -6,7 +6,7 @@ const SideBar = () => {
   const {
     hotspotCategories,
     selectedCategory,
-    setSelectedCategory
+    setSelectedCategory,
   } = useBackendAPI();
   const [categoryItems, setCategoryItems] = useState();
   const [selectedItem, selectItem] = useState("");
@@ -19,7 +19,7 @@ const SideBar = () => {
 
   const _loadCategoryItems = () => {
     setCategoryItems(
-      hotspotCategories.map(function(category) {
+      hotspotCategories.map(function (category) {
         return (
           <CategoryItem
             value={category.value}
@@ -32,7 +32,7 @@ const SideBar = () => {
     );
   };
 
-  const _selectCategory = clickedCategory => {
+  const _selectCategory = (clickedCategory) => {
     console.log("clicked: " + clickedCategory);
     if (selectedCategory === clickedCategory) {
       selectItem("");
@@ -48,7 +48,9 @@ const SideBar = () => {
       <div className="categories">
         <div className="categories-header">
           <div>Categories</div>
-          <button className="resetBtn" onClick={() => _selectCategory("")}>Reset</button>
+          <button className="resetBtn" onClick={() => _selectCategory("")}>
+            Reset
+          </button>
         </div>
         {categoryItems ? categoryItems : <small>loading...</small>}
       </div>
@@ -56,14 +58,15 @@ const SideBar = () => {
   );
 };
 
-const CategoryItem = props => {
+const CategoryItem = (props) => {
   return (
     <div
+      onClick={() => props.handleClick(props.value)}
       className={`category-item ${
         props.selectedItem == props.value ? "category-item-selected" : ""
       }`}
     >
-      <a onClick={() => props.handleClick(props.value)}>{props.name}</a>
+      <a>{props.name}</a>
     </div>
   );
 };
