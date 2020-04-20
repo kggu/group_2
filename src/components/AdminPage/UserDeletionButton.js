@@ -18,6 +18,7 @@ const UserDeletionButton = props => {
         setDeletionStart(false);
         setDeletionPending(false);
         setDeletionResolved(false);
+        props.onComplete();
     }
 
     const showModal = () => {

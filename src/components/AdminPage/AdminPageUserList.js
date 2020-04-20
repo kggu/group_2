@@ -3,6 +3,7 @@ import Table from "react-bootstrap/Table";
 import { useBackendAPI } from "../../utils/backendAPI";
 import Spinner from "react-bootstrap/Spinner"
 import UserDeletionButton from "./UserDeletionButton"
+import { useAuth0 } from "../../react-auth0-spa";
 
 
 const AdminPageUserList = () => {
@@ -12,9 +13,15 @@ const AdminPageUserList = () => {
     const [loading, setLoading] = useState();
     const [users, setUsers] = useState();
 
-    useEffect(() => {
-        setLoading(true)
+    const { user } = useAuth0();
+
+    const updateUserList = () => {
+        setLoading(true);
         findUsersForAdmin();
+    }
+
+    useEffect(() => {
+        updateUserList();
     },[])
 
     useEffect(() => {
@@ -33,20 +40,27 @@ const AdminPageUserList = () => {
                 <th>Action</th>
             </tr>
         </thead>
+
         {loading && ( <Spinner animation="border" role="status"> </Spinner> )}
-        {users && users.map((user, index) => {
+
+        {users && users.filter( (selectedUser) => {
+            if (user.sub == selectedUser.sub) {
+                return false;
+            }
+            return true;
+        }).map((selectedUser, index) => {
             return (<tr>
                 <td>
                     {index + 1}
                 </td>
                 <td>
-                    {user.name}
+                    {selectedUser.name}
                 </td>
                 <td>
-                    {user.nickname}
+                    {selectedUser.nickname}
                 </td>
                 <td>
-                    <UserDeletionButton user={user}></UserDeletionButton>
+                    <UserDeletionButton user={selectedUser} onComplete={updateUserList}></UserDeletionButton>
                 </td>
             </tr>)
         })}
