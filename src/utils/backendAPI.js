@@ -17,10 +17,14 @@ export const BackendAPIProvider = ({ children }) => {
 
   const [hotSpotCreationResolved, setHotSpotCreationResolved] = useState();
 
-  const [userScore, setUserScore] = useState();
+  const [userScore, setUserScore] = useState(-1);
+
+  const [userQueryResponse, setUserQueryResponse] = useState();
+  const [deletionQueryResponse, setDeletionQueryResponse] = useState();
 
   const [requestedRange, setRequestedRange] = useState(0);
   const [hotSpotUpdateStatus, setHotSpotUpdateStatus] = useState(false);
+  
   const [requestedViewport, setRequestedViewport] = useState({
     width: "100%",
     height: window.innerHeight,
@@ -159,6 +163,7 @@ export const BackendAPIProvider = ({ children }) => {
   };
 
   const findUserScore = async () => {
+    setUserScore(-1);
     const token = await getTokenSilently();
 
     const address = process.env.REACT_APP_API_ROOT + "/student/me/";
@@ -175,6 +180,47 @@ export const BackendAPIProvider = ({ children }) => {
     });
   };
 
+  const findUsersForAdmin = async () => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/student/search"
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    axios.get(address, axiosConfig).then (response => {
+      setUserQueryResponse(response);
+    }).catch(error => {
+      setUserQueryResponse(error.response);
+    })
+  }
+
+  const deleteUserContent = async (user) => {
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/student/" + user.sub;
+    const encodedAddr = encodeURI(address);
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+    console.log("deletion request sent")
+
+    axios.delete(encodedAddr, axiosConfig).then (response => {
+      setDeletionQueryResponse(response);
+    }).catch(error => {
+      console.log(error);
+      setDeletionQueryResponse(error.response);
+    })
+  }
+
   useEffect(() => {
     getHotspotCategories();
   }, []);
@@ -182,22 +228,26 @@ export const BackendAPIProvider = ({ children }) => {
   return (
     <BackendAPIContext.Provider
       value={{
-        updateHotSpots,
-        hotSpots,
-        selectedHotspot,
-        getHotspotWithSlug,
-        hotSpotUpdateStatus,
-        hotspotCategories,
-        selectedCategory,
-        setSelectedCategory,
-        checkHotSpotRange,
-        createNewHotSpot,
-        createHotspotComment,
-        rateHotspot,
-        setHotSpotUpdateStatus,
-        hotSpotCreationResolved,
-        findUserScore,
-        userScore,
+          updateHotSpots,
+          hotSpots,
+          selectedHotspot,
+          getHotspotWithSlug,
+          hotSpotUpdateStatus,
+          hotspotCategories,
+          selectedCategory,
+          setSelectedCategory,
+          checkHotSpotRange,
+          createNewHotSpot,
+          createHotspotComment,
+          rateHotspot,
+          setHotSpotUpdateStatus,
+          hotSpotCreationResolved,
+          findUserScore,
+          userScore,
+          findUsersForAdmin,
+          userQueryResponse,
+          deleteUserContent,
+          deletionQueryResponse
       }}
     >
       {children}

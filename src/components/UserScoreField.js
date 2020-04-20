@@ -10,19 +10,22 @@ const UserScoreField = () => {
 
     useEffect(() => {
         setUserScoreFound(false)
+        console.log(user)
         findUserScore();
       }, [user]);
 
       useEffect(() => {
-          setUserScoreFound(true)
+          if (userScore > -1) {
+            setUserScoreFound(true)
+          }
       }, [userScore])
 
     return (
     <div style={{fontSize: "2rem"}}>
         {userScoreFound && (
-        <span class="fa-layers fa-lg">
-            <i class="fas fa-star" style={{color: 'yellow'}}></i>
-            <span class="fa-layers-text" data-fa-transform="shrink-11 right-1 down-1" style={{fontWeight:800}}>{userScore}</span>
+        <span className="fa-layers fa-lg">
+            <i className="fas fa-star" style={{color: 'yellow'}}></i>
+            <span className="fa-layers-text" data-fa-transform="shrink-11 right-1 down-1" style={{fontWeight:800}}>{userScore}</span>
         </span>
         )}
     </div>
