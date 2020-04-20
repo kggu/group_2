@@ -26,7 +26,6 @@ const NearbyHotspots = (props) => {
 
   //TODO: refactor this copy-pasted function
   //      SPLIT INTO SMALLER COMPONENETS
-  //      limit nearby hotspots list to about 5 items
 
   function distance(lat1, lon1, lat2, lon2) {
     if (lat1 == lat2 && lon1 == lon2) {
@@ -75,7 +74,7 @@ const NearbyHotspots = (props) => {
             return false;
           }
           return true;
-        })
+        }).slice(0,5)
         .map(function (spot) {
           return (
             <li>
@@ -85,7 +84,8 @@ const NearbyHotspots = (props) => {
                 </Link>
                 <br></br>
                 <Badge variant="secondary">{spot.category}</Badge>
-                <small>{" "}
+                <small>
+                  {" "}
                   {distance(
                     selectedHotspot.location.latitude,
                     selectedHotspot.location.longitude,
