@@ -15,6 +15,9 @@ const UserDeletionButton = props => {
 
     const closeModal = () => {
         setShowDeletionForm(false);
+        setDeletionStart(false);
+        setDeletionPending(false);
+        setDeletionResolved(false);
     }
 
     const showModal = () => {
@@ -31,8 +34,6 @@ const UserDeletionButton = props => {
 
     useEffect(() => {
         if (deletionQueryResponse) {
-            console.log(deletionQueryResponse)
-            console.log("does this work?")
             if (deletionQueryResponse.status == 200) {
                 setDeletionPending(false);
                 setDeletionResolved(true);
@@ -42,11 +43,6 @@ const UserDeletionButton = props => {
         }
     },[deletionQueryResponse])
 
-    /*const onResolved = () => {
-        setDeletionPending(false);
-        setDeletionResolved(true);
-    }*/
-    
 
     return  (<>
         <Button variant="danger" onClick={showModal}>Delete user</Button>

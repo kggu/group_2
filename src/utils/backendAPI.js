@@ -183,6 +183,7 @@ export const BackendAPIProvider = ({children}) => {
     const token = await getTokenSilently();
 
     const address = process.env.REACT_APP_API_ROOT + "/student/" + user.sub;
+    const encodedAddr = encodeURI(address);
 
     let axiosConfig = {
       headers: {
@@ -191,7 +192,8 @@ export const BackendAPIProvider = ({children}) => {
       }
     }
     console.log("deletion request sent")
-    axios.delete(address, axiosConfig).then (response => {
+
+    axios.delete(encodedAddr, axiosConfig).then (response => {
       setDeletionQueryResponse(response);
     }).catch(error => {
       console.log(error);
