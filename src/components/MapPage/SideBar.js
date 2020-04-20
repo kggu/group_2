@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./sidebar.css";
 import { useBackendAPI } from "../../utils/backendAPI";
 
-const SideBar = () => {
+const SideBar = (props) => {
   const {
     hotspotCategories,
     selectedCategory,
     setSelectedCategory,
+    updateHotSpots
   } = useBackendAPI();
   const [categoryItems, setCategoryItems] = useState();
   const [selectedItem, selectItem] = useState("");
@@ -15,6 +16,7 @@ const SideBar = () => {
     if (hotspotCategories) {
       _loadCategoryItems();
     }
+    updateHotSpots(props.viewport)
   }, [hotspotCategories, selectedItem]);
 
   const _loadCategoryItems = () => {
