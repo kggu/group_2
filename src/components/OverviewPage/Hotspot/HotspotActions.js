@@ -9,6 +9,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import ReviewHotspotChanges from './EditHotspot'
+import ReviewHotSpotChangesForm from '../../Reusable/ReviewHotSpotChangesForm'
 
 const HotspotActions = (props) => {
   const [modalShow2, setModalShow2] = useState(false);
@@ -20,6 +21,15 @@ const HotspotActions = (props) => {
     return <Tooltip id="button-tooltip">{msg}</Tooltip>;
   };
 
+  const onSubmit = () => {
+    setModalShow2(false);
+    setModalShow3(true);
+  }
+
+  const onConfirm = () => {
+    console.log("Confirmed form")
+  }
+
   const EditHotspotModal = (props) => {
     //console.log(props);
 
@@ -27,11 +37,13 @@ const HotspotActions = (props) => {
       //console.log(weekday);
     });
 
+    
+
 
     return (
       <Modal
         {...props}
-        size="lg"
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -121,18 +133,13 @@ const HotspotActions = (props) => {
                 <Form.Control value={props.hotspotData.address.country} />
               </Form.Group>
             </Form.Row>
-
-            <Button
-              onClick={() => {
-                setModalShow3(true);
-                setModalShow2(false);
-              }}
+          </Form>
+          <Button
+              onClick={onSubmit}
               variant="primary"
-              type="submit"
             >
               Submit
-            </Button>
-          </Form>
+          </Button>
         </Modal.Body>
       </Modal>
     );
@@ -158,11 +165,17 @@ const HotspotActions = (props) => {
         show={modalShow2}
         onHide={() => setModalShow2(false)}
       />
-      <ReviewHotspotChanges
-        hotspotData={props.hotspotData}
+
+      {modalShow3 && (<ReviewHotSpotChangesForm
+        newData={props.hotspotData}
         show={modalShow3}
-        onHide={() => setModalShow3(false)}
-      />
+        onAction={onConfirm}
+        actionDescription="Submit changes for review"
+        onHide={() => {setModalShow3(false)}}
+        >
+        </ReviewHotSpotChangesForm>
+      )}
+                    
     </div>
   );
 };

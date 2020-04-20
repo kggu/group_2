@@ -6,11 +6,11 @@ import Col from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import { useBackendAPI } from "../../utils/backendAPI";
 
-const ReviewHotSpotChangesForm = props => {
+const ReviewHotSpotChangesForm = (props) => {
     const [loading, setLoading] = useState(false);
     const [ oldData, setOldData ] = useState();
 
-    const { selectedHotspot, getHotspotWithSlug } = useBackendAPI();
+    const { findCurrentHotSpotDataFromSlug, currentHotSpotData } = useBackendAPI();
 
     const [city, setCity] = useState();
     const [address, setAddress] = useState();
@@ -20,11 +20,11 @@ const ReviewHotSpotChangesForm = props => {
     useEffect(() => {
         setOldData();
         setLoading(true);
-        getHotspotWithSlug(props.newData.slug);
+        findCurrentHotSpotDataFromSlug(props.newData.slug);
     },[])
 
     useEffect(() => {
-        if (selectedHotspot) {
+        if (currentHotSpotData) {
             setLoading(false);
 
             setCity(props.newData.address.city);
@@ -32,9 +32,9 @@ const ReviewHotSpotChangesForm = props => {
             setPostalCode(props.newData.address.postalCode);
             setCountry(props.newData.address.country);
 
-            setOldData(selectedHotspot)
+            setOldData(currentHotSpotData)
         }
-    },[selectedHotspot])
+    },[currentHotSpotData])
 
 
 
@@ -234,7 +234,7 @@ const ReviewHotSpotChangesForm = props => {
             </Form>
             <Button variant="primary" onClick={props.onAction}>
                 {props.actionDescription}
-              </Button>
+            </Button>
           </Modal.Body>
         )}
     </Modal>

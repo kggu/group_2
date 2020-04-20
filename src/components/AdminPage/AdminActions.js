@@ -13,15 +13,15 @@ const AdminActions = () => {
     const [key, setKey] = useState('View suggestions')
 
     const [show, setShow] = useState(false);
-    const { selectedHotspot, getHotspotWithSlug } = useBackendAPI();
+    const { findCurrentHotSpotDataFromSlug, currentHotSpotData } = useBackendAPI();
 
     useEffect(() => {
-        getHotspotWithSlug("kaupunginkirjasto");
+        findCurrentHotSpotDataFromSlug("kaupunginkirjasto");
     }, []);
 
     useEffect(() => {
-        console.log(selectedHotspot);
-    },[selectedHotspot])
+        console.log(currentHotSpotData);
+    },[currentHotSpotData])
 
     const tester = () => {
         console.log("Approved changes");
@@ -35,11 +35,11 @@ const AdminActions = () => {
             onSelect={(k) => setKey(k)}
             className="custom-tabs">
                 <Tab eventKey="View suggestions" title="View suggestions" tabClassName="bg-darkblue">
-                    {selectedHotspot && <Button onClick={() => {setShow(true)}}></Button>}
+                    {currentHotSpotData && <Button onClick={() => {setShow(true)}}></Button>}
 
                     {show && (
                         <ReviewHotSpotChangesForm
-                        newData={selectedHotspot}
+                        newData={currentHotSpotData}
                         show={show}
                         onAction={tester}
                         actionDescription="Approve changes"
