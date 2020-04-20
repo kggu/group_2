@@ -39,7 +39,6 @@ const AdminActions = () => {
 
                     {show && (
                         <ReviewHotSpotChangesForm
-                        slug={"kaupunginkirjasto"}
                         newData={selectedHotspot}
                         show={show}
                         onAction={tester}

@@ -20,7 +20,7 @@ const ReviewHotSpotChangesForm = props => {
     useEffect(() => {
         setOldData();
         setLoading(true);
-        getHotspotWithSlug(props.slug);
+        getHotspotWithSlug(props.newData.slug);
     },[])
 
     useEffect(() => {
@@ -33,7 +33,6 @@ const ReviewHotSpotChangesForm = props => {
             setCountry(props.newData.address.country);
 
             setOldData(selectedHotspot)
-            console.log(props.newData.address.city)
         }
     },[selectedHotspot])
 
