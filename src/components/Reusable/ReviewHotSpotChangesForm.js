@@ -11,7 +11,11 @@ const ReviewHotSpotChangesForm = props => {
     const [ oldData, setOldData ] = useState();
 
     const { selectedHotspot, getHotspotWithSlug } = useBackendAPI();
-    
+
+    const [city, setCity] = useState();
+    const [address, setAddress] = useState();
+    const [postalCode, setPostalCode] = useState();
+    const [country, setCountry] = useState();
 
     useEffect(() => {
         setOldData();
@@ -22,14 +26,23 @@ const ReviewHotSpotChangesForm = props => {
     useEffect(() => {
         if (selectedHotspot) {
             setLoading(false);
+
+            setCity(props.newData.address.city);
+            setAddress(props.newData.address.address);
+            setPostalCode(props.newData.address.postalCode);
+            setCountry(props.newData.address.country);
+
             setOldData(selectedHotspot)
+            console.log(props.newData.address.city)
         }
     },[selectedHotspot])
+
+
 
     return (
     <Modal
     {...props}
-    size="lg"
+    size="xl"
     aria-labelledby="contained-modal-title-vcenter"
     centered
     >
@@ -64,7 +77,7 @@ const ReviewHotSpotChangesForm = props => {
                 </Form.Group>
     
                 <Form.Group as={Col}>
-                  <Form.Control plaintext value={"placeholder"} />
+                  <Form.Control plaintext value={props.newData.name} />
                 </Form.Group>
               </Form.Row>
     
@@ -89,7 +102,7 @@ const ReviewHotSpotChangesForm = props => {
                 </Form.Group>
     
                 <Form.Group as={Col}>
-                  <Form.Control plaintext value={"placeholder"} />
+                  <Form.Control plaintext value={props.newData.description} />
                 </Form.Group>
               </Form.Row>
     
@@ -114,7 +127,7 @@ const ReviewHotSpotChangesForm = props => {
                 </Form.Group>
     
                 <Form.Group as={Col}>
-                  <Form.Control plaintext value={"placeholder"} />
+                  <Form.Control plaintext value={props.newData.category} />
                 </Form.Group>
               </Form.Row>
     
@@ -139,7 +152,7 @@ const ReviewHotSpotChangesForm = props => {
                 </Form.Group>
     
                 <Form.Group as={Col} >
-                  <Form.Control plaintext value={"placeholder"} />
+                  <Form.Control plaintext value={city} />
                 </Form.Group>
               </Form.Row>
     
@@ -164,7 +177,7 @@ const ReviewHotSpotChangesForm = props => {
                 </Form.Group>
     
                 <Form.Group as={Col}>
-                  <Form.Control plaintext value={"placeholder"} />
+                  <Form.Control plaintext value={address} />
                 </Form.Group>
               </Form.Row>
     
@@ -189,7 +202,7 @@ const ReviewHotSpotChangesForm = props => {
                 </Form.Group>
     
                 <Form.Group as={Col}>
-                  <Form.Control plaintext value={"placeholder"} />
+                  <Form.Control plaintext value={postalCode} />
                 </Form.Group>
               </Form.Row>
     
@@ -214,14 +227,15 @@ const ReviewHotSpotChangesForm = props => {
                 </Form.Group>
     
                 <Form.Group as={Col}>
-                  <Form.Control plaintext value={"placeholder"} />
+                  <Form.Control plaintext value={country} />
                 </Form.Group>
               </Form.Row>
     
-              <Button variant="primary" type="submit">
-                Request changes
-              </Button>
+              
             </Form>
+            <Button variant="primary" onClick={props.onAction}>
+                {props.actionDescription}
+              </Button>
           </Modal.Body>
         )}
     </Modal>
