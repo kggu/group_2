@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ListGroup, Badge, Row, Col } from "react-bootstrap";
+import { Badge, Form } from "react-bootstrap";
 import axios from "axios";
 import "./NearbyHotspots.css";
 import { useBackendAPI } from "../../utils/backendAPI";
+import { calculateDistance } from './distance'
 
 const NearbyHotspots = (props) => {
   const [nearbyHotspots, setNearbyHotspots] = useState();
@@ -23,30 +24,6 @@ const NearbyHotspots = (props) => {
       _mapNearbyHotspots();
     }
   }, [nearbyHotspots, selectedHotspot]);
-
-  //TODO: refactor this copy-pasted function
-  //      SPLIT INTO SMALLER COMPONENETS
-
-  function distance(lat1, lon1, lat2, lon2) {
-    if (lat1 == lat2 && lon1 == lon2) {
-      return 0;
-    } else {
-      let radlat1 = (Math.PI * lat1) / 180;
-      let radlat2 = (Math.PI * lat2) / 180;
-      let theta = lon1 - lon2;
-      let radtheta = (Math.PI * theta) / 180;
-      let dist =
-        Math.sin(radlat1) * Math.sin(radlat2) +
-        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-      if (dist > 1) {
-        dist = 1;
-      }
-      dist = Math.acos(dist);
-      dist = (dist * 180) / Math.PI;
-      dist = dist * 60 * 1.1515;
-      return dist.toString().slice(0, 4) + "km";
-    }
-  }
 
   const getNearbyHotspots = async (lng, lat) => {
     const address =
@@ -74,27 +51,22 @@ const NearbyHotspots = (props) => {
             return false;
           }
           return true;
-        }).slice(0,5)
+        })
+        .slice(0, 5)
+        // Show max. 5 hotspots in list
         .map(function (spot) {
           return (
-            <li>
-              <div className="hotspot-item text-center">
-                <Link to={"/hotspot/" + spot.slug}>
-                  <a>{spot.name}</a>
-                </Link>
-                <br></br>
-                <Badge variant="secondary">{spot.category}</Badge>
-                <small>
-                  {" "}
-                  {distance(
-                    selectedHotspot.location.latitude,
-                    selectedHotspot.location.longitude,
-                    spot.location.latitude,
-                    spot.location.longitude
-                  )}
-                </small>
-              </div>
-            </li>
+            <NearbyListItem
+              slug={spot.slug}
+              name={spot.name}
+              category={spot.category}
+              distance={calculateDistance(
+                selectedHotspot.location.latitude,
+                selectedHotspot.location.longitude,
+                spot.location.latitude,
+                spot.location.longitude
+              )}
+            />
           );
         })
     );
@@ -121,6 +93,21 @@ const NearbyHotspots = (props) => {
         </div>
       )}
     </div>
+  );
+};
+
+const NearbyListItem = (props) => {
+  return (
+    <li>
+      <div className="hotspot-item text-center">
+        <Link to={"/hotspot/" + props.slug}>
+          <a>{props.name}</a>
+        </Link>
+        <br></br>
+        <Badge variant="secondary">{props.category}</Badge>
+        <small> {props.distance}</small>
+      </div>
+    </li>
   );
 };
 
