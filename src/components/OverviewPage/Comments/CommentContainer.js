@@ -1,20 +1,26 @@
 import Comment from "./Comment";
 import PostComment from "./PostComment";
+import ViewCommentImage from "./ViewCommentImage";
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "../../../react-auth0-spa";
 import "./comments.css";
-import { useBackendAPI } from '../../../utils/backendAPI'
+import { useBackendAPI } from "../../../utils/backendAPI";
 
 const CommentContainer = (props) => {
   const { loading, user, isAuthenticated } = useAuth0();
   const [comments, setComments] = useState();
-  let totalComments = 0;
 
-  const {selectedHotspot} = useBackendAPI(); 
+  const [showImage, setShowImage] = useState(false);
+
+  const { selectedHotspot } = useBackendAPI();
 
   const parseLocalTime = (timeString) => {
     return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
   };
+
+  const _showModal = () => {
+    setShowImage(true)
+  }
 
   useEffect(() => {
     if (props.comments) {
@@ -27,15 +33,15 @@ const CommentContainer = (props) => {
       return;
     }
 
-    props.comments.sort((a,b) => a.createdAt < b.createdAt);
+    props.comments.sort((a, b) => a.createdAt < b.createdAt);
 
     setComments(
       props.comments.map(function (comment) {
-
-      console.log(comment)
+        console.log(comment);
 
         return (
           <Comment
+            _onClick={_showModal}
             commentText={comment.text}
             commentImage={comment.photo}
             userName={comment.user.nickname}
@@ -64,11 +70,17 @@ const CommentContainer = (props) => {
       </div>
       <div className="postComment">
         {isAuthenticated ? (
-          <PostComment slug={props.slug} userName={user.nickname} userPicture={user.picture} />
+          <PostComment
+            slug={props.slug}
+            userName={user.nickname}
+            userPicture={user.picture}
+          />
         ) : (
           <p> You must be logged in to post comments.</p>
         )}
       </div>
+      <ViewCommentImage show={showImage} 
+      onHide={() => setShowImage(false)}/>
     </div>
   );
 };

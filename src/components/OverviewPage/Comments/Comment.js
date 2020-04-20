@@ -5,17 +5,16 @@ const Comment = (props) => {
   const [thumbnail, setThumbnail] = useState("");
   const [hasPicture, setHasPicture] = useState(false);
 
-  const params = "w_50,h_50/";
+  const params = "w_90,h_90/";
 
   useEffect(() => {
     if (props.commentImage) {
       setHasPicture(true);
-    } else {
-      console.log("no img")
     }
   }, []);
 
-  //TODO: better string concation for parameters
+  //TODO: better string formatting/searching
+  //      style thumbnail in right place
   useEffect(() => {
     if (props.commentImage) {
       console.log(props.commentImage.imageUrl);
@@ -39,7 +38,7 @@ const Comment = (props) => {
         <p className="comment-text">{props.commentText}</p>
       </div>
       {hasPicture && (
-        <Image src={thumbnail} className="comment-picture"></Image>
+        <Image onClick={props._onClick} src={thumbnail} className="comment-picture"></Image>
       )}
     </Row>
   );
