@@ -1,52 +1,33 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Container, Jumbotron, Button, Row, Col, Badge } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useBackendAPI } from "../../utils/backendAPI";
+import { Container, Jumbotron, Row, Col, Badge } from "react-bootstrap";
 import "../frontpage.css";
 import "./OverviewPage.css";
-import OpeningHoursTable from "./OpeningHoursTable";
-import HotspotInfo from "./HotspotInfo";
+import OpeningHoursTable from "./Hotspot/OpeningHoursTable";
+import HotspotContainer from "./Hotspot/HotspotContainer";
 import NearbyHotspots from "./NearbyHotspots";
 import CommentContainer from "./Comments/CommentContainer";
 
-const OverviewPage = props => {
-  const [hotspotData, setHotspotData] = useState();
-  const [requestError, setRequestError] = useState();
+
+const OverviewPage = (props) => {
+  const { selectedHotspot, getHotspotWithSlug } = useBackendAPI();
 
   useEffect(() => {
-    GetWithSlug(props.match.params.slug);
-  }, []);
+    getHotspotWithSlug(props.match.params.slug);
+  }, [props.match.params.slug]);
 
-  const GetWithSlug = async slug => {
-    try {
-      const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug;
-      const response = await axios.get(address);
-      console.log(response.data);
-      setHotspotData(response.data);
-    } catch (error) {
-      console.log(error);
-      setRequestError(error);
-    }
-  };
-
-  // temporary solution for request errors.. clean this up later.
-  if (requestError) {
-    return <div>{requestError}</div>;
-  }
-
-  if (!hotspotData) {
+  if (!selectedHotspot) {
     return <div> loading...</div>;
   }
 
-  // TODO: split into smaller components
-  if (hotspotData)
+  if (selectedHotspot)
     return (
       <Container>
         <Jumbotron className="custombg-primary text-center border-custom jumbotronStyle text-secondary">
-          <h1 className="display-4">{hotspotData.name}</h1>
+          <h1 className="display-4">{selectedHotspot.name}</h1>
           <p>
-            <Badge variant="secondary">{hotspotData.category}</Badge>{" "}
-            {hotspotData.description}
+            <Badge variant="secondary">{selectedHotspot.category}</Badge>{" "}
+            {selectedHotspot.description}
           </p>
         </Jumbotron>
         <Row>
@@ -54,13 +35,13 @@ const OverviewPage = props => {
             className="custombg-primary hotspotInfo-container rounded border-custom"
             md={8}
           >
-            <HotspotInfo hotspotInfo={hotspotData} />
+            <HotspotContainer hotspotInfo={selectedHotspot} />
           </Col>
           <Col
             className="custombg-primary openingHours-container rounded border-custom"
             md={{ span: 3, offset: 1 }}
           >
-            <OpeningHoursTable openingHours={hotspotData.openingHours} />
+            <OpeningHoursTable openingHours={selectedHotspot.openingHours} />
           </Col>
         </Row>
         <Row>
@@ -68,13 +49,16 @@ const OverviewPage = props => {
             className="custombg-primary hotspotComments-container rounded border-custom"
             md={8}
           >
-            <CommentContainer slug={props.match.params.slug} comments={hotspotData.comments} />
+            <CommentContainer
+              slug={props.match.params.slug}
+              comments={selectedHotspot.comments}
+            />
           </Col>
           <Col
             className=" custombg-primary nearbyHotspots-container rounded border-custom"
             md={{ span: 3, offset: 1 }}
           >
-            <NearbyHotspots />
+            <NearbyHotspots currentHotspot={selectedHotspot.slug} location={selectedHotspot.location} />
           </Col>
         </Row>
       </Container>
