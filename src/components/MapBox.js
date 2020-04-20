@@ -91,6 +91,8 @@ const Map = (props) => {
 
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat;
+    setSelectedMarker("");
+    setRender(false);
     if (clickLocation.length > 0) {
       setClickLocation([]);
     } else {
@@ -112,6 +114,7 @@ const Map = (props) => {
     }
 
     setSelectedMarker(clickedMarker);
+    setClickLocation([]);
 
     if (!render) {
       setRender(true);
