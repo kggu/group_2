@@ -20,7 +20,7 @@ const ReviewHotSpotChangesForm = (props) => {
     useEffect(() => {
         setOldData();
         setLoading(true);
-        findCurrentHotSpotDataFromSlug(props.newData.slug);
+        findCurrentHotSpotDataFromSlug(props.slug);
     },[])
 
     useEffect(() => {

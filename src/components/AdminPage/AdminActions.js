@@ -39,6 +39,7 @@ const AdminActions = () => {
 
                     {show && (
                         <ReviewHotSpotChangesForm
+                        slug={currentHotSpotData.slug}
                         newData={currentHotSpotData}
                         show={show}
                         onAction={tester}

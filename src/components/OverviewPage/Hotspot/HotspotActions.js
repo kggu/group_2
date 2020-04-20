@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   OverlayTrigger,
@@ -17,133 +17,127 @@ const HotspotActions = (props) => {
   // CHANGE THESE NAMES LATER !!!!
   // WORK IN PROGRESS
 
+  const [name, setName] = useState(props.hotspotData.name);
+  const [category, setCategory] = useState(props.hotspotData.category);
+  const [description, setDescription] = useState(props.hotspotData.description);
+  const [address, setAddress] = useState(props.hotspotData.address.address);
+  const [weekDay, setWeekDay] = useState("Monday");
+  const [openingTime, setOpeningTime ] = useState('');
+  const [closingTime, setClosingTime ] = useState('');
+  const [savedOpeningHours, setSavedOpeningHours] = useState([]);
+  const [city, setCity] = useState(props.hotspotData.address.city);
+  const [zip, setZip] = useState(props.hotspotData.address.postalCode);
+  const [country, setCountry] = useState(props.hotspotData.address.country);
+  
+  const [hotspotWithChanges, setHotspotWithChanges] = useState();
+
+  const handleOpeningHours = () => {
+    setSavedOpeningHours(savedOpeningHours => [
+         ...savedOpeningHours, {weekDay, openingTime, closingTime}
+    ]);
+  }
+
+  const handleWeekDayChange = (e) => {
+    setWeekDay(e.target.value);
+  }
+
+  const handleOpeningTimeChange = (e) => {
+      setOpeningTime(e.target.value);
+  }
+
+  const handleClosingTimeChange = (e) => {
+      setClosingTime(e.target.value);
+  }
+
+
+
+  const handleChangeCategory = (e) => {
+    setCategory(e.target.value);
+  }
+
+  const handleChangeName = (e) => {
+      setName(e.target.value);
+  }
+
+  const handleChangeDescription = (e) => {
+    setDescription(e.target.value);
+  }
+
+  const handleChangeAddress = (e) => {
+      setAddress(e.target.value);
+  }
+
+  const handleChangeCity = (e) => {
+      setCity(e.target.value)
+  }
+
+  const handleChangeZip = (e) => {
+      setZip(e.target.value)
+  }
+
+  const handleChangeCountry = (e) => {
+      setCountry(e.target.value)
+  }
+
   const _renderTooltip = (msg) => {
     return <Tooltip id="button-tooltip">{msg}</Tooltip>;
   };
 
+  const closeEditForm = () => {
+    setModalShow2(false);
+    initializeForm();
+  }
+
+  const initializeForm = () => {
+    setName(props.hotspotData.name);
+    setCategory(props.hotspotData.category);
+    setDescription(props.hotspotData.description);
+    setAddress(props.hotspotData.address.address);
+    setWeekDay("Monday");
+    setOpeningTime('');
+    setClosingTime('');
+    setSavedOpeningHours([]);
+    setCity(props.hotspotData.address.city);
+    setZip(props.hotspotData.address.postalCode);
+    setCountry(props.hotspotData.address.country);
+    setHotspotWithChanges();
+    console.log(props.hotspotData);
+  }
+
   const onSubmit = () => {
     setModalShow2(false);
-    setModalShow3(true);
+    let newHotSpotOpeningHours;
+    if (savedOpeningHours.length > 1) {
+      newHotSpotOpeningHours = savedOpeningHours;
+    } else {
+      newHotSpotOpeningHours = props.hotspotData.openingHours;
+    }
+    setHotspotWithChanges({
+      name: name,
+      description: description,
+      address: {
+          address: address,
+          postalCode: zip,
+          city: city,
+          country: country
+      },
+      category: category,
+      location: props.hotspotData.location,
+      openingHours: newHotSpotOpeningHours
+    });
+    
   }
+
+  useEffect(() => {
+    if (hotspotWithChanges) {
+      setModalShow3(true);
+    }
+  },[hotspotWithChanges])
 
   const onConfirm = () => {
+    setModalShow3(false);
     console.log("Confirmed form")
   }
-
-  const EditHotspotModal = (props) => {
-    //console.log(props);
-
-    props.hotspotData.openingHours.forEach((weekday) => {
-      //console.log(weekday);
-    });
-
-    
-
-
-    return (
-      <Modal
-        {...props}
-        size="xl"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Edit hotspot
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridName">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="name"
-                  value={props.hotspotData.name}
-                ></Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId="formCategory">
-                <Form.Label>Category</Form.Label>
-                <Form.Control as="select">
-                  <option>FOOD</option>
-                  <option>SPORTS</option>
-                  <option>DRINKS</option>
-                  <option>ARTS</option>
-                  <option>KNOWLEDGE</option>
-                  <option>MUSIC</option>
-                </Form.Control>
-              </Form.Group>
-            </Form.Row>
-
-            <Form.Group controlId="formDescription">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows="3"
-                value={props.hotspotData.description}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formGridAddress">
-              <Form.Label>Address</Form.Label>
-              <Form.Control value={props.hotspotData.address.address} />
-            </Form.Group>
-
-            <Form.Row>
-              <Form.Group controlId="formWeekDay">
-                <Form.Label>Day of week</Form.Label>
-                <Form.Control as="select">
-                  <option>Monday</option>
-                  <option>Tuesday</option>
-                  <option>Wednesday</option>
-                  <option>Thursday</option>
-                  <option>Friday</option>
-                  <option>Saturday</option>
-                  <option>Sunday</option>
-                </Form.Control>
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formOpeningTime">
-                <Form.Label>Opening Hours</Form.Label>
-                <Form.Control placeholder="XX:XX" />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formClosingTime">
-                <Form.Label>Closing Hours</Form.Label>
-                <Form.Control placeholder="XX:XX" />
-              </Form.Group>
-
-              <Button variant="primary">Save</Button>
-            </Form.Row>
-
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridCity">
-                <Form.Label>City</Form.Label>
-                <Form.Control value={props.hotspotData.address.city} />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridZip">
-                <Form.Label>Zip</Form.Label>
-                <Form.Control value={props.hotspotData.address.postalCode} />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridCountry">
-                <Form.Label>Country</Form.Label>
-                <Form.Control value={props.hotspotData.address.country} />
-              </Form.Group>
-            </Form.Row>
-          </Form>
-          <Button
-              onClick={onSubmit}
-              variant="primary"
-            >
-              Submit
-          </Button>
-        </Modal.Body>
-      </Modal>
-    );
-  };
 
   return (
     <div className="hotspot-actions">
@@ -160,14 +154,114 @@ const HotspotActions = (props) => {
           <i className="fas fa-pen"></i>
         </Button>
       </OverlayTrigger>
-      <EditHotspotModal
-        hotspotData={props.hotspotData}
+      <Modal
         show={modalShow2}
-        onHide={() => setModalShow2(false)}
-      />
+        onHide={closeEditForm}
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Edit hotspot
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="name"
+                  value={name}
+                  onChange={handleChangeName}
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group controlId="formCategory">
+                <Form.Label>Category</Form.Label>
+                <Form.Control as="select" value={category} onChange={handleChangeCategory}>
+                  <option value="SPORTS">SPORTS</option>
+                  <option value="FOOD">FOOD</option>
+                  <option value="DRINKS">DRINKS</option>
+                  <option value="ARTS">ARTS</option>
+                  <option value="KNOWLEDGE">KNOWLEDGE</option>
+                  <option value="MUSIC"> MUSIC</option>
+                  </Form.Control>
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Group controlId="formDescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows="3"
+                value={description}
+                onChange={handleChangeDescription}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formGridAddress">
+              <Form.Label>Address</Form.Label>
+              <Form.Control value={address} onChange={handleChangeAddress} />
+            </Form.Group>
+
+            <Form.Row>
+              <Form.Group controlId="formWeekDay">
+                <Form.Label>Day of week</Form.Label>
+                <Form.Control as="select" value={weekDay} onChange={handleWeekDayChange}>
+                  <option>Monday</option>
+                  <option>Tuesday</option>
+                  <option>Wednesday</option>
+                  <option>Thursday</option>
+                  <option>Friday</option>
+                  <option>Saturday</option>
+                  <option>Sunday</option>
+                </Form.Control>
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formOpeningTime" value={openingTime} onChange={handleOpeningTimeChange}>
+                <Form.Label>Opening Hours</Form.Label>
+                <Form.Control placeholder="XX:XX" />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formClosingTime" value={closingTime} onChange={handleClosingTimeChange}>
+                <Form.Label>Closing Hours</Form.Label>
+                <Form.Control placeholder="XX:XX" />
+              </Form.Group>
+
+              <Button variant="primary" onClick={handleOpeningHours}>Save</Button>
+            </Form.Row>
+
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridCity">
+                <Form.Label>City</Form.Label>
+                <Form.Control value={city} onChange={handleChangeCity} />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridZip">
+                <Form.Label>Zip</Form.Label>
+                <Form.Control value={zip} onChange={handleChangeZip} />
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridCountry">
+                <Form.Label>Country</Form.Label>
+                <Form.Control value={country} onChange={handleChangeCountry} />
+              </Form.Group>
+            </Form.Row>
+          </Form>
+          <Button
+              onClick={onSubmit}
+              variant="primary"
+            >
+              Submit
+          </Button>
+        </Modal.Body>
+      </Modal>
 
       {modalShow3 && (<ReviewHotSpotChangesForm
-        newData={props.hotspotData}
+        slug={props.hotspotData.slug}
+        newData={hotspotWithChanges}
         show={modalShow3}
         onAction={onConfirm}
         actionDescription="Submit changes for review"

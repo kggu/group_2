@@ -45,6 +45,7 @@ const HotspotCreation = props => {
         setWeekDay('');
         setOpeningTime('');
         setClosingTime('');
+        setSavedOpeningHours([]);
         setValidated(false);
     }, [props.lngLat])
 
