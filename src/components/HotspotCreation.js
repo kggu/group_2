@@ -245,7 +245,7 @@ const HotspotCreation = props => {
                     <Form.Row>
                         <Form.Group controlId="formWeekDay">
                             <Form.Label>Day of week</Form.Label>
-                            <Form.Control required as="select" value={weekDay} onChange={handleWeekDayChange}>
+                            <Form.Control as="select" value={weekDay} onChange={handleWeekDayChange}>
                                 <option></option>
                                 <option>MONDAY</option>
                                 <option>TUESDAY</option>
@@ -262,7 +262,7 @@ const HotspotCreation = props => {
 
                         <Form.Group as={Col} controlId="formOpeningTime" value={openingTime} onChange={handleOpeningTimeChange}>
                             <Form.Label>Opening Hours</Form.Label>
-                            <Form.Control required placeholder="XX:XX:XX" />
+                            <Form.Control placeholder="XX:XX:XX" />
                             <Form.Control.Feedback type="invalid">
                                 Please provide a valid opening time.
                             </Form.Control.Feedback>
@@ -270,7 +270,7 @@ const HotspotCreation = props => {
 
                         <Form.Group as={Col} controlId="formClosingTime" value={closingTime} onChange={handleClosingTimeChange}>
                             <Form.Label>Closing Hours</Form.Label>
-                            <Form.Control required placeholder="XX:XX:XX" />
+                            <Form.Control placeholder="XX:XX:XX" />
                             <Form.Control.Feedback type="invalid">
                                 Please provide a valid closing time.
                             </Form.Control.Feedback>

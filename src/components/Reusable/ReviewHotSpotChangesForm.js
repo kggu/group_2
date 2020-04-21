@@ -16,6 +16,9 @@ const ReviewHotSpotChangesForm = (props) => {
     const [address, setAddress] = useState();
     const [postalCode, setPostalCode] = useState();
     const [country, setCountry] = useState();
+    const [openingTime, setOpeningTime] = useState();
+    const [closingTime, setClosingTime] = useState();
+    const [weekDay, setWeekDay] = useState();
 
     useEffect(() => {
         setOldData();
@@ -31,12 +34,12 @@ const ReviewHotSpotChangesForm = (props) => {
             setAddress(props.newData.address.address);
             setPostalCode(props.newData.address.postalCode);
             setCountry(props.newData.address.country);
-
+            setOpeningTime(props.newData.openingHours.map(function(item){ return item.openingTime }))
+            setClosingTime(props.newData.openingHours.map(function(item){ return item.closingTime }));
+            setWeekDay(props.newData.openingHours.map(function(item){ return item.weekDay }));
             setOldData(currentHotSpotData)
         }
     },[currentHotSpotData])
-
-
 
     return (
     <Modal
@@ -229,7 +232,81 @@ const ReviewHotSpotChangesForm = (props) => {
                   <Form.Control plaintext value={country} />
                 </Form.Group>
               </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control plaintext value={"Weekday:"} />
+                  </Form.Row>
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control
+                      plaintext
+                      value={oldData.openingHours.map(function(item){ return item.weekDay })}
+                    />
+                  </Form.Row>
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control plaintext value={">"} />
+                  </Form.Row>
+                </Form.Group>
     
+                <Form.Group as={Col}>
+                  <Form.Control plaintext value={weekDay} />
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control plaintext value={"Opening time:"} />
+                  </Form.Row>
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control
+                      plaintext
+                      value={oldData.openingHours.map(function(item){ return item.openingTime })}
+                    />
+                  </Form.Row>
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control plaintext value={">"} />
+                  </Form.Row>
+                </Form.Group>
+    
+                <Form.Group as={Col}>
+                  <Form.Control plaintext value={openingTime} />
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control plaintext value={"Closing time:"} />
+                  </Form.Row>
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control
+                      plaintext
+                      value={oldData.openingHours.map(function(item){ return item.closingTime })}
+                    />
+                  </Form.Row>
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control plaintext value={">"} />
+                  </Form.Row>
+                </Form.Group>
+    
+                <Form.Group as={Col}>
+                  <Form.Control plaintext value={closingTime} />
+                </Form.Group>
+              </Form.Row>
               
             </Form>
             <Button variant="primary" onClick={props.onAction}>
