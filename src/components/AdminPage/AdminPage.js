@@ -50,7 +50,7 @@ const AdminPage = () => {
             {loading && ( <Spinner animation="border" role="status"> </Spinner> )}
 
             {loginError && ( <Alert variant="danger">
-                <Alert.Heading>Your account does not have admin priviliges.</Alert.Heading>
+                <Alert.Heading>Your account does not have admin privileges.</Alert.Heading>
                 </Alert>
             )}
 
