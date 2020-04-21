@@ -237,12 +237,12 @@ const HotspotActions = (props) => {
 
               <Form.Group as={Col} controlId="formOpeningTime" value={openingTime} onChange={handleOpeningTimeChange}>
                 <Form.Label>Opening Hours</Form.Label>
-                <Form.Control placeholder="XX:XX" />
+                <Form.Control placeholder="XX:XX:XX" />
               </Form.Group>
 
               <Form.Group as={Col} controlId="formClosingTime" value={closingTime} onChange={handleClosingTimeChange}>
                 <Form.Label>Closing Hours</Form.Label>
-                <Form.Control placeholder="XX:XX" />
+                <Form.Control placeholder="XX:XX:XX" />
               </Form.Group>
 
               <Button variant="primary" onClick={handleOpeningHours}>Save</Button>
