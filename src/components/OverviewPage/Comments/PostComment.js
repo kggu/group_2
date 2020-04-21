@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { Image, Row, Button, InputGroup, FormControl } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Image, Row, Button, InputGroup, FormControl, Modal, Spinner, Alert} from "react-bootstrap";
 import { useBackendAPI } from "../../../utils/backendAPI";
 
 const PostComment = (props) => {
-  const { createHotspotComment } = useBackendAPI();
+  const { createHotspotComment, hotSpotCommentCreationResolved, getHotspotWithSlug} = useBackendAPI();
   const [commentText, setCommentText] = useState("");
   const [commentFile, setCommentFile] = useState(null);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [verificationPending, setVerificationPending] = useState(false);
+  const [verificationResolved, setVerificationResolved] = useState(false);
 
   const _onTextChange = (e) => {
     setCommentText(e.target.value);
@@ -22,7 +25,23 @@ const PostComment = (props) => {
   const _postComment = () => {
     createHotspotComment(commentFile, props.slug, commentText);
     setCommentText("");
+    setVerificationPending(true);
+    setShowVerificationModal(true);
   };
+
+  useEffect(() => {
+    if (hotSpotCommentCreationResolved && hotSpotCommentCreationResolved.status == 200) {
+      setVerificationPending(false);
+      setVerificationResolved(true);
+    }
+  },[hotSpotCommentCreationResolved]);
+
+  const _closeVerificationModal = () => {
+    setVerificationPending(false);
+    setShowVerificationModal(false);
+    setVerificationResolved(false);
+    getHotspotWithSlug(props.slug)
+  }
 
   return (
     <Row>
@@ -55,6 +74,26 @@ const PostComment = (props) => {
           onChange={_onfileChange}
         />
       </InputGroup>
+
+      <Modal
+        show={showVerificationModal}
+        onHide={_closeVerificationModal}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered>
+            <Modal.Header closeButton>
+                <Modal.Title>Change request sent</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {verificationPending && ( <Spinner animation="border" role="status"> </Spinner> )}
+
+                {verificationResolved && (
+                    <Alert variant="success">
+                        Comment successfully posted.
+                    </Alert>
+                )}
+                
+            </Modal.Body>
+        </Modal>
     </Row>
   );
 };
