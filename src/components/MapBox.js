@@ -41,7 +41,6 @@ const Map = (props) => {
       props.match.params.lng,
       props.match.params.zoom
     );
-    console.log("testi");
   }, [props.match.params.lat, props.match.params.lng, props.match.params.zoom]);
 
   const updateViewportFromCoordinates = (lat, lng, zoom) => {
@@ -177,7 +176,7 @@ const Map = (props) => {
     <div className="container-fluid">
       <Row>
         <Col md={2} className="px-0">
-          <SideBar />
+          <SideBar viewport={viewport}/>
         </Col>
         <div className="col-md-9 ml-sm-auto col-lg-10 px-0">
           <MapGL
