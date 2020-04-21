@@ -41,6 +41,7 @@
   text-align: center;
   border-radius: 2px;
   background-color: #9cd3d3;
+  cursor: pointer;
 }
 
 .category-item-selected {
@@ -59,7 +60,7 @@
 
 .category-item a:hover {
   font-weight: 550;
-  cursor: pointer;
+
 }
 .resetBtn{
   background-color: #9cd3d3;
