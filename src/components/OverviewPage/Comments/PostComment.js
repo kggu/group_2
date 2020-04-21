@@ -3,7 +3,7 @@ import { Image, Row, Button, InputGroup, FormControl } from "react-bootstrap";
 import { useBackendAPI } from "../../../utils/backendAPI";
 
 const PostComment = (props) => {
-  const { createHotspotComment, testComment} = useBackendAPI();
+  const { createHotspotComment} = useBackendAPI();
   const [commentText, setCommentText] = useState("");
   const [commentFile, setCommentFile] = useState(null);
 
@@ -17,9 +17,7 @@ const PostComment = (props) => {
   };
 
   const _postComment = () => {
-    console.log("comment text: " +  commentText);
-    console.log("comment file:" + commentFile);
-    testComment(commentFile, props.slug, commentText);
+    createHotspotComment(commentFile, props.slug, commentText);
   };
 
   return (

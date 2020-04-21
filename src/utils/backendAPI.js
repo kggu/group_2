@@ -123,33 +123,8 @@ export const BackendAPIProvider = ({ children }) => {
     }
   };
 
-  const createHotspotComment = async (request, slug) => {
+  const createHotspotComment = async (commentFile, slug, commentText) => {
     const token = await getTokenSilently();
-
-    console.log("trying to comment: " + slug);
-
-    const address =
-      process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/comment";
-
-    let axiosConfig = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    };
-
-    const response = await axios
-      .post(address, request, axiosConfig)
-      .then((response) => {
-        console.log(response);
-      });
-  };
-
-  const testComment = async (commentFile, slug, commentText) => {
-    const token = await getTokenSilently();
-    console.log("text: " + commentText)
-    console.log("file: ")
-    console.log(commentFile)
 
     let formData = new FormData();
     formData.append('photo', commentFile);
@@ -290,7 +265,6 @@ export const BackendAPIProvider = ({ children }) => {
           checkHotSpotRange,
           createNewHotSpot,
           createHotspotComment,
-          testComment,
           rateHotspot,
           setHotSpotUpdateStatus,
           hotSpotCreationResolved,
