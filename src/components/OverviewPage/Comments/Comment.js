@@ -36,9 +36,9 @@ const Comment = (props) => {
         </p>
         <p className="comment-text">{props.commentText}</p>
       </div>
-      {hasPicture && (
+      {hasPicture && thumbnail && (
         <Image
-          onClick={() => props._onClick(props.commentImage.imageUrl)}
+          onClick={() => props._onClick(props.commentImage.imageUrl,props.userName)}
           src={thumbnail}
           className="comment-picture"
         ></Image>

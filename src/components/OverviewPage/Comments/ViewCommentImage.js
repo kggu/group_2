@@ -3,10 +3,11 @@ import { Modal, Button, Image } from "react-bootstrap";
 
 const ViewCommentImage = (props) => {
   const [image, setImage] = useState();
+  const [username, setUsername] = useState();
 
   useEffect(() => {
-    console.log("viewer: " + props.url);
     setImage(props.url);
+    setUsername(props.username);
   }, []);
 
   return (
@@ -18,15 +19,15 @@ const ViewCommentImage = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Comment image
+          Uploaded by {username}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Image fluid src={image}></Image>
       </Modal.Body>
-      <Modal.Footer>
+      {/*<Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
+      </Modal.Footer>*/}
     </Modal>
   );
 };

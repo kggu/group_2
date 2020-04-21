@@ -14,6 +14,7 @@ const CommentContainer = (props) => {
 
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [imageViewerUrl, setImageViewerUrl] = useState();
+  const [imageUploaderName, setImageUploaderName] = useState();
 
   useEffect(() => {
     if (props.comments) {
@@ -21,14 +22,14 @@ const CommentContainer = (props) => {
     }
   }, [selectedHotspot]);
 
-  const parseLocalTime = (timeString) => {
-    return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
+  const _showModal = (imgUrl, uploadedBy) => {
+    setImageViewerUrl(imgUrl);
+    setImageUploaderName(uploadedBy);
+    setShowImageViewer(true);
   };
 
-  const _showModal = (imgUrl) => {
-    console.log("showmodal: " + imgUrl);
-    setImageViewerUrl(imgUrl);
-    setShowImageViewer(true);
+  const parseTimeString = (timeString) => {
+    return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
   };
 
   const _mapComments = () => {
@@ -47,7 +48,7 @@ const CommentContainer = (props) => {
             commentImage={comment.photo}
             userName={comment.user.nickname}
             userPicture={comment.user.picture}
-            createdAt={parseLocalTime(comment.createdAt)}
+            createdAt={parseTimeString(comment.createdAt)}
           />
         );
       })
@@ -85,6 +86,7 @@ const CommentContainer = (props) => {
           show={showImageViewer}
           onHide={() => setShowImageViewer(false)}
           url={imageViewerUrl}
+          username={imageUploaderName}
         />
       )}
     </div>
