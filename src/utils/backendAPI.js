@@ -24,6 +24,9 @@ export const BackendAPIProvider = ({ children }) => {
   const [currentHotSpotData, setCurrentHotSpotData] = useState();
   const [hotSpotCommentCreationResolved, setHotSpotCommentCreationResolved] = useState();
   const [rateHotSpotResolved, setRateHotSpotResolved] = useState();
+  const [hotSpotChangeRequestCreationResolved, setHotSpotChangeRequestCreationResolved] = useState();
+  const [hotSpotChangesQueryResponse, setHotSpotChangesQueryResponse] = useState();
+  const [hotSpotChangeUpdateQueryResponse, setHotSpotChangeUpdateQueryResponse] = useState();
 
   const [requestedRange, setRequestedRange] = useState(0);
   const [hotSpotUpdateStatus, setHotSpotUpdateStatus] = useState(false);
@@ -253,6 +256,76 @@ export const BackendAPIProvider = ({ children }) => {
     })
   };
 
+  const postNewHotSpotChangeRequest = async (slug, changedHotSpot) => {
+    
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + '/hotspot/' + slug + '/change';
+    const encodedAddr = encodeURI(address);
+    
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    axios.post(encodedAddr, changedHotSpot, axiosConfig)
+      .then(response => {
+        console.log(response);
+        setHotSpotChangeRequestCreationResolved(response);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  };
+
+  const getHotSpotChangesForAdmin = async () => {
+    
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + '/hotspotchange';
+    const encodedAddr = encodeURI(address);
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    axios.get(encodedAddr, axiosConfig)
+      .then(response => {
+        setHotSpotChangesQueryResponse(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  const submitHotSpotChangeRequestStatus = async (id, status) => {
+
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/hotspotchange/" + id + "/" + status;
+    const encodedAddr = encodeURI(address);
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+    axios.post(encodedAddr, "", axiosConfig)
+      .then(response => {
+        setHotSpotChangeUpdateQueryResponse(response);
+      })
+      .catch(error => {
+        console.log(error);
+        setHotSpotChangeUpdateQueryResponse(error.response);
+      });
+  }
+
   useEffect(() => {
     getHotspotCategories();
   }, []);
@@ -283,7 +356,13 @@ export const BackendAPIProvider = ({ children }) => {
           deleteUserContent,
           deletionQueryResponse,
           findCurrentHotSpotDataFromSlug,
-          currentHotSpotData
+          currentHotSpotData,
+          postNewHotSpotChangeRequest,
+          hotSpotChangeRequestCreationResolved,
+          getHotSpotChangesForAdmin,
+          hotSpotChangesQueryResponse,
+          submitHotSpotChangeRequestStatus,
+          hotSpotChangeUpdateQueryResponse
       }}
     >
       {children}
