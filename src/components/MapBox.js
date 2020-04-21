@@ -41,7 +41,6 @@ const Map = (props) => {
       props.match.params.lng,
       props.match.params.zoom
     );
-    console.log("testi");
   }, [props.match.params.lat, props.match.params.lng, props.match.params.zoom]);
 
   const updateViewportFromCoordinates = (lat, lng, zoom) => {
@@ -56,6 +55,9 @@ const Map = (props) => {
   };
 
   const _onViewportChange = (viewport) => {
+    setClickLocation([]);
+    setSelectedMarker("");
+    setRender(false);
     if (initState) {
       setInitState(false);
     } else {
@@ -84,13 +86,15 @@ const Map = (props) => {
     updateHotSpots(viewport);
   };
 
-  const handleShow = () => {
+  const handleShow = (props) => {
     findNearbyPlaces();
     setShow(true);
   };
 
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat;
+    setSelectedMarker("");
+    setRender(false);
     if (clickLocation.length > 0) {
       setClickLocation([]);
     } else {
@@ -112,6 +116,7 @@ const Map = (props) => {
     }
 
     setSelectedMarker(clickedMarker);
+    setClickLocation([]);
 
     if (!render) {
       setRender(true);
@@ -171,7 +176,7 @@ const Map = (props) => {
     <div className="container-fluid">
       <Row>
         <Col md={2} className="px-0">
-          <SideBar />
+          <SideBar viewport={viewport}/>
         </Col>
         <div className="col-md-9 ml-sm-auto col-lg-10 px-0">
           <MapGL

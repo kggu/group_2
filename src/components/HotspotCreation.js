@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useBackendAPI } from "../utils/backendAPI"
 import { useGoogleAPI } from "../utils/googleAPI"
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal"
 import Form from "react-bootstrap/Form"
 import Col from "react-bootstrap/Col"
+import Row from "react-bootstrap/Row"
+import Overlay from 'react-bootstrap/Overlay'
+import Tooltip from 'react-bootstrap/Tooltip'
 import Spinner from "react-bootstrap/Spinner"
 import Alert from "react-bootstrap/Alert"
 
@@ -15,7 +18,7 @@ const HotspotCreation = props => {
 
     const [ suggestions, setSuggestions ] = useState();
     const [ showSuggestions, setShowSuggestion ] = useState(false)
-    const [ openingHours, setOpeningHours] = useState([]);
+    const [ savedOpeningHours, setSavedOpeningHours] = useState([]);
 
     const [ awaitingResponse, setAwaitingResponse ] = useState(false)
     const [ loadingStatus, setLoadingStatus ] = useState(false);
@@ -25,15 +28,28 @@ const HotspotCreation = props => {
     const [ city, setCity ] = useState('');
     const [ zip, setZip ] = useState('');
     const [ country, setCountry ] = useState('');
+    const [ weekDay, setWeekDay ] = useState('');
+    const [ openingTime, setOpeningTime ] = useState('');
+    const [ closingTime, setClosingTime ] = useState('');
+    const [validated, setValidated] = useState(false);
+    const target = useRef(null);
     
     useEffect(() => {
-        setLoadingStatus(false)
-        setAwaitingResponse(false)
-        setName('');
-        setAddress('');
-        setCity('');
-        setZip('');
-        setCountry('');
+        if (props.show) {
+            setLoadingStatus(false)
+            setAwaitingResponse(false)
+            setName('');
+            setAddress('');
+            setCity('');
+            setZip('');
+            setCountry('');
+            setWeekDay('');
+            setOpeningTime('');
+            setClosingTime('');
+            setSavedOpeningHours([]);
+            setValidated(false);
+        }
+        
     }, [props.lngLat])
 
     useEffect(() => {
@@ -65,32 +81,37 @@ const HotspotCreation = props => {
         }
     }, [foundDetailedSuggestionInfo])
 
-
     const handleSubmit = (e) => {
-        const [longitude, latitude] = props.lngLat
-        e.preventDefault();
-        const NewHotspot = {
-            name: e.target.formGridName.value,
-            description: e.target.formDescription.value,
-            address: {
-                address: e.target.formGridAddress.value,
-                postalCode: e.target.formGridZip.value,
-                city: e.target.formGridCity.value,
-                country: e.target.formGridCountry.value
-            },
-            category: e.target.formCategory.value,
-            location: {
-                longitude: longitude.longitude,
-                latitude: longitude.latitude
-            },
-            
-            openingHours: openingHours
-        };
-        console.log(NewHotspot)
-        console.log(foundSuggestions)
-        createNewHotSpot(NewHotspot);
-        setAwaitingResponse(true)
-        setLoadingStatus(true)
+        const form = e.currentTarget;
+        
+        if (form.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            const [longitude, latitude] = props.lngLat
+            const NewHotspot = {
+                name: e.target.formGridName.value,
+                description: e.target.formDescription.value,
+                address: {
+                    address: e.target.formGridAddress.value,
+                    postalCode: e.target.formGridZip.value,
+                    city: e.target.formGridCity.value,
+                    country: e.target.formGridCountry.value
+                },
+                category: e.target.formCategory.value,
+                location: {
+                    longitude: longitude.longitude,
+                    latitude: longitude.latitude
+                },
+                openingHours: savedOpeningHours
+            };
+            console.log(NewHotspot)
+            console.log(foundSuggestions)
+            createNewHotSpot(NewHotspot);
+            setAwaitingResponse(true)
+            setLoadingStatus(true)
+        }     
+        setValidated(true);
         //props.onHide();
     }
 
@@ -100,14 +121,36 @@ const HotspotCreation = props => {
         }
     },[hotSpotCreationResolved])
 
-    const handleOpeningHours = (e) => {
-        e.preventDefault();
-        setOpeningHours([{
-            weekDay: e.target.formWeekDay.value,
-            openingTime: e.target.formOpeningTime.value,
-            closingTime: e.target.formClosingtime.value
-        }])
-    };
+    useEffect(() => {
+        var valueArr = savedOpeningHours.map(function(item){ return item.weekDay });
+        var isDuplicate = valueArr.some(function(item, idx){ 
+            return valueArr.indexOf(item) != idx 
+        });
+        
+        if(isDuplicate == true) {
+            savedOpeningHours.splice(-1)
+            alert("Duplicate weekday")
+        }
+
+    },[savedOpeningHours])
+
+    const handleOpeningHours = () => {
+        setSavedOpeningHours(savedOpeningHours => [
+             ...savedOpeningHours, {weekDay, openingTime, closingTime}
+        ]);
+    }
+
+    const handleWeekDayChange = (e) => {
+        setWeekDay(e.target.value);
+    }
+
+    const handleOpeningTimeChange = (e) => {
+        setOpeningTime(e.target.value);
+    }
+
+    const handleClosingTimeChange = (e) => {
+        setClosingTime(e.target.value);
+    }
     
     const handleChangeName = (e) => {
         setName(e.target.value);
@@ -143,7 +186,7 @@ const HotspotCreation = props => {
             </Modal.Header>
             <Modal.Body>
                 <p>
-                {!awaitingResponse && (<Form onSubmit={handleSubmit}>
+                {!awaitingResponse && (<Form noValidate validated={validated} onSubmit={handleSubmit}>
 
                     {showSuggestions && (<Form.Row>
                         <Form.Group controlId="formSuggestions">
@@ -161,12 +204,15 @@ const HotspotCreation = props => {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridName">
                         <Form.Label>Name</Form.Label>
-                            <Form.Control type="name" value ={name} onChange={handleChangeName}></Form.Control>
+                            <Form.Control required type="name" value ={name} onChange={handleChangeName}></Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid name.
+                            </Form.Control.Feedback>
                         </Form.Group>
 
-                        <Form.Group controlId="formCategory">
+                        <Form.Group md="4" controlId="formCategory">
                             <Form.Label>Category</Form.Label>
-                            <Form.Control as="select">
+                            <Form.Control required as="select">
                                 <option>FOOD</option>
                                 <option>SPORTS</option>
                                 <option>DRINKS</option>
@@ -174,60 +220,90 @@ const HotspotCreation = props => {
                                 <option>KNOWLEDGE</option>
                                 <option>MUSIC</option>
                             </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid category.
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Form.Row>
                     
                     <Form.Group controlId="formDescription">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" rows="3" />
+                        <Form.Control required as="textarea" rows="3" />
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid description.
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group controlId="formGridAddress">
                         <Form.Label>Address</Form.Label>
-                        <Form.Control value={address} onChange={handleChangeAddress}/>
+                        <Form.Control required value={address} onChange={handleChangeAddress}/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid address.
+                        </Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Row>
                         <Form.Group controlId="formWeekDay">
                             <Form.Label>Day of week</Form.Label>
-                            <Form.Control as="select">
-                                <option>Monday</option>
-                                <option>Tuesday</option>
-                                <option>Wednesday</option>
-                                <option>Thursday</option>
-                                <option>Friday</option>
-                                <option>Saturday</option>
-                                <option>Sunday</option>
+                            <Form.Control required as="select" value={weekDay} onChange={handleWeekDayChange}>
+                                <option></option>
+                                <option>MONDAY</option>
+                                <option>TUESDAY</option>
+                                <option>WEDNESDAY</option>
+                                <option>THURSDAY</option>
+                                <option>FRIDAY</option>
+                                <option>SATURDAY</option>
+                                <option>SUNDAY</option>
                             </Form.Control>
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid weekday.
+                            </Form.Control.Feedback>
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formOpeningTime">
+                        <Form.Group as={Col} controlId="formOpeningTime" value={openingTime} onChange={handleOpeningTimeChange}>
                             <Form.Label>Opening Hours</Form.Label>
-                            <Form.Control placeholder="XX:XX" />
+                            <Form.Control required placeholder="XX:XX:XX" />
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid opening time.
+                            </Form.Control.Feedback>
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formClosingTime">
+                        <Form.Group as={Col} controlId="formClosingTime" value={closingTime} onChange={handleClosingTimeChange}>
                             <Form.Label>Closing Hours</Form.Label>
-                            <Form.Control placeholder="XX:XX" />
+                            <Form.Control required placeholder="XX:XX:XX" />
+                            <Form.Control.Feedback type="invalid">
+                                Please provide a valid closing time.
+                            </Form.Control.Feedback>
                         </Form.Group>
-
-                        <Button variant="primary" onClick={handleOpeningHours}>Save</Button>
+                        
+                        <Form.Group>
+                            <Button ref={target} controlId="openingHoursButton" onClick={() => {handleOpeningHours();}}>Save</Button>
+                        </Form.Group>
                     </Form.Row>
 
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridCity">
                         <Form.Label>City</Form.Label>
-                        <Form.Control value={city} onChange={handleChangeCity} />
+                        <Form.Control required value={city} onChange={handleChangeCity} />
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid city.
+                        </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridZip">
                         <Form.Label>Zip</Form.Label>
-                        <Form.Control value={zip} onChange={handleChangeZip}/>
+                        <Form.Control required value={zip} onChange={handleChangeZip}/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid zip.
+                        </Form.Control.Feedback>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridCountry">
                         <Form.Label>Country</Form.Label>
-                        <Form.Control value={country} onChange={handleChangeCountry}/>
+                        <Form.Control required value={country} onChange={handleChangeCountry}/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide a valid country.
+                        </Form.Control.Feedback>
                         </Form.Group>
                     </Form.Row>
 

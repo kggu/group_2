@@ -28,6 +28,7 @@
   padding-right: 1rem;
   font-weight: 550;
   border-right: 2px solid #9cd3d3;
+  width: 300px;
 }
 .hotspot-address ul {
   list-style-type: none;
@@ -35,7 +36,7 @@
   padding: 0;
 }
 
-.hotspot-address i {
+.hotspot-details-icon {
   color: grey;
   margin-right: 0.5rem;
 }
@@ -102,7 +103,7 @@
   width: 125px;
   max-width: 125px;
 }
-.vote-button {
+.action-button {
   margin-left: 1rem;
   background-color: #e8630a;
   color: #ffffff;
@@ -111,7 +112,7 @@
   height: 40px;
 }
 
-.vote-button:hover {
+.action-button:hover {
   background-color: #ac4907;
 }
 
