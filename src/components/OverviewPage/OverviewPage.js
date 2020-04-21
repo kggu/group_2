@@ -41,7 +41,7 @@ const OverviewPage = props => {
   // TODO: split into smaller components
   if (hotspotData)
     return (
-      <Container>
+      <Container className = "containerStyling">
         <Jumbotron className="custombg-primary text-center border-custom jumbotronStyle text-secondary">
           <h1 className="display-4">{hotspotData.name}</h1>
           <p>
