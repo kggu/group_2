@@ -74,7 +74,7 @@ const HotspotRating = (props) => {
       <div className="rated-by">
         {hasRatings && (
           <a>
-            Rated by {ratingCount} student {ratingCount > 1 ? "s" : ""}
+            Rated by {ratingCount} student{ratingCount > 1 ? "s" : ""}
           </a>
         )}
       </div>
