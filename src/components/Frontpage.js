@@ -3,13 +3,15 @@ import "./frontpage.css";
 import "./footer.css";
 import { Toast } from "react-bootstrap";
 import img from "../map.png";
-
+import { Button } from "react-bootstrap";
+import { useAuth0 } from "../react-auth0-spa";
 import { Link } from "react-router-dom";
 
 
 import qs from "qs"
 
 const Frontpage = props => {
+    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
     const [showErrorMessage, setShowErrorMessage ] = useState(false)
     const [errorMessage, setErrorMessage ] = useState("Testi")
 
@@ -22,20 +24,27 @@ const Frontpage = props => {
       }, []);
 
     return (
-        <div className="container-fluid px-0 containerStyling">
+        <div className="container-fluid px-0 containerStylingFP">
             <div className="jumbotron jumbotronLuokka text-secondary">
-                <h1>
+                <h1 className = "display-4">
                     HotSpotted
                 </h1>
                 <p>
                     By students, for students.
                 </p>
                 <div className = "img">
-                    <img src = {img} width = "950" height = "500"/>
+                    <img src = {img} width = "900" height = "460"/>
                 </div>
                 <p>
-                    Some info how to use this
+                    App made for students where you can find and create hotspots of interesting sights, restaurants, bars etc. 
+                    You can search hotspots by typing on the search bar. You can see all the hotspots but to be able to create hotspot and comment on them you have to be logged in.
+
                 </p>
+                {!isAuthenticated && (
+                 <Button variant="customorange" onClick={() => loginWithRedirect({})}>
+                   Try now!
+                </Button>
+                )}
             </div>
             <footer className="footerLuokka text-secondary">
                 <p className = "mb-0">Frontend: Riina, Miikka, Samuli & Sami</p>
