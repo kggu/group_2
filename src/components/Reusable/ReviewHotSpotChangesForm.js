@@ -309,8 +309,12 @@ const ReviewHotSpotChangesForm = (props) => {
               </Form.Row>
               
             </Form>
-            <Button variant="primary" onClick={props.onAction}>
-                {props.actionDescription}
+            <Button variant="primary" onClick={props.onConfirm}>
+                {props.confirmDescription}
+            </Button>
+            {' '}
+            <Button variant="secondary" onClick={props.onCancel}>
+                {props.cancelDescription}
             </Button>
           </Modal.Body>
         )}

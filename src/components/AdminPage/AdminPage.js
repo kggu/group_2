@@ -10,7 +10,8 @@ import Alert from "react-bootstrap/Alert"
 import AdminActions from "./AdminActions"
 
 const AdminPage = () => {
-    const { findUsersForAdmin, userQueryResponse } = useBackendAPI();
+    const { getHotSpotChangesForAdmin,
+        hotSpotChangesQueryResponse, } = useBackendAPI();
 
     const { user } = useAuth0();
 
@@ -19,20 +20,15 @@ const AdminPage = () => {
     const [loginError, setLoginError] = useState();
 
     useEffect(() => {
-        setLoading();
+        setLoading(true);
         setHasAdminPermission();
-        setLoginError();
+        getHotSpotChangesForAdmin();
     },[user])
 
     useEffect(() => {
-        setLoading(true)
-        findUsersForAdmin();
-    },[])
-
-    useEffect(() => {
-        if (userQueryResponse) {
-            console.log(userQueryResponse)
-            if (userQueryResponse.status == 200) {
+        if (hotSpotChangesQueryResponse) {
+            console.log(hotSpotChangesQueryResponse)
+            if (hotSpotChangesQueryResponse.status == 200) {
                 console.log("admin login success")
                 setLoading(false)
                 setHasAdminPermission(true);
@@ -42,7 +38,7 @@ const AdminPage = () => {
                 setLoginError(true);
             }
         }
-    },[userQueryResponse])
+    },[hotSpotChangesQueryResponse])
 
     return <Container>
         <Jumbotron className="custombg-primary jumbotronStyle">
@@ -50,11 +46,11 @@ const AdminPage = () => {
             {loading && ( <Spinner animation="border" role="status"> </Spinner> )}
 
             {loginError && ( <Alert variant="danger">
-                <Alert.Heading>Your account does not have admin priviliges.</Alert.Heading>
+                <Alert.Heading>Your account does not have admin privileges.</Alert.Heading>
                 </Alert>
             )}
 
-            {hasAdminPermission && (<AdminActions></AdminActions>)}
+            {hasAdminPermission && (<AdminActions changes={hotSpotChangesQueryResponse.data}></AdminActions>)}
         </Jumbotron>
     </Container>
 }

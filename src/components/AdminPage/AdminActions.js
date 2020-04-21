@@ -3,52 +3,23 @@ import Tabs from "react-bootstrap/Tabs"
 import Tab from "react-bootstrap/Tab"
 import "./AdminActions.css";
 import AdminPageUserList from "./AdminPageUserList";
+import AdminPageChangeList from "./AdminPageChangeList";
 
 import Button from "react-bootstrap/Button"
 import ReviewHotSpotChangesForm from "../Reusable/ReviewHotSpotChangesForm";
 import { useBackendAPI } from "../../utils/backendAPI";
 
 
-const AdminActions = () => {
-    const [key, setKey] = useState('View suggestions')
-
-    const [show, setShow] = useState(false);
-    const { findCurrentHotSpotDataFromSlug, currentHotSpotData } = useBackendAPI();
-
-    useEffect(() => {
-        findCurrentHotSpotDataFromSlug("kaupunginkirjasto");
-    }, []);
-
-    useEffect(() => {
-        console.log(currentHotSpotData);
-    },[currentHotSpotData])
-
-    const tester = () => {
-        console.log("Approved changes");
-        setShow(false);
-    }
-
+const AdminActions = (props) => {
+    const [key, setKey] = useState('View change requests')
 
     return <Tabs
             id="Admin actions"
             activeKey={key}
             onSelect={(k) => setKey(k)}
             className="custom-tabs">
-                <Tab eventKey="View suggestions" title="View suggestions" tabClassName="bg-darkblue">
-                    {currentHotSpotData && <Button onClick={() => {setShow(true)}}></Button>}
-
-                    {show && (
-                        <ReviewHotSpotChangesForm
-                        slug={currentHotSpotData.slug}
-                        newData={currentHotSpotData}
-                        show={show}
-                        onAction={tester}
-                        actionDescription="Approve changes"
-                        onHide={() => {setShow(false)}}
-                        >
-                        </ReviewHotSpotChangesForm>
-                    )}
-                    
+                <Tab eventKey="View change requests" title="View change requests" tabClassName="bg-darkblue">
+                    <AdminPageChangeList changes={props.changes}></AdminPageChangeList>
                 </Tab>
                 <Tab eventKey="Manage users" title="Manage Users" tabClassName="bg-darkblue">
                     <AdminPageUserList></AdminPageUserList>

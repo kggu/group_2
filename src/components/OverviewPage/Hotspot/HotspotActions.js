@@ -10,8 +10,14 @@ import {
   Spinner
 } from "react-bootstrap";
 import ReviewHotSpotChangesForm from '../../Reusable/ReviewHotSpotChangesForm'
+import { useBackendAPI } from "../../../utils/backendAPI";
+
+
 
 const HotspotActions = (props) => {
+
+  const { postNewHotSpotChangeRequest, hotSpotChangeRequestCreationResolved } = useBackendAPI();
+
   const [showEditForm, setShowEditForm] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [showConfirmationForm, setShowConfirmationForm] = useState(false);
@@ -49,8 +55,6 @@ const HotspotActions = (props) => {
   const handleClosingTimeChange = (e) => {
       setClosingTime(e.target.value);
   }
-
-
 
   const handleChangeCategory = (e) => {
     setCategory(e.target.value);
@@ -146,11 +150,24 @@ const HotspotActions = (props) => {
     setShowReviewForm(false);
     setConfirmationPending(true);
     setShowConfirmationForm(true);
-    // TODO send request, new information is stores in hotSpotWithChanges
+    console.log(hotspotWithChanges);
+    postNewHotSpotChangeRequest(props.hotspotData.slug, hotspotWithChanges);
   }
+
+  useEffect(() => {
+    if (hotSpotChangeRequestCreationResolved) {
+      setConfirmationPending(false);
+      setConfirmationResolved(true);
+    }
+  },[hotSpotChangeRequestCreationResolved])
 
   const closeConfirmationForm = () => {
     setShowConfirmationForm(false);
+    initializeForm();
+  }
+
+  const onCancel = () => {
+    setShowReviewForm(false);
     initializeForm();
   }
 
@@ -278,8 +295,10 @@ const HotspotActions = (props) => {
         slug={props.hotspotData.slug}
         newData={hotspotWithChanges}
         show={showReviewForm}
-        onAction={onConfirm}
-        actionDescription="Submit changes for review"
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        confirmDescription="Submit changes for review"
+        cancelDescription="Cancel submissions"
         onHide={closeReviewForm}
         >
         </ReviewHotSpotChangesForm>
