@@ -26,6 +26,7 @@ export const BackendAPIProvider = ({ children }) => {
   const [rateHotSpotResolved, setRateHotSpotResolved] = useState();
   const [hotSpotChangeRequestCreationResolved, setHotSpotChangeRequestCreationResolved] = useState();
   const [hotSpotChangesQueryResponse, setHotSpotChangesQueryResponse] = useState();
+  const [hotSpotChangeUpdateQueryResponse, setHotSpotChangeUpdateQueryResponse] = useState();
 
   const [requestedRange, setRequestedRange] = useState(0);
   const [hotSpotUpdateStatus, setHotSpotUpdateStatus] = useState(false);
@@ -302,6 +303,28 @@ export const BackendAPIProvider = ({ children }) => {
       });
   }
 
+  const submitHotSpotChangeRequestStatus = async (id, status) => {
+
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + "/hotspotchange/" + id + "/" + status;
+    const encodedAddr = encodeURI(address);
+
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+    axios.post(encodedAddr, "", axiosConfig)
+      .then(response => {
+        setHotSpotChangeUpdateQueryResponse(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   useEffect(() => {
     getHotspotCategories();
   }, []);
@@ -336,7 +359,9 @@ export const BackendAPIProvider = ({ children }) => {
           postNewHotSpotChangeRequest,
           hotSpotChangeRequestCreationResolved,
           getHotSpotChangesForAdmin,
-          hotSpotChangesQueryResponse
+          hotSpotChangesQueryResponse,
+          submitHotSpotChangeRequestStatus,
+          hotSpotChangeUpdateQueryResponse
       }}
     >
       {children}

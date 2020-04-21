@@ -57,7 +57,7 @@ const AdminPageChangeList = () => {
                     {selectedChange.hotSpot.name}
                 </td>
                 <td>
-                    <AdminPageViewComparisonButton change={selectedChange} ></AdminPageViewComparisonButton>
+                    <AdminPageViewComparisonButton change={selectedChange} onComplete={updateChangeList}></AdminPageViewComparisonButton>
                 </td>
             </tr>)
         }))}

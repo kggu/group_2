@@ -25,9 +25,13 @@ const AdminPageUserList = () => {
     },[])
 
     useEffect(() => {
-        if (userQueryResponse) {
-            setLoading(false)
-            setUsers(userQueryResponse.data);
+        if (userQueryResponse && userQueryResponse.status == 200) {
+            if (userQueryResponse.status == 200) {
+                setLoading(false)
+                setUsers(userQueryResponse.data);
+            } else {
+                findUsersForAdmin();
+            }
         }
     },[userQueryResponse])
 
