@@ -1,3 +1,7 @@
+input[type="file"] {
+  display: none;
+}
+
 .comments-header {
   margin-left: -1rem;
   margin-right: -1rem;
@@ -35,14 +39,12 @@
   margin-top: 1rem;
   border: 3px solid black;
   border-radius: 5px;
-  
 }
 
 .comment-picture:hover {
   cursor: pointer;
   border: 2px solid black;
 }
-
 
 .user-img {
   max-width: 6rem;
@@ -69,7 +71,7 @@
 }
 
 .post-form {
-  max-width: 100%;
+  max-width: 99%;
   height: 80%;
   resize: none;
 }
@@ -79,16 +81,29 @@
   color: #ffffff;
   position: relative;
   margin-bottom: 4rem;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
   top: 50%;
   transform: translateY(-50%);
   transition: 0.3s;
 }
+/* sorry for this absolute garbage piece of css..! */
+.upload-button {
+  background-color: #e8630a;
+  color: #ffffff;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 0.1rem;
+  margin-top: 2.5rem;
+  transition: 0.3s;
+}
 
-.post-image {
-  margin-left: 1rem;
+.file-selected {
+  background-color: grey;
 }
 
 .post-button:hover {
   background-color: #ac4907;
 }
+

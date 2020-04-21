@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Image, Button, OverlayTrigger, Tooltip, Modal } from "react-bootstrap";
+import React from "react";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./HotspotContainer.css";
 import HotspotRating from "./HotspotRating.js";
@@ -35,7 +35,6 @@ const HotspotContainer = (props) => {
           </ul>
           <div className="hotspot-creator-info">
             Created by {props.hotspotInfo.creator.nickname} <br />
-            {/* <Image src={props.hotspotInfo.creator.picture}/>  <br />*/}
             <small>{creationDate}</small>
           </div>
           <div className="hotspot-link">
@@ -59,7 +58,7 @@ const HotspotContainer = (props) => {
           ratings={props.hotspotInfo.ratings}
           slug={props.hotspotInfo.slug}
         />
-        <HotspotActions hotspotData={props.hotspotInfo}/>
+        <HotspotActions hotspotData={props.hotspotInfo} />
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Table } from "react-bootstrap";
+import React from "react";
 import "./OpeningHours.css";
 
 const OpeningHoursTable = (props) => {
@@ -25,7 +24,7 @@ const OpeningHoursTable = (props) => {
 
   return (
     <div className="opening-container">
-      <div className="opening-header">
+      <div className="opening-header text-center">
         <a>Opening hours</a>
       </div>
 
