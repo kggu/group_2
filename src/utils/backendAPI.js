@@ -322,6 +322,7 @@ export const BackendAPIProvider = ({ children }) => {
       })
       .catch(error => {
         console.log(error);
+        setHotSpotChangeUpdateQueryResponse(error.response);
       });
   }
 

@@ -4,21 +4,21 @@ import { useBackendAPI } from "../../utils/backendAPI";
 import Spinner from "react-bootstrap/Spinner"
 import AdminPageViewComparisonButton from "./AdminPageViewComparisonButton"
 
-const AdminPageChangeList = () => {
+const AdminPageChangeList = (props) => {
     const { getHotSpotChangesForAdmin, hotSpotChangesQueryResponse } = useBackendAPI();
 
 
     const [loading, setLoading] = useState();
-    const [changes, setChanges] = useState();
+    const [changes, setChanges] = useState(props.changes);
 
     const updateChangeList = () => {
         setLoading(true);
         getHotSpotChangesForAdmin();
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
         updateChangeList();
-    },[])
+    },[])*/
 
     useEffect(() => {
         if (hotSpotChangesQueryResponse) {

@@ -10,7 +10,7 @@ import ReviewHotSpotChangesForm from "../Reusable/ReviewHotSpotChangesForm";
 import { useBackendAPI } from "../../utils/backendAPI";
 
 
-const AdminActions = () => {
+const AdminActions = (props) => {
     const [key, setKey] = useState('View change requests')
 
     return <Tabs
@@ -19,7 +19,7 @@ const AdminActions = () => {
             onSelect={(k) => setKey(k)}
             className="custom-tabs">
                 <Tab eventKey="View change requests" title="View change requests" tabClassName="bg-darkblue">
-                    <AdminPageChangeList></AdminPageChangeList>
+                    <AdminPageChangeList changes={props.changes}></AdminPageChangeList>
                 </Tab>
                 <Tab eventKey="Manage users" title="Manage Users" tabClassName="bg-darkblue">
                     <AdminPageUserList></AdminPageUserList>
