@@ -16,6 +16,9 @@ const ReviewHotSpotChangesForm = (props) => {
     const [address, setAddress] = useState();
     const [postalCode, setPostalCode] = useState();
     const [country, setCountry] = useState();
+    const [openingTime, setOpeningTime] = useState();
+    const [closingTime, setClosingTime] = useState();
+    const [weekDay, setWeekDay] = useState();
 
     useEffect(() => {
         setOldData();
@@ -31,7 +34,9 @@ const ReviewHotSpotChangesForm = (props) => {
             setAddress(props.newData.address.address);
             setPostalCode(props.newData.address.postalCode);
             setCountry(props.newData.address.country);
-
+            setOpeningTime(props.newData.openingHours.openingTime);
+            setClosingTime(props.newData.openingHours.closingTime);
+            setWeekDay(props.newData.openingHours.weekDay);
             setOldData(currentHotSpotData)
         }
     },[currentHotSpotData])
@@ -227,6 +232,31 @@ const ReviewHotSpotChangesForm = (props) => {
     
                 <Form.Group as={Col}>
                   <Form.Control plaintext value={country} />
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control plaintext value={"Opening hours:"} />
+                  </Form.Row>
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control
+                      plaintext
+                      value={oldData.openingHours.openingTime}
+                    />
+                  </Form.Row>
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Row>
+                    <Form.Control plaintext value={">"} />
+                  </Form.Row>
+                </Form.Group>
+    
+                <Form.Group as={Col}>
+                  <Form.Control plaintext value={openingTime} />
                 </Form.Group>
               </Form.Row>
     
