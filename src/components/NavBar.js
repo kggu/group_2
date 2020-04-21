@@ -14,15 +14,15 @@ import UserScoreField from "./UserScoreField"
 
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-  const [fixed, setFixed] = useState("top");
+  /*const [fixed, setFixed] = useState("top");*/
   const location = useLocation();
 
   // render navbar not fixed on map page, so elements don't render under it
-  useEffect(() => {
+ /* useEffect(() => {
     if (location.pathname.startsWith("/map/")) {
       setFixed("");
     }
-  }, [location]);
+  }, [location]);*/
 
   const findLongLat = async place_id => {
     geocodeByPlaceId(place_id)
@@ -36,7 +36,7 @@ const NavBar = () => {
   };
 
   return (
-    <Navbar fill variant="customdark" fixed={fixed} expand="lg">
+    <Navbar className = "fixed-top" fill variant="customdark"  expand="lg">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Button variant="customorange" className="mr-sm-2" href="/">
