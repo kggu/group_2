@@ -21,6 +21,7 @@ export const BackendAPIProvider = ({ children }) => {
 
   const [userQueryResponse, setUserQueryResponse] = useState();
   const [deletionQueryResponse, setDeletionQueryResponse] = useState();
+  const [currentHotSpotData, setCurrentHotSpotData] = useState();
 
   const [requestedRange, setRequestedRange] = useState(0);
   const [hotSpotUpdateStatus, setHotSpotUpdateStatus] = useState(false);
@@ -255,6 +256,17 @@ export const BackendAPIProvider = ({ children }) => {
     })
   }
 
+  const findCurrentHotSpotDataFromSlug = async (slug) => {
+
+    const address = process.env.REACT_APP_API_ROOT + "/hotspot/" + slug;
+    
+    axios.get(address).then(response => {
+      setCurrentHotSpotData(response.data);
+    }).catch(error => {
+      console.log(error)
+    })
+  };
+
   useEffect(() => {
     getHotspotCategories();
   }, []);
@@ -282,7 +294,9 @@ export const BackendAPIProvider = ({ children }) => {
           findUsersForAdmin,
           userQueryResponse,
           deleteUserContent,
-          deletionQueryResponse
+          deletionQueryResponse,
+          findCurrentHotSpotDataFromSlug,
+          currentHotSpotData
       }}
     >
       {children}
