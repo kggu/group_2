@@ -23,7 +23,7 @@ const OverviewPage = (props) => {
   if (selectedHotspot)
     return (
       <Container className = "containerStyling">
-        <Jumbotron className="custombg-primary text-center border-custom jumbotronStyle text-secondary">
+        <Jumbotron className="custombg-primary text-center border-custom jumbotronStyleOP text-secondary">
           <h1 className="display-4">{selectedHotspot.name}</h1>
           <p>
             <Badge variant="secondary">{selectedHotspot.category}</Badge>{" "}
