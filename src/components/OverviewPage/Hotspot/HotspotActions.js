@@ -7,15 +7,16 @@ import {
   Form,
   Col,
   Alert,
+  Spinner
 } from "react-bootstrap";
-import ReviewHotspotChanges from './EditHotspot'
 import ReviewHotSpotChangesForm from '../../Reusable/ReviewHotSpotChangesForm'
 
 const HotspotActions = (props) => {
-  const [modalShow2, setModalShow2] = useState(false);
-  const [modalShow3, setModalShow3] = useState(false);
-  // CHANGE THESE NAMES LATER !!!!
-  // WORK IN PROGRESS
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [showConfirmationForm, setShowConfirmationForm] = useState(false);
+  const [confirmationPending, setConfirmationPending] = useState(false);
+  const [confirmationResolved, setConfirmationResolved] = useState(false);
 
   const [name, setName] = useState(props.hotspotData.name);
   const [category, setCategory] = useState(props.hotspotData.category);
@@ -84,7 +85,12 @@ const HotspotActions = (props) => {
   };
 
   const closeEditForm = () => {
-    setModalShow2(false);
+    setShowEditForm(false);
+    initializeForm();
+  }
+
+  const closeReviewForm = () => {
+    setShowReviewForm(false);
     initializeForm();
   }
 
@@ -101,11 +107,13 @@ const HotspotActions = (props) => {
     setZip(props.hotspotData.address.postalCode);
     setCountry(props.hotspotData.address.country);
     setHotspotWithChanges();
+    setConfirmationPending(false);
+    setConfirmationResolved(false);
     console.log(props.hotspotData);
   }
 
   const onSubmit = () => {
-    setModalShow2(false);
+    setShowEditForm(false);
     let newHotSpotOpeningHours;
     if (savedOpeningHours.length > 1) {
       newHotSpotOpeningHours = savedOpeningHours;
@@ -130,13 +138,20 @@ const HotspotActions = (props) => {
 
   useEffect(() => {
     if (hotspotWithChanges) {
-      setModalShow3(true);
+      setShowReviewForm(true);
     }
   },[hotspotWithChanges])
 
   const onConfirm = () => {
-    setModalShow3(false);
-    console.log("Confirmed form")
+    setShowReviewForm(false);
+    setConfirmationPending(true);
+    setShowConfirmationForm(true);
+    // TODO send request, new information is stores in hotSpotWithChanges
+  }
+
+  const closeConfirmationForm = () => {
+    setShowConfirmationForm(false);
+    initializeForm();
   }
 
   return (
@@ -147,7 +162,7 @@ const HotspotActions = (props) => {
         overlay={_renderTooltip("Suggest a change")}
       >
         <Button
-          onClick={() => setModalShow2(true)}
+          onClick={() => setShowEditForm(true)}
           className="action-button"
           variant=""
         >
@@ -155,7 +170,7 @@ const HotspotActions = (props) => {
         </Button>
       </OverlayTrigger>
       <Modal
-        show={modalShow2}
+        show={showEditForm}
         onHide={closeEditForm}
         size="xl"
         aria-labelledby="contained-modal-title-vcenter"
@@ -259,16 +274,35 @@ const HotspotActions = (props) => {
         </Modal.Body>
       </Modal>
 
-      {modalShow3 && (<ReviewHotSpotChangesForm
+      {showReviewForm && (<ReviewHotSpotChangesForm
         slug={props.hotspotData.slug}
         newData={hotspotWithChanges}
-        show={modalShow3}
+        show={showReviewForm}
         onAction={onConfirm}
         actionDescription="Submit changes for review"
-        onHide={() => {setModalShow3(false)}}
+        onHide={closeReviewForm}
         >
         </ReviewHotSpotChangesForm>
       )}
+      <Modal
+        show={showConfirmationForm}
+        onHide={closeConfirmationForm}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered>
+            <Modal.Header closeButton>
+                <Modal.Title>Change request sent</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {confirmationPending && ( <Spinner animation="border" role="status"> </Spinner> )}
+
+                {confirmationResolved && (
+                    <Alert variant="success">
+                        Your request has been sent. It will be reviewed by an administrator.
+                    </Alert>
+                )}
+                
+            </Modal.Body>
+        </Modal>
                     
     </div>
   );
