@@ -3,7 +3,7 @@ import { Image, Row, Button, InputGroup, FormControl } from "react-bootstrap";
 import { useBackendAPI } from "../../../utils/backendAPI";
 
 const PostComment = (props) => {
-  const { createHotspotComment} = useBackendAPI();
+  const { createHotspotComment } = useBackendAPI();
   const [commentText, setCommentText] = useState("");
   const [commentFile, setCommentFile] = useState(null);
 
@@ -16,8 +16,12 @@ const PostComment = (props) => {
     setCommentFile(e.target.files[0]);
   };
 
+  //TODO: style input button
+  // check if comment gets posted
+  // empty comment data after post
   const _postComment = () => {
     createHotspotComment(commentFile, props.slug, commentText);
+    setCommentText("");
   };
 
   return (
@@ -44,7 +48,12 @@ const PostComment = (props) => {
         >
           post
         </Button>
-        <input type="file" id="input" onChange={_onfileChange} />
+        <input
+          className="post-image"
+          type="file"
+          id="input"
+          onChange={_onfileChange}
+        />
       </InputGroup>
     </Row>
   );

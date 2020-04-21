@@ -85,6 +85,10 @@
   transition: 0.3s;
 }
 
+.post-image {
+  margin-left: 1rem;
+}
+
 .post-button:hover {
   background-color: #ac4907;
 }
