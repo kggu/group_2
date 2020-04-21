@@ -8,25 +8,28 @@ import { useBackendAPI } from "../../../utils/backendAPI";
 
 const CommentContainer = (props) => {
   const { loading, user, isAuthenticated } = useAuth0();
-  const [comments, setComments] = useState();
-
-  const [showImage, setShowImage] = useState(false);
-
   const { selectedHotspot } = useBackendAPI();
 
-  const parseLocalTime = (timeString) => {
-    return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
-  };
+  const [comments, setComments] = useState();
 
-  const _showModal = () => {
-    setShowImage(true)
-  }
+  const [showImageViewer, setShowImageViewer] = useState(false);
+  const [imageViewerUrl, setImageViewerUrl] = useState();
 
   useEffect(() => {
     if (props.comments) {
       _mapComments();
     }
   }, [selectedHotspot]);
+
+  const parseLocalTime = (timeString) => {
+    return timeString.slice(0, 10) + " " + timeString.slice(11, 19);
+  };
+
+  const _showModal = (imgUrl) => {
+    console.log("showmodal: " + imgUrl);
+    setImageViewerUrl(imgUrl);
+    setShowImageViewer(true);
+  };
 
   const _mapComments = () => {
     if (props.comments.length == 0 || !props.comments) {
@@ -37,8 +40,6 @@ const CommentContainer = (props) => {
 
     setComments(
       props.comments.map(function (comment) {
-        console.log(comment);
-
         return (
           <Comment
             _onClick={_showModal}
@@ -79,8 +80,13 @@ const CommentContainer = (props) => {
           <p> You must be logged in to post comments.</p>
         )}
       </div>
-      <ViewCommentImage show={showImage} 
-      onHide={() => setShowImage(false)}/>
+      {showImageViewer && (
+        <ViewCommentImage
+          show={showImageViewer}
+          onHide={() => setShowImageViewer(false)}
+          url={imageViewerUrl}
+        />
+      )}
     </div>
   );
 };

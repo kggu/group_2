@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {Modal, Button} from 'react-bootstrap';
+import { Modal, Button, Image } from "react-bootstrap";
 
 const ViewCommentImage = (props) => {
+  const [image, setImage] = useState();
+
+  useEffect(() => {
+    console.log("viewer: " + props.url);
+    setImage(props.url);
+  }, []);
+
   return (
     <Modal
       {...props}
@@ -15,7 +22,7 @@ const ViewCommentImage = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4 className="text-center">Full-resolution image goes here.</h4>
+        <Image fluid src={image}></Image>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>

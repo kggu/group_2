@@ -22,8 +22,8 @@ const Comment = (props) => {
     const fileUrl = props.commentImage.imageUrl.slice(49);
     const thumb = baseUrl + params + fileUrl;
     setThumbnail(thumb);
-    console.log("base url: " + baseUrl);
-    console.log("file url: " + fileUrl);
+    //console.log("base url: " + baseUrl);
+    //console.log("file url: " + fileUrl);
     console.log("thumbnail: " + thumb);
   };
 
@@ -38,7 +38,7 @@ const Comment = (props) => {
       </div>
       {hasPicture && (
         <Image
-          onClick={props._onClick}
+          onClick={() => props._onClick(props.commentImage.imageUrl)}
           src={thumbnail}
           className="comment-picture"
         ></Image>
