@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Image, Row, Button, InputGroup, FormControl, Modal, Spinner, Alert} from "react-bootstrap";
+import {
+  Image,
+  Row,
+  Button,
+  InputGroup,
+  FormControl,
+  Modal,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
 import { useBackendAPI } from "../../../utils/backendAPI";
 
 const PostComment = (props) => {
-  const { createHotspotComment, hotSpotCommentCreationResolved, getHotspotWithSlug, selectedHotspot} = useBackendAPI();
+  const {
+    createHotspotComment,
+    hotSpotCommentCreationResolved,
+    getHotspotWithSlug,
+    selectedHotspot,
+  } = useBackendAPI();
   const [commentText, setCommentText] = useState("");
   const [commentFile, setCommentFile] = useState(null);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
@@ -14,7 +28,7 @@ const PostComment = (props) => {
     setVerificationPending(false);
     setShowVerificationModal(false);
     setVerificationResolved(false);
-  },[selectedHotspot])
+  }, [selectedHotspot]);
 
   const _onTextChange = (e) => {
     setCommentText(e.target.value);
@@ -36,18 +50,21 @@ const PostComment = (props) => {
   };
 
   useEffect(() => {
-    if (hotSpotCommentCreationResolved && hotSpotCommentCreationResolved.status == 200) {
+    if (
+      hotSpotCommentCreationResolved &&
+      hotSpotCommentCreationResolved.status == 200
+    ) {
       setVerificationPending(false);
       setVerificationResolved(true);
     }
-  },[hotSpotCommentCreationResolved]);
+  }, [hotSpotCommentCreationResolved]);
 
   const _closeVerificationModal = () => {
     setVerificationPending(false);
     setShowVerificationModal(false);
     setVerificationResolved(false);
-    getHotspotWithSlug(props.slug)
-  }
+    getHotspotWithSlug(props.slug);
+  };
 
   return (
     <Row>
@@ -66,6 +83,14 @@ const PostComment = (props) => {
             rows="2"
           />
         </div>
+        <label
+          className={`upload-button text-center ${
+            commentFile == null ? "" : "file-selected"
+          }`}
+        >
+          ...
+          <input type="file" id="file-upload" onChange={_onfileChange} />
+        </label>
         <Button
           variant="post-button"
           onClick={_postComment}
@@ -73,33 +98,29 @@ const PostComment = (props) => {
         >
           post
         </Button>
-        <input
-          className="post-image"
-          type="file"
-          id="input"
-          onChange={_onfileChange}
-        />
       </InputGroup>
 
       <Modal
         show={showVerificationModal}
         onHide={_closeVerificationModal}
         aria-labelledby="contained-modal-title-vcenter"
-        centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Change request sent</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {verificationPending && ( <Spinner animation="border" role="status"> </Spinner> )}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Sending comment..</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {verificationPending && (
+            <Spinner animation="border" role="status">
+              {" "}
+            </Spinner>
+          )}
 
-                {verificationResolved && (
-                    <Alert variant="success">
-                        Comment successfully posted.
-                    </Alert>
-                )}
-                
-            </Modal.Body>
-        </Modal>
+          {verificationResolved && (
+            <Alert variant="success">Comment successfully posted.</Alert>
+          )}
+        </Modal.Body>
+      </Modal>
     </Row>
   );
 };
