@@ -166,6 +166,11 @@ const HotspotActions = (props) => {
     initializeForm();
   }
 
+  const onCancel = () => {
+    setShowReviewForm(false);
+    initializeForm();
+  }
+
   return (
     <div className="hotspot-actions">
       <OverlayTrigger
@@ -291,7 +296,7 @@ const HotspotActions = (props) => {
         newData={hotspotWithChanges}
         show={showReviewForm}
         onConfirm={onConfirm}
-        onCancel={onConfirm}
+        onCancel={onCancel}
         confirmDescription="Submit changes for review"
         cancelDescription="Cancel submissions"
         onHide={closeReviewForm}
