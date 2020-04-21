@@ -145,15 +145,20 @@ export const BackendAPIProvider = ({ children }) => {
       });
   };
 
-  const testComment = async (request, slug) => {
+  const testComment = async (commentFile, slug, commentText) => {
     const token = await getTokenSilently();
+    console.log("text: " + commentText)
+    console.log("file: ")
+    console.log(commentFile)
 
-    console.log("trying to comment: " + slug);
+    let formData = new FormData();
+    formData.append('photo', commentFile);
 
     const address =
-      process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/comment";
+      process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/comment?text=" + commentText;
 
     const encodedAddr = encodeURI(address);
+    console.log("encoded: " + encodedAddr);
 
     let axiosConfig = {
       headers: {
@@ -163,7 +168,7 @@ export const BackendAPIProvider = ({ children }) => {
     };
 
     const response = await axios
-      .post(encodedAddr, request, axiosConfig)
+      .post(encodedAddr, formData, axiosConfig)
       .then((response) => {
         console.log(response);
       }).catch(error => {
