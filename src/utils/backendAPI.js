@@ -23,6 +23,7 @@ export const BackendAPIProvider = ({ children }) => {
   const [deletionQueryResponse, setDeletionQueryResponse] = useState();
   const [currentHotSpotData, setCurrentHotSpotData] = useState();
   const [hotSpotCommentCreationResolved, setHotSpotCommentCreationResolved] = useState();
+  const [rateHotSpotResolved, setRateHotSpotResolved] = useState();
 
   const [requestedRange, setRequestedRange] = useState(0);
   const [hotSpotUpdateStatus, setHotSpotUpdateStatus] = useState(false);
@@ -175,8 +176,10 @@ export const BackendAPIProvider = ({ children }) => {
       .post(encodedAddr, request, axiosConfig)
       .then((response) => {
         console.log(response);
+        setRateHotSpotResolved(response)
       }).catch(error => {
         console.log(error);
+        setRateHotSpotResolved(error.response);
       });
   };
 
@@ -270,6 +273,7 @@ export const BackendAPIProvider = ({ children }) => {
           createHotspotComment,
           hotSpotCommentCreationResolved,
           rateHotspot,
+          rateHotSpotResolved,
           setHotSpotUpdateStatus,
           hotSpotCreationResolved,
           findUserScore,

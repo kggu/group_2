@@ -3,12 +3,18 @@ import { Image, Row, Button, InputGroup, FormControl, Modal, Spinner, Alert} fro
 import { useBackendAPI } from "../../../utils/backendAPI";
 
 const PostComment = (props) => {
-  const { createHotspotComment, hotSpotCommentCreationResolved, getHotspotWithSlug} = useBackendAPI();
+  const { createHotspotComment, hotSpotCommentCreationResolved, getHotspotWithSlug, selectedHotspot} = useBackendAPI();
   const [commentText, setCommentText] = useState("");
   const [commentFile, setCommentFile] = useState(null);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [verificationPending, setVerificationPending] = useState(false);
   const [verificationResolved, setVerificationResolved] = useState(false);
+
+  useEffect(() => {
+    setVerificationPending(false);
+    setShowVerificationModal(false);
+    setVerificationResolved(false);
+  },[selectedHotspot])
 
   const _onTextChange = (e) => {
     setCommentText(e.target.value);
