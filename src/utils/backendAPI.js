@@ -123,43 +123,57 @@ export const BackendAPIProvider = ({ children }) => {
     }
   };
 
-  const createHotspotComment = async (request, slug) => {
+  const createHotspotComment = async (commentFile, slug, commentText) => {
     const token = await getTokenSilently();
 
+    let formData = new FormData();
+    formData.append('photo', commentFile);
+
     const address =
-      process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/comment";
+      process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/comment?text=" + commentText;
+
+    const encodedAddr = encodeURI(address);
+    console.log("encoded: " + encodedAddr);
 
     let axiosConfig = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + token,
       },
     };
 
     const response = await axios
-      .post(address, request, axiosConfig)
+      .post(encodedAddr, formData, axiosConfig)
       .then((response) => {
         console.log(response);
+      }).catch(error => {
+        console.log(error);
       });
   };
 
   const rateHotspot = async (request, slug) => {
     const token = await getTokenSilently();
 
+    console.log("trying to rate: " + slug);
+
     const address =
       process.env.REACT_APP_API_ROOT + "/hotspot/" + slug + "/rate";
+
+    const encodedAddr = encodeURI(address);
 
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+        'Authorization': "Bearer " + token,
       },
     };
 
     const response = await axios
-      .post(address, request, axiosConfig)
+      .post(encodedAddr, request, axiosConfig)
       .then((response) => {
         console.log(response);
+      }).catch(error => {
+        console.log(error);
       });
   };
 

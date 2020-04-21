@@ -5,17 +5,23 @@ import { useBackendAPI } from "../../../utils/backendAPI";
 const PostComment = (props) => {
   const { createHotspotComment } = useBackendAPI();
   const [commentText, setCommentText] = useState("");
+  const [commentFile, setCommentFile] = useState(null);
 
-  const onTextChange = (e) => {
+  const _onTextChange = (e) => {
     setCommentText(e.target.value);
   };
 
+  const _onfileChange = (e) => {
+    console.log(e.target.files[0]);
+    setCommentFile(e.target.files[0]);
+  };
+
+  //TODO: style input button
+  // check if comment gets posted
+  // empty comment data after post
   const _postComment = () => {
-      const comment = {
-        text: commentText,
-      };
-      createHotspotComment(comment, props.slug);
-      setCommentText("");
+    createHotspotComment(commentFile, props.slug, commentText);
+    setCommentText("");
   };
 
   return (
@@ -29,7 +35,7 @@ const PostComment = (props) => {
         <div className="comment-details">
           <p className="comment-info">Commenting as {props.userName}</p>
           <FormControl
-            onChange={onTextChange}
+            onChange={_onTextChange}
             className="post-form rounded"
             as="textarea"
             rows="2"
@@ -42,6 +48,12 @@ const PostComment = (props) => {
         >
           post
         </Button>
+        <input
+          className="post-image"
+          type="file"
+          id="input"
+          onChange={_onfileChange}
+        />
       </InputGroup>
     </Row>
   );

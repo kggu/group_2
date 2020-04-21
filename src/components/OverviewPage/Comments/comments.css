@@ -29,6 +29,21 @@
   height: 80%;
 }
 
+.comment-picture {
+  max-height: 5rem;
+  margin-left: 0.5rem;
+  margin-top: 1rem;
+  border: 3px solid black;
+  border-radius: 5px;
+  
+}
+
+.comment-picture:hover {
+  cursor: pointer;
+  border: 2px solid black;
+}
+
+
 .user-img {
   max-width: 6rem;
   max-height: 6rem;
@@ -68,6 +83,10 @@
   top: 50%;
   transform: translateY(-50%);
   transition: 0.3s;
+}
+
+.post-image {
+  margin-left: 1rem;
 }
 
 .post-button:hover {
