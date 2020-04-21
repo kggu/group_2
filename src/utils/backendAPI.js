@@ -24,6 +24,7 @@ export const BackendAPIProvider = ({ children }) => {
   const [currentHotSpotData, setCurrentHotSpotData] = useState();
   const [hotSpotCommentCreationResolved, setHotSpotCommentCreationResolved] = useState();
   const [rateHotSpotResolved, setRateHotSpotResolved] = useState();
+  const [hotSpotChangeRequestCreationResolved, setHotSpotChangeRequestCreationResolved] = useState();
 
   const [requestedRange, setRequestedRange] = useState(0);
   const [hotSpotUpdateStatus, setHotSpotUpdateStatus] = useState(false);
@@ -253,6 +254,31 @@ export const BackendAPIProvider = ({ children }) => {
     })
   };
 
+  const postNewHotSpotChangeRequest = async (slug, changedHotSpot) => {
+    
+    const token = await getTokenSilently();
+
+    const address = process.env.REACT_APP_API_ROOT + '/hotspot/' + slug + '/change';
+    const encodedAddr = encodeURI(address);
+    console.log(encodedAddr);
+    
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    }
+
+    axios.post(encodedAddr, changedHotSpot, axiosConfig)
+      .then(response => {
+        console.log(response);
+        setHotSpotChangeRequestCreationResolved(response);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  };
+
   useEffect(() => {
     getHotspotCategories();
   }, []);
@@ -283,7 +309,9 @@ export const BackendAPIProvider = ({ children }) => {
           deleteUserContent,
           deletionQueryResponse,
           findCurrentHotSpotDataFromSlug,
-          currentHotSpotData
+          currentHotSpotData,
+          postNewHotSpotChangeRequest,
+          hotSpotChangeRequestCreationResolved
       }}
     >
       {children}

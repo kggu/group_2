@@ -42,8 +42,10 @@ const AdminActions = () => {
                         slug={currentHotSpotData.slug}
                         newData={currentHotSpotData}
                         show={show}
-                        onAction={tester}
-                        actionDescription="Approve changes"
+                        onConfirm={tester}
+                        onCancel={tester}
+                        confirmDescription="Approve changes"
+                        cancelDescription="Deny changes"
                         onHide={() => {setShow(false)}}
                         >
                         </ReviewHotSpotChangesForm>
