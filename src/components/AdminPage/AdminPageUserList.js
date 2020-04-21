@@ -29,8 +29,6 @@ const AdminPageUserList = () => {
             if (userQueryResponse.status == 200) {
                 setLoading(false)
                 setUsers(userQueryResponse.data);
-            } else {
-                findUsersForAdmin();
             }
         }
     },[userQueryResponse])
