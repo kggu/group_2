@@ -16,6 +16,7 @@ import { GoogleAPIProvider } from "./utils/googleAPI";
 function App() {
   return (
     <div className="App">
+      <style> {'body { background-color: #d7f1f1; }'}</style>
       <Router history={history}>
         <NavBar />
         <Switch>

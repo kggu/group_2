@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./frontpage.css";
 import "./footer.css";
 import { Toast } from "react-bootstrap";
+import img from "../map.png";
+
 import { Link } from "react-router-dom";
+
 
 import qs from "qs"
 
@@ -24,8 +27,14 @@ const Frontpage = props => {
                 <h1>
                     HotSpotted
                 </h1>
-                <p className = "mb-0">
+                <p>
                     By students, for students.
+                </p>
+                <div className = "img">
+                    <img src = {img} width = "950" height = "500"/>
+                </div>
+                <p>
+                    Some info how to use this
                 </p>
             </div>
             <footer className="footerLuokka text-secondary">

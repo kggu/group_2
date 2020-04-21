@@ -4,7 +4,7 @@
     max-width: 1050px;
     margin: 0 auto;
     background-color: #b6e1e0;
-    margin-top: 62px;
+    margin-top: 75px;
 }
 .errorMessageStyling{
     background-color: #f3efef;
@@ -12,5 +12,6 @@
 }
 .containerStyling{
     min-height: 100vh;
-    background-color: #d4ebd0;
+    background-color: #d7f1f1;
+    /*padding-top: 10px;*/
 }
