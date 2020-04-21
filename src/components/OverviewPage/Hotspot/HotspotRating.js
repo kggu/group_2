@@ -51,27 +51,27 @@ const HotspotRating = (props) => {
 
   return (
     <div className="hotspot-rating">
+      <div className="rating-header text-center">Ratings</div>
+      <div className="avg-rating"></div>
+      {hasRatings && (
+        <a>
+          Average rating: {props.ratingAverage}
+          <i className="rating-details-icon fas fa-star"></i>{" "}
+        </a>
+      )}
       {!hasRatings && <a>No ratings yet. Be the first one!</a>}
-      {hasRatings && <a>Average rating: {props.ratingAverage}</a>}
-
-      <br />
-      {hasRatings && <a>Rated by {ratingCount} students</a>}
-
       <div className="rating-actions">
         <StarRating onChange={_handleChange} totalStars={5} />
-        {/*  <input onChange={_handleChange} className="test" type="text"></input>*/}
-        <Button onClick={_rateHotspot} variant="" className="rate-button-test">
+        <Button onClick={_rateHotspot} variant="" className="rate-button">
           rate
         </Button>
       </div>
       <div className="rated-by">
-        {props.ratings.map(function (rating) {
-          return (
-            <div>
-              {rating.creator.nickname}: {rating.rating}
-            </div>
-          );
-        })}
+        {hasRatings && (
+          <a>
+            Rated by {ratingCount} student {ratingCount > 1 ? "s" : ""}
+          </a>
+        )}
       </div>
     </div>
   );

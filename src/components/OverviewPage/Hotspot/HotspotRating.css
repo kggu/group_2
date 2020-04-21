@@ -9,12 +9,33 @@
   width: 45%;
 }
 
+.rating-header {
+  background-color: #9cd3d3;
+  font-weight: 550;
+  border-bottom: 1px solid black;
+  margin-left: -0.5rem;
+  
+}
+
+.avg-rating {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.rating-details-icon {
+  color: yellow;
+  margin-left: 0.rem;
+}
+
+
 .rated-by {
   border-top: 1px solid black;
   margin-top: 0.5rem;
+  margin-left: -0.5rem;
+  padding-left: 0.5rem;
 }
 
-.rate-button-test {
+.rate-button {
   margin-left: 2rem;
   background-color: #e8630a;
   color: #ffffff;
@@ -26,14 +47,12 @@
   display: flex;
   margin-top: 2rem;
   padding-top: 0.5rem;
-  padding-left: 1rem;
+  padding-left: 2rem;
   margin-left: -0.5rem;
   border-top: 1px solid black;
 }
 
-.test {
-  max-width: 100px;
-}
+
 
 .star-rating {
   display: flex;
