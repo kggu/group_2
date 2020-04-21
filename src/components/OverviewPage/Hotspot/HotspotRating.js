@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useBackendAPI } from "../../../utils/backendAPI";
 import { StarRating } from "./StarRating";
+import { useAuth0 } from "../../../react-auth0-spa";
 
 const HotspotRating = (props) => {
+  const {isAuthenticated } = useAuth0();
+
   const {
     rateHotspot,
     rateHotSpotResolved,
     getHotspotWithSlug,
     selectedHotspot,
   } = useBackendAPI();
+
   const [ratingSent, setRatingSent] = useState(false);
 
   const [ratingCount, setRatingCount] = useState(0);
@@ -59,13 +63,14 @@ const HotspotRating = (props) => {
           <i className="rating-details-icon fas fa-star"></i>{" "}
         </a>
       )}
-      {!hasRatings && <a>No ratings yet. Be the first one!</a>}
+      {!hasRatings && <a>No ratings yet.</a>}
+      {isAuthenticated ? (
       <div className="rating-actions">
         <StarRating onChange={_handleChange} totalStars={5} />
         <Button onClick={_rateHotspot} variant="" className="rate-button">
           rate
         </Button>
-      </div>
+      </div>) : (<p>You must be logged in to rate hotspots.</p>)}
       <div className="rated-by">
         {hasRatings && (
           <a>

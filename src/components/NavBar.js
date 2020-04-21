@@ -1,7 +1,6 @@
 // src/components/NavBar.js
 
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React from "react";
 import { useAuth0 } from "../react-auth0-spa";
 import "./NavBar.css";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
@@ -15,7 +14,7 @@ import UserScoreField from "./UserScoreField"
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   /*const [fixed, setFixed] = useState("top");*/
-  const location = useLocation();
+  //const location = useLocation();
 
   // render navbar not fixed on map page, so elements don't render under it
  /* useEffect(() => {
