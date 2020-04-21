@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useBackendAPI } from "../../../utils/backendAPI";
 
 const HotspotRating = (props) => {
-  const { rateHotspot } = useBackendAPI();
+  const { rateHotspot, rateHotSpotResolved, getHotspotWithSlug, selectedHotspot } = useBackendAPI();
   const [userRating, setUserRating] = useState();
+  const [ratingSent, setRatingSent] = useState(false);
+
+  useEffect(() => {
+    setRatingSent(false);
+  },[selectedHotspot]);
 
   const _handleChange = (e) => {
     setUserRating(e.target.value);
@@ -14,8 +19,15 @@ const HotspotRating = (props) => {
     const rating = {
       rating: userRating,
     };
+    setRatingSent(true)
     rateHotspot(rating, props.slug);
   };
+
+  useEffect(() => {
+    if (ratingSent && rateHotSpotResolved && rateHotSpotResolved.status == 200) {
+      getHotspotWithSlug(props.slug);
+    }
+  },[rateHotSpotResolved]);
 
   return (
     <div className="hotspot-rating">

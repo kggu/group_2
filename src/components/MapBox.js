@@ -55,8 +55,10 @@ const Map = (props) => {
   };
 
   const _onViewportChange = (viewport) => {
-    setClickLocation([]);
-    setSelectedMarker("");
+    if (clickLocation) {
+      setClickLocation([]);
+    }
+    setSelectedMarker();
     setRender(false);
     if (initState) {
       setInitState(false);
@@ -93,7 +95,7 @@ const Map = (props) => {
 
   const onClickMap = (e) => {
     const [longitude, latitude] = e.lngLat;
-    setSelectedMarker("");
+    setSelectedMarker();
     setRender(false);
     if (clickLocation.length > 0) {
       setClickLocation([]);
