@@ -1,4 +1,5 @@
 ## HotSpotted Front End App
+[Hosted on heroku](hotspotted.herokuapp.com)
 
 ### Usage
 
